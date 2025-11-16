@@ -53,7 +53,7 @@ void main() {
       expect(find.byType(NewJournalEntryDialog), findsOneWidget);
     });
 
-    testWidgets('displays title', (WidgetTester tester) async {
+    testWidgets('displays title "New Reflection"', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -82,10 +82,12 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
 
-      expect(find.text('New Journal Entry'), findsOneWidget);
+      // Verify "New Reflection" not "New Journal Entry"
+      expect(find.text('New Reflection'), findsOneWidget);
+      expect(find.text('New Journal Entry'), findsNothing);
     });
 
-    testWidgets('displays text field', (WidgetTester tester) async {
+    testWidgets('displays text field with "Reflect your feelings" placeholder', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -115,8 +117,10 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
 
       expect(find.byType(TextField), findsOneWidget);
-      expect(find.text('Write your thoughts and reflections here...'),
-          findsOneWidget);
+
+      // Verify placeholder text is "Reflect your feelings"
+      final textField = tester.widget<TextField>(find.byType(TextField));
+      expect(textField.decoration?.hintText, 'Reflect your feelings');
     });
 
     testWidgets('displays cancel and save buttons', (WidgetTester tester) async {
@@ -716,6 +720,72 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
 
       expect(find.byType(SingleChildScrollView), findsWidgets);
+    });
+
+    testWidgets('snackbar has 1 second duration and pill shape', (WidgetTester tester) async {
+      bool saveCalled = false;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => NewJournalEntryDialog(
+                        onSave: (entry) async {
+                          saveCalled = true;
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text('Show'),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Show'));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+
+      // Enter text
+      await tester.enterText(find.byType(TextField), 'Test reflection');
+      await tester.pump();
+
+      // Tap save button
+      await tester.tap(find.text('Save'));
+      await tester.pump();
+      await tester.pumpAndSettle();
+
+      // Verify snackbar appears
+      expect(find.text('✓ Journal entry saved!'), findsOneWidget);
+
+      // Verify snackbar properties
+      final snackBar = tester.widget<SnackBar>(find.byType(SnackBar));
+
+      // Duration is 1000ms (1 second)
+      expect(snackBar.duration, const Duration(milliseconds: 1000));
+
+      // Snackbar is floating (pill-shaped)
+      expect(snackBar.behavior, SnackBarBehavior.floating);
+
+      // Pill shape with 24px border radius
+      expect(snackBar.shape, isA<RoundedRectangleBorder>());
+      final shape = snackBar.shape as RoundedRectangleBorder;
+      expect(shape.borderRadius, BorderRadius.circular(24));
+
+      // Green background
+      expect(snackBar.backgroundColor, Colors.green);
+
+      // Has "View Entries" action
+      expect(find.text('View Entries'), findsOneWidget);
     });
   });
 }

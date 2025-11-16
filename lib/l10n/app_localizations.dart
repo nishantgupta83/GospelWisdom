@@ -505,7 +505,7 @@ abstract class AppLocalizations {
   /// Main title for journal screen
   ///
   /// In en, this message translates to:
-  /// **'MY JOURNAL'**
+  /// **'Reflections'**
   String get myJournal;
 
   /// Subtitle for journal screen
@@ -631,7 +631,7 @@ abstract class AppLocalizations {
   /// Title for new journal entry dialog
   ///
   /// In en, this message translates to:
-  /// **'New Journal Entry'**
+  /// **'New Reflection'**
   String get newJournalEntry;
 
   /// Label for reflection text field

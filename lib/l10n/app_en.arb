@@ -359,7 +359,7 @@
     "description": "Third reference source"
   },
 
-  "myJournal": "MY JOURNAL",
+  "myJournal": "Reflections",
   "@myJournal": {
     "description": "Main title for journal screen"
   },
@@ -486,7 +486,7 @@
     }
   },
 
-  "newJournalEntry": "New Journal Entry",
+  "newJournalEntry": "New Reflection",
   "@newJournalEntry": {
     "description": "Title for new journal entry dialog"
   },

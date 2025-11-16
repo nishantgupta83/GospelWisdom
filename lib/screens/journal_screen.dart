@@ -387,20 +387,20 @@ class _JournalScreenState extends State<JournalScreen> {
             ),
           ),
           const SizedBox(width: 12),
-          // Rating stars with screen reader support
-          Semantics(
-            label: '${entry.rating} out of 5 stars',
-            readOnly: true,
-            child: Row(
-              children: List.generate(5, (i) {
-                return Icon(
-                  i < entry.rating ? Icons.star_rounded : Icons.star_outline_rounded,
-                  color: Colors.amber[700],
-                  size: 18, // Increased from 14-16 for better visibility
-                );
-              }),
-            ),
-          ),
+          // Rating stars removed per user request
+          // Semantics(
+          //   label: '${entry.rating} out of 5 stars',
+          //   readOnly: true,
+          //   child: Row(
+          //     children: List.generate(5, (i) {
+          //       return Icon(
+          //         i < entry.rating ? Icons.star_rounded : Icons.star_outline_rounded,
+          //         color: Colors.amber[700],
+          //         size: 18, // Increased from 14-16 for better visibility
+          //       );
+          //     }),
+          //   ),
+          // ),
         ],
       ),
     );

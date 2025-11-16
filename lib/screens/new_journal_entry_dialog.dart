@@ -86,12 +86,16 @@ class _NewJournalEntryDialogState extends State<NewJournalEntryDialog> with Sing
       await widget.onSave(entry);
       if (mounted) {
         Navigator.of(context).pop();
-        // Show success toast with "View Entries" action
+        // Show success toast with "View Entries" action - pill-shaped
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('✓ Journal entry saved!'),
             backgroundColor: Colors.green,
-            duration: const Duration(milliseconds: 800),
+            duration: const Duration(milliseconds: 1000),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24), // Pill-shaped
+            ),
             action: SnackBarAction(
               label: 'View Entries',
               textColor: Colors.white,
@@ -182,7 +186,7 @@ class _NewJournalEntryDialogState extends State<NewJournalEntryDialog> with Sing
                     TextField(
                       controller: _ctrl,
                       decoration: InputDecoration(
-                        hintText: 'Write your thoughts and reflections here...',
+                        hintText: 'Reflect your feelings',
                         hintStyle: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                         ),

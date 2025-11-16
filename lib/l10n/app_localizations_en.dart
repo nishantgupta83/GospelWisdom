@@ -224,7 +224,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reference3 => '• Other academic and traditional commentaries';
 
   @override
-  String get myJournal => 'MY JOURNAL';
+  String get myJournal => 'Reflections';
 
   @override
   String get trackSpiritual => 'Track your spiritual reflections and growth';
@@ -292,7 +292,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get newJournalEntry => 'New Journal Entry';
+  String get newJournalEntry => 'New Reflection';
 
   @override
   String get yourReflection => 'Your Reflection';
