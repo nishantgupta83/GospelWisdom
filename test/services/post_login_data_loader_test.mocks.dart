@@ -3,18 +3,20 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
-import 'dart:ui' as _i7;
+import 'dart:async' as _i7;
+import 'dart:ui' as _i9;
 
-import 'package:GitaWisdom/models/chapter.dart' as _i10;
-import 'package:GitaWisdom/models/chapter_summary.dart' as _i9;
-import 'package:GitaWisdom/models/journal_entry.dart' as _i11;
-import 'package:GitaWisdom/models/scenario.dart' as _i6;
+import 'package:GitaWisdom/models/chapter.dart' as _i11;
+import 'package:GitaWisdom/models/chapter_summary.dart' as _i10;
+import 'package:GitaWisdom/models/journal_entry.dart' as _i12;
+import 'package:GitaWisdom/models/scenario.dart' as _i8;
 import 'package:GitaWisdom/models/verse.dart' as _i3;
-import 'package:GitaWisdom/services/enhanced_supabase_service.dart' as _i8;
-import 'package:GitaWisdom/services/progressive_scenario_service.dart' as _i4;
+import 'package:GitaWisdom/services/enhanced_supabase_service.dart' as _i4;
+import 'package:GitaWisdom/services/progressive_scenario_service.dart' as _i6;
+import 'package:GitaWisdom/services/service_locator.dart' as _i14;
+import 'package:GitaWisdom/services/supabase_auth_service.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i12;
+import 'package:mockito/src/dummies.dart' as _i13;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -51,11 +53,33 @@ class _FakeVerse_1 extends _i1.SmartFake implements _i3.Verse {
         );
 }
 
+class _FakeEnhancedSupabaseService_2 extends _i1.SmartFake
+    implements _i4.EnhancedSupabaseService {
+  _FakeEnhancedSupabaseService_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeSupabaseAuthService_3 extends _i1.SmartFake
+    implements _i5.SupabaseAuthService {
+  _FakeSupabaseAuthService_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ProgressiveScenarioService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockProgressiveScenarioService extends _i1.Mock
-    implements _i4.ProgressiveScenarioService {
+    implements _i6.ProgressiveScenarioService {
   MockProgressiveScenarioService() {
     _i1.throwOnMissingStub(this);
   }
@@ -73,17 +97,17 @@ class MockProgressiveScenarioService extends _i1.Mock
       ) as int);
 
   @override
-  _i5.Future<void> initialize() => (super.noSuchMethod(
+  _i7.Future<void> initialize() => (super.noSuchMethod(
         Invocation.method(
           #initialize,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  List<_i6.Scenario> searchScenarios(
+  List<_i8.Scenario> searchScenarios(
     String? query, {
     int? maxResults,
   }) =>
@@ -93,11 +117,11 @@ class MockProgressiveScenarioService extends _i1.Mock
           [query],
           {#maxResults: maxResults},
         ),
-        returnValue: <_i6.Scenario>[],
-      ) as List<_i6.Scenario>);
+        returnValue: <_i8.Scenario>[],
+      ) as List<_i8.Scenario>);
 
   @override
-  _i5.Future<List<_i6.Scenario>> searchScenariosAsync(
+  _i7.Future<List<_i8.Scenario>> searchScenariosAsync(
     String? query, {
     int? maxResults,
   }) =>
@@ -107,37 +131,37 @@ class MockProgressiveScenarioService extends _i1.Mock
           [query],
           {#maxResults: maxResults},
         ),
-        returnValue: _i5.Future<List<_i6.Scenario>>.value(<_i6.Scenario>[]),
-      ) as _i5.Future<List<_i6.Scenario>>);
+        returnValue: _i7.Future<List<_i8.Scenario>>.value(<_i8.Scenario>[]),
+      ) as _i7.Future<List<_i8.Scenario>>);
 
   @override
-  _i5.Future<_i6.Scenario?> getScenario(String? id) => (super.noSuchMethod(
+  _i7.Future<_i8.Scenario?> getScenario(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getScenario,
           [id],
         ),
-        returnValue: _i5.Future<_i6.Scenario?>.value(),
-      ) as _i5.Future<_i6.Scenario?>);
+        returnValue: _i7.Future<_i8.Scenario?>.value(),
+      ) as _i7.Future<_i8.Scenario?>);
 
   @override
-  _i5.Future<void> waitForCriticalScenarios() => (super.noSuchMethod(
+  _i7.Future<void> waitForCriticalScenarios() => (super.noSuchMethod(
         Invocation.method(
           #waitForCriticalScenarios,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i5.Future<void> refreshFromServer() => (super.noSuchMethod(
+  _i7.Future<void> refreshFromServer() => (super.noSuchMethod(
         Invocation.method(
           #refreshFromServer,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
   Map<String, dynamic> getLoadingProgress() => (super.noSuchMethod(
@@ -149,25 +173,25 @@ class MockProgressiveScenarioService extends _i1.Mock
       ) as Map<String, dynamic>);
 
   @override
-  _i5.Future<bool> hasNewScenariosAvailable() => (super.noSuchMethod(
+  _i7.Future<bool> hasNewScenariosAvailable() => (super.noSuchMethod(
         Invocation.method(
           #hasNewScenariosAvailable,
           [],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i5.Future<void> backgroundSync({_i7.VoidCallback? onComplete}) =>
+  _i7.Future<void> backgroundSync({_i9.VoidCallback? onComplete}) =>
       (super.noSuchMethod(
         Invocation.method(
           #backgroundSync,
           [],
           {#onComplete: onComplete},
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
   Map<String, dynamic> getCacheStats() => (super.noSuchMethod(
@@ -179,31 +203,31 @@ class MockProgressiveScenarioService extends _i1.Mock
       ) as Map<String, dynamic>);
 
   @override
-  _i5.Future<void> clearAllCaches() => (super.noSuchMethod(
+  _i7.Future<void> clearAllCaches() => (super.noSuchMethod(
         Invocation.method(
           #clearAllCaches,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i5.Future<void> dispose() => (super.noSuchMethod(
+  _i7.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
           #dispose,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [EnhancedSupabaseService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockEnhancedSupabaseService extends _i1.Mock
-    implements _i8.EnhancedSupabaseService {
+    implements _i4.EnhancedSupabaseService {
   MockEnhancedSupabaseService() {
     _i1.throwOnMissingStub(this);
   }
@@ -218,48 +242,48 @@ class MockEnhancedSupabaseService extends _i1.Mock
       ) as _i2.SupabaseClient);
 
   @override
-  _i5.Future<bool> testConnection() => (super.noSuchMethod(
+  _i7.Future<bool> testConnection() => (super.noSuchMethod(
         Invocation.method(
           #testConnection,
           [],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i5.Future<void> initializeLanguages() => (super.noSuchMethod(
+  _i7.Future<void> initializeLanguages() => (super.noSuchMethod(
         Invocation.method(
           #initializeLanguages,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i5.Future<void> setCurrentLanguage(String? langCode) => (super.noSuchMethod(
+  _i7.Future<void> setCurrentLanguage(String? langCode) => (super.noSuchMethod(
         Invocation.method(
           #setCurrentLanguage,
           [langCode],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i5.Future<List<_i9.ChapterSummary>> fetchChapterSummaries(
+  _i7.Future<List<_i10.ChapterSummary>> fetchChapterSummaries(
           [String? langCode]) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchChapterSummaries,
           [langCode],
         ),
-        returnValue:
-            _i5.Future<List<_i9.ChapterSummary>>.value(<_i9.ChapterSummary>[]),
-      ) as _i5.Future<List<_i9.ChapterSummary>>);
+        returnValue: _i7.Future<List<_i10.ChapterSummary>>.value(
+            <_i10.ChapterSummary>[]),
+      ) as _i7.Future<List<_i10.ChapterSummary>>);
 
   @override
-  _i5.Future<_i10.Chapter?> fetchChapterById(
+  _i7.Future<_i11.Chapter?> fetchChapterById(
     int? chapterId, [
     String? langCode,
   ]) =>
@@ -271,21 +295,21 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i5.Future<_i10.Chapter?>.value(),
-      ) as _i5.Future<_i10.Chapter?>);
+        returnValue: _i7.Future<_i11.Chapter?>.value(),
+      ) as _i7.Future<_i11.Chapter?>);
 
   @override
-  _i5.Future<List<_i10.Chapter>> fetchAllChapters([String? langCode]) =>
+  _i7.Future<List<_i11.Chapter>> fetchAllChapters([String? langCode]) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchAllChapters,
           [langCode],
         ),
-        returnValue: _i5.Future<List<_i10.Chapter>>.value(<_i10.Chapter>[]),
-      ) as _i5.Future<List<_i10.Chapter>>);
+        returnValue: _i7.Future<List<_i11.Chapter>>.value(<_i11.Chapter>[]),
+      ) as _i7.Future<List<_i11.Chapter>>);
 
   @override
-  _i5.Future<List<_i6.Scenario>> fetchScenariosByChapter(
+  _i7.Future<List<_i8.Scenario>> fetchScenariosByChapter(
     int? chapterId, [
     String? langCode,
   ]) =>
@@ -297,11 +321,11 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i5.Future<List<_i6.Scenario>>.value(<_i6.Scenario>[]),
-      ) as _i5.Future<List<_i6.Scenario>>);
+        returnValue: _i7.Future<List<_i8.Scenario>>.value(<_i8.Scenario>[]),
+      ) as _i7.Future<List<_i8.Scenario>>);
 
   @override
-  _i5.Future<_i6.Scenario?> fetchScenarioById(
+  _i7.Future<_i8.Scenario?> fetchScenarioById(
     int? scenarioId, [
     String? langCode,
   ]) =>
@@ -313,11 +337,11 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i5.Future<_i6.Scenario?>.value(),
-      ) as _i5.Future<_i6.Scenario?>);
+        returnValue: _i7.Future<_i8.Scenario?>.value(),
+      ) as _i7.Future<_i8.Scenario?>);
 
   @override
-  _i5.Future<List<_i6.Scenario>> searchScenarios(
+  _i7.Future<List<_i8.Scenario>> searchScenarios(
     String? query, [
     String? langCode,
   ]) =>
@@ -329,11 +353,11 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i5.Future<List<_i6.Scenario>>.value(<_i6.Scenario>[]),
-      ) as _i5.Future<List<_i6.Scenario>>);
+        returnValue: _i7.Future<List<_i8.Scenario>>.value(<_i8.Scenario>[]),
+      ) as _i7.Future<List<_i8.Scenario>>);
 
   @override
-  _i5.Future<List<_i6.Scenario>> fetchScenarios({
+  _i7.Future<List<_i8.Scenario>> fetchScenarios({
     int? limit = 2000,
     int? offset = 0,
     String? langCode,
@@ -348,20 +372,20 @@ class MockEnhancedSupabaseService extends _i1.Mock
             #langCode: langCode,
           },
         ),
-        returnValue: _i5.Future<List<_i6.Scenario>>.value(<_i6.Scenario>[]),
-      ) as _i5.Future<List<_i6.Scenario>>);
+        returnValue: _i7.Future<List<_i8.Scenario>>.value(<_i8.Scenario>[]),
+      ) as _i7.Future<List<_i8.Scenario>>);
 
   @override
-  _i5.Future<int> getScenarioCount() => (super.noSuchMethod(
+  _i7.Future<int> getScenarioCount() => (super.noSuchMethod(
         Invocation.method(
           #getScenarioCount,
           [],
         ),
-        returnValue: _i5.Future<int>.value(0),
-      ) as _i5.Future<int>);
+        returnValue: _i7.Future<int>.value(0),
+      ) as _i7.Future<int>);
 
   @override
-  _i5.Future<List<_i3.Verse>> fetchVersesByChapter(
+  _i7.Future<List<_i3.Verse>> fetchVersesByChapter(
     int? chapterId, [
     String? langCode,
   ]) =>
@@ -373,11 +397,11 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i5.Future<List<_i3.Verse>>.value(<_i3.Verse>[]),
-      ) as _i5.Future<List<_i3.Verse>>);
+        returnValue: _i7.Future<List<_i3.Verse>>.value(<_i3.Verse>[]),
+      ) as _i7.Future<List<_i3.Verse>>);
 
   @override
-  _i5.Future<_i3.Verse> fetchRandomVerseByChapter(
+  _i7.Future<_i3.Verse> fetchRandomVerseByChapter(
     int? chapterId, [
     String? langCode,
   ]) =>
@@ -389,7 +413,7 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i5.Future<_i3.Verse>.value(_FakeVerse_1(
+        returnValue: _i7.Future<_i3.Verse>.value(_FakeVerse_1(
           this,
           Invocation.method(
             #fetchRandomVerseByChapter,
@@ -399,106 +423,106 @@ class MockEnhancedSupabaseService extends _i1.Mock
             ],
           ),
         )),
-      ) as _i5.Future<_i3.Verse>);
+      ) as _i7.Future<_i3.Verse>);
 
   @override
-  _i5.Future<_i6.Scenario?> fetchRandomScenario() => (super.noSuchMethod(
+  _i7.Future<_i8.Scenario?> fetchRandomScenario() => (super.noSuchMethod(
         Invocation.method(
           #fetchRandomScenario,
           [],
         ),
-        returnValue: _i5.Future<_i6.Scenario?>.value(),
-      ) as _i5.Future<_i6.Scenario?>);
+        returnValue: _i7.Future<_i8.Scenario?>.value(),
+      ) as _i7.Future<_i8.Scenario?>);
 
   @override
-  _i5.Future<int> fetchScenarioCount(int? chapterId) => (super.noSuchMethod(
+  _i7.Future<int> fetchScenarioCount(int? chapterId) => (super.noSuchMethod(
         Invocation.method(
           #fetchScenarioCount,
           [chapterId],
         ),
-        returnValue: _i5.Future<int>.value(0),
-      ) as _i5.Future<int>);
+        returnValue: _i7.Future<int>.value(0),
+      ) as _i7.Future<int>);
 
   @override
-  _i5.Future<void> insertJournalEntry(_i11.JournalEntry? entry) =>
+  _i7.Future<void> insertJournalEntry(_i12.JournalEntry? entry) =>
       (super.noSuchMethod(
         Invocation.method(
           #insertJournalEntry,
           [entry],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i5.Future<void> deleteJournalEntry(String? entryId) => (super.noSuchMethod(
+  _i7.Future<void> deleteJournalEntry(String? entryId) => (super.noSuchMethod(
         Invocation.method(
           #deleteJournalEntry,
           [entryId],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i5.Future<List<_i11.JournalEntry>> fetchJournalEntries() =>
+  _i7.Future<List<_i12.JournalEntry>> fetchJournalEntries() =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchJournalEntries,
           [],
         ),
         returnValue:
-            _i5.Future<List<_i11.JournalEntry>>.value(<_i11.JournalEntry>[]),
-      ) as _i5.Future<List<_i11.JournalEntry>>);
+            _i7.Future<List<_i12.JournalEntry>>.value(<_i12.JournalEntry>[]),
+      ) as _i7.Future<List<_i12.JournalEntry>>);
 
   @override
-  _i5.Future<void> insertFavorite(String? scenarioTitle) => (super.noSuchMethod(
+  _i7.Future<void> insertFavorite(String? scenarioTitle) => (super.noSuchMethod(
         Invocation.method(
           #insertFavorite,
           [scenarioTitle],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i5.Future<void> removeFavorite(String? scenarioTitle) => (super.noSuchMethod(
+  _i7.Future<void> removeFavorite(String? scenarioTitle) => (super.noSuchMethod(
         Invocation.method(
           #removeFavorite,
           [scenarioTitle],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i5.Future<List<String>> fetchFavorites() => (super.noSuchMethod(
+  _i7.Future<List<String>> fetchFavorites() => (super.noSuchMethod(
         Invocation.method(
           #fetchFavorites,
           [],
         ),
-        returnValue: _i5.Future<List<String>>.value(<String>[]),
-      ) as _i5.Future<List<String>>);
+        returnValue: _i7.Future<List<String>>.value(<String>[]),
+      ) as _i7.Future<List<String>>);
 
   @override
-  _i5.Future<Map<String, dynamic>> getTranslationCoverage([String? langCode]) =>
+  _i7.Future<Map<String, dynamic>> getTranslationCoverage([String? langCode]) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTranslationCoverage,
           [langCode],
         ),
         returnValue:
-            _i5.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
-      ) as _i5.Future<Map<String, dynamic>>);
+            _i7.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i7.Future<Map<String, dynamic>>);
 
   @override
-  _i5.Future<bool> refreshTranslationViews() => (super.noSuchMethod(
+  _i7.Future<bool> refreshTranslationViews() => (super.noSuchMethod(
         Invocation.method(
           #refreshTranslationViews,
           [],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
   bool isLanguageSupported(String? langCode) => (super.noSuchMethod(
@@ -520,7 +544,7 @@ class MockEnhancedSupabaseService extends _i1.Mock
           [langCode],
           {#useNative: useNative},
         ),
-        returnValue: _i12.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.method(
             #getLanguageDisplayName,
@@ -529,6 +553,53 @@ class MockEnhancedSupabaseService extends _i1.Mock
           ),
         ),
       ) as String);
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [ServiceLocator].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockServiceLocator extends _i1.Mock implements _i14.ServiceLocator {
+  MockServiceLocator() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.EnhancedSupabaseService get enhancedSupabaseService =>
+      (super.noSuchMethod(
+        Invocation.getter(#enhancedSupabaseService),
+        returnValue: _FakeEnhancedSupabaseService_2(
+          this,
+          Invocation.getter(#enhancedSupabaseService),
+        ),
+      ) as _i4.EnhancedSupabaseService);
+
+  @override
+  _i5.SupabaseAuthService get supabaseAuthService => (super.noSuchMethod(
+        Invocation.getter(#supabaseAuthService),
+        returnValue: _FakeSupabaseAuthService_3(
+          this,
+          Invocation.getter(#supabaseAuthService),
+        ),
+      ) as _i5.SupabaseAuthService);
+
+  @override
+  _i7.Future<void> initialize() => (super.noSuchMethod(
+        Invocation.method(
+          #initialize,
+          [],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
   void dispose() => super.noSuchMethod(

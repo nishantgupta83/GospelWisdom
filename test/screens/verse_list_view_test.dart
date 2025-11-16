@@ -262,8 +262,7 @@ void main() {
     testWidgets('back button navigates back', (WidgetTester tester) async {
       mockService.setMockVerses([]);
       mockService.setMockChapter(Chapter(
-        id: 1,
-        chapterNumber: 1,
+        chapterId: 1,
         title: 'Test',
         summary: 'Test',
         verseCount: 0,
@@ -308,8 +307,7 @@ void main() {
     testWidgets('home button navigates to home', (WidgetTester tester) async {
       mockService.setMockVerses([]);
       mockService.setMockChapter(Chapter(
-        id: 1,
-        chapterNumber: 1,
+        chapterId: 1,
         title: 'Test',
         summary: 'Test',
         verseCount: 0,
@@ -382,14 +380,13 @@ void main() {
     });
 
     testWidgets('verses have gradient decoration', (WidgetTester tester) async {
-      final verses = [
-        Verse(id: 1, verseId: 1, chapterId: 1, description: 'Test'),
+      final verses = <Verse>[
+        Verse(verseId: 1, chapterId: 1, description: 'Test'),
       ];
 
       mockService.setMockVerses(verses);
       mockService.setMockChapter(Chapter(
-        id: 1,
-        chapterNumber: 1,
+        chapterId: 1,
         title: 'Test',
         summary: 'Test',
         verseCount: 1,
@@ -420,14 +417,13 @@ void main() {
     });
 
     testWidgets('verse cards are tappable', (WidgetTester tester) async {
-      final verses = [
-        Verse(id: 1, verseId: 1, chapterId: 1, description: 'Test verse'),
+      final verses = <Verse>[
+        Verse(verseId: 1, chapterId: 1, description: 'Test verse'),
       ];
 
       mockService.setMockVerses(verses);
       mockService.setMockChapter(Chapter(
-        id: 1,
-        chapterNumber: 1,
+        chapterId: 1,
         title: 'Test',
         summary: 'Test',
         verseCount: 1,
@@ -444,10 +440,9 @@ void main() {
 
     testWidgets('multiple verses display correctly',
         (WidgetTester tester) async {
-      final verses = List.generate(
+      final verses = List<Verse>.generate(
         5,
         (i) => Verse(
-          id: i + 1,
           verseId: i + 1,
           chapterId: 1,
           description: 'Test verse ${i + 1}',
@@ -456,8 +451,7 @@ void main() {
 
       mockService.setMockVerses(verses);
       mockService.setMockChapter(Chapter(
-        id: 1,
-        chapterNumber: 1,
+        chapterId: 1,
         title: 'Test',
         summary: 'Test',
         verseCount: 5,
@@ -473,10 +467,9 @@ void main() {
     });
 
     testWidgets('scrolling works correctly', (WidgetTester tester) async {
-      final verses = List.generate(
+      final verses = List<Verse>.generate(
         20,
         (i) => Verse(
-          id: i + 1,
           verseId: i + 1,
           chapterId: 1,
           description: 'Test verse ${i + 1}',

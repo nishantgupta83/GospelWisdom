@@ -33,7 +33,6 @@ void main() {
   });
 
   Scenario createTestScenario({
-    int id = 1,
     String title = 'Test Scenario',
     String description = 'Test scenario description',
     String heartResponse = 'Heart response guidance',
@@ -43,11 +42,14 @@ void main() {
     List<String>? actionSteps,
   }) {
     return Scenario(
-      scenarioId: id,
       title: title,
       description: description,
       heartResponse: heartResponse,
       dutyResponse: dutyResponse,
+      category: category ?? 'family',
+      chapter: 1,
+      gitaWisdom: 'Test wisdom',
+      languageCode: 'en',
       gitaWisdom: 'Test wisdom',
       chapterId: 1,
       verseNumber: 1,

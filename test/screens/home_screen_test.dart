@@ -15,6 +15,7 @@ import 'package:GitaWisdom/models/verse.dart';
 import 'package:GitaWisdom/models/scenario.dart';
 
 import 'home_screen_test.mocks.dart';
+import '../test_setup.dart';
 
 @GenerateMocks([
   SupabaseAuthService,
@@ -27,6 +28,11 @@ void main() {
   late MockSettingsService mockSettingsService;
   late MockEnhancedSupabaseService mockSupabaseService;
   late MockThemeProvider mockThemeProvider;
+
+  setUpAll(() async {
+    // Initialize test environment (Supabase, Hive, etc.)
+    await setupTestEnvironment();
+  });
 
   setUp(() {
     mockAuthService = MockSupabaseAuthService();
@@ -50,12 +56,18 @@ void main() {
     when(mockThemeProvider.darkTheme).thenReturn(ThemeData.dark());
     when(mockThemeProvider.currentTheme).thenReturn(ThemeData.light());
 
-    // Set up service locator to return our mock
+    // Inject mock service into ServiceLocator
+    ServiceLocator.instance.dispose();
+    ServiceLocator.instance.setEnhancedSupabaseService(mockSupabaseService);
+  });
+
+  tearDown(() async {
     ServiceLocator.instance.dispose();
   });
 
-  tearDown(() {
-    ServiceLocator.instance.dispose();
+  tearDownAll(() async {
+    // Clean up test environment
+    await teardownTestEnvironment();
   });
 
   Widget createHomeScreen({Function(int)? onTabChange}) {
@@ -116,6 +128,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
+      // Pump enough to render initial UI (don't wait for scenario loading)
+      await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
       expect(find.byType(HomeScreen), findsOneWidget);
@@ -126,6 +140,7 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
+      await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
       expect(find.byType(Scaffold), findsOneWidget);
@@ -136,6 +151,7 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
+      await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
       final ThemeData theme = Theme.of(tester.element(find.byType(HomeScreen)));
@@ -149,6 +165,7 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
+      await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
       final ThemeData theme = Theme.of(tester.element(find.byType(HomeScreen)));
@@ -160,6 +177,7 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
+      await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
       expect(find.byType(SafeArea), findsAtLeastNWidgets(1));
@@ -186,8 +204,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Verse of the Day'), findsOneWidget);
     });
@@ -198,8 +218,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text(verse.description), findsOneWidget);
     });
@@ -210,8 +232,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.textContaining('Verse 5'), findsOneWidget);
     });
@@ -221,8 +245,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Could not load verse'), findsOneWidget);
       expect(find.byIcon(Icons.error_outline), findsAtLeastNWidgets(1));
@@ -234,8 +260,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byIcon(Icons.auto_stories), findsAtLeastNWidgets(1));
     });
@@ -246,8 +274,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final containerFinder = find.descendant(
         of: find.byType(HomeScreen),
@@ -262,8 +292,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       verify(mockSupabaseService.fetchRandomVerseByChapter(any)).called(1);
     });
@@ -274,8 +306,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(Container), findsWidgets);
     });
@@ -286,8 +320,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final paddingFinder = find.byType(Padding);
       expect(paddingFinder, findsWidgets);
@@ -300,7 +336,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       // UI should render even while verse is loading
       expect(find.byType(HomeScreen), findsOneWidget);
@@ -316,8 +353,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(Text), findsWidgets);
     });
@@ -328,8 +367,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(Hero), findsWidgets);
     });
@@ -340,8 +381,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(CustomScrollView), findsOneWidget);
     });
@@ -351,8 +394,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Could not load verse'), findsOneWidget);
     });
@@ -374,7 +419,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 1));
 
       expect(find.text('Life Dilemmas'), findsOneWidget);
@@ -385,7 +431,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.byType(PageView), findsWidgets);
@@ -396,7 +443,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       // Look for page indicator containers
@@ -408,7 +456,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.byType(Text), findsWidgets);
@@ -419,7 +468,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.text('Life Dilemma'), findsWidgets);
@@ -430,7 +480,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.byType(Container), findsWidgets);
@@ -441,7 +492,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.byIcon(Icons.psychology), findsWidgets);
@@ -452,7 +504,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.text('Heart vs Duty guidance'), findsWidgets);
@@ -463,7 +516,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.byType(InkWell), findsWidgets);
@@ -474,7 +528,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       // Look for page counter pattern like "1 / 5"
@@ -486,7 +541,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.byType(Container), findsWidgets);
@@ -497,7 +553,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 3));
 
       // Should show loading or retry state
@@ -509,7 +566,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.byType(PageView), findsWidgets);
@@ -520,7 +578,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pump(const Duration(seconds: 2));
 
       expect(find.byIcon(Icons.arrow_forward_ios), findsWidgets);
@@ -534,15 +593,20 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen(onTabChange: (tab) => tappedTab = tab));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final dilemmaButton = find.text('Dilemmas');
       if (dilemmaButton.evaluate().isNotEmpty) {
         await tester.tap(dilemmaButton);
-        await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
         expect(tappedTab, 2);
       }
     });
@@ -553,15 +617,20 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen(onTabChange: (tab) => tappedTab = tab));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final chaptersButton = find.text('Chapters');
       if (chaptersButton.evaluate().isNotEmpty) {
         await tester.tap(chaptersButton);
-        await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
         expect(tappedTab, 1);
       }
     });
@@ -572,15 +641,20 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen(onTabChange: (tab) => tappedTab = tab));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final journalButton = find.text('Journal');
       if (journalButton.evaluate().isNotEmpty) {
         await tester.tap(journalButton);
-        await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
         expect(tappedTab, 3);
       }
     });
@@ -591,15 +665,20 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen(onTabChange: (tab) => tappedTab = tab));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final moreButton = find.text('More');
       if (moreButton.evaluate().isNotEmpty) {
         await tester.tap(moreButton);
-        await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
         expect(tappedTab, 4);
       }
     });
@@ -610,14 +689,18 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => chapters);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final chapterCard = find.text('Chapter 1 Title');
       if (chapterCard.evaluate().isNotEmpty) {
         await tester.tap(chapterCard);
-        await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
         // Verify navigation occurred
       }
     });
@@ -628,8 +711,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => chapters);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('View All'), findsWidgets);
     });
@@ -641,15 +726,20 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => chapters);
 
       await tester.pumpWidget(createHomeScreen(onTabChange: (tab) => tappedTab = tab));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final viewAllButton = find.text('View All');
       if (viewAllButton.evaluate().isNotEmpty) {
         await tester.tap(viewAllButton.first);
-        await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
         expect(tappedTab, 1);
       }
     });
@@ -659,8 +749,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Dilemmas'), findsOneWidget);
       expect(find.text('Chapters'), findsOneWidget);
@@ -673,8 +765,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byIcon(Icons.menu_book), findsWidgets);
       expect(find.byIcon(Icons.book_outlined), findsWidgets);
@@ -686,8 +780,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(GridView), findsOneWidget);
     });
@@ -699,7 +795,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Welcome to GitaWisdom'), findsOneWidget);
     });
@@ -709,13 +806,16 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Welcome to GitaWisdom'), findsOneWidget);
 
       await tester.pump(const Duration(seconds: 3));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Welcome to GitaWisdom'), findsNothing);
     });
@@ -727,8 +827,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('John Doe'), findsWidgets);
     });
@@ -739,8 +841,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Seeker'), findsWidgets);
     });
@@ -750,8 +854,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       // Greeting will depend on current time
       expect(find.byType(Text), findsWidgets);
@@ -762,8 +868,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Find wisdom to guide your daily dilemmas'), findsOneWidget);
     });
@@ -773,7 +881,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(CustomScrollView), findsOneWidget);
     });
@@ -783,7 +892,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(SliverAppBar), findsOneWidget);
     });
@@ -797,7 +907,8 @@ void main() {
       // Before first frame
       expect(find.byType(CircularProgressIndicator), findsNothing);
 
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       // After first frame, data loading begins
       await tester.pump(const Duration(milliseconds: 500));
@@ -810,10 +921,12 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       // Verse loads first
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       verify(mockSupabaseService.fetchRandomVerseByChapter(any)).called(1);
 
       // Chapters load with delay
@@ -829,8 +942,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => chapters);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Featured Chapters'), findsOneWidget);
     });
@@ -841,8 +956,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => chapters);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Chapter 1 Title'), findsOneWidget);
       expect(find.text('Chapter 2 Title'), findsOneWidget);
@@ -855,8 +972,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => chapters);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(ListView), findsWidgets);
     });
@@ -867,8 +986,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => chapters);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Chapter 1'), findsWidgets);
     });
@@ -892,8 +1013,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Daily Inspiration'), findsOneWidget);
     });
@@ -903,8 +1026,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byIcon(Icons.lightbulb), findsOneWidget);
     });
@@ -914,8 +1039,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       // Should have some quote text
       expect(find.byType(Text), findsWidgets);
@@ -926,8 +1053,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Ancient Wisdom'), findsOneWidget);
     });
@@ -937,8 +1066,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(Container), findsWidgets);
     });
@@ -955,7 +1086,8 @@ void main() {
           child: createHomeScreen(),
         ),
       );
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(HomeScreen), findsOneWidget);
     });
@@ -965,8 +1097,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final inkWells = find.byType(InkWell);
       for (final element in inkWells.evaluate()) {
@@ -984,7 +1118,8 @@ void main() {
       when(mockThemeProvider.textScale).thenReturn(1.5);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(Text), findsWidgets);
     });
@@ -994,7 +1129,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final theme = Theme.of(tester.element(find.byType(HomeScreen)));
       expect(theme.brightness, Brightness.light);
@@ -1007,7 +1143,8 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       final theme = Theme.of(tester.element(find.byType(HomeScreen)));
       expect(theme.brightness, Brightness.dark);
@@ -1020,8 +1157,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Could not load verse'), findsOneWidget);
       expect(find.byType(HomeScreen), findsOneWidget);
@@ -1032,8 +1171,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenThrow(Exception('Network error'));
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Could not load chapters'), findsOneWidget);
       expect(find.byType(HomeScreen), findsOneWidget);
@@ -1044,8 +1185,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(HomeScreen), findsOneWidget);
     });
@@ -1055,8 +1198,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(HomeScreen), findsOneWidget);
     });
@@ -1066,8 +1211,10 @@ void main() {
       when(mockSupabaseService.fetchAllChapters()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createHomeScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byIcon(Icons.error_outline), findsWidgets);
     });

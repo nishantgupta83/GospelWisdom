@@ -547,7 +547,8 @@ void main() {
         ),
       );
 
-      expect(find.byType(LayoutBuilder), findsOneWidget);
+      // Should have multiple LayoutBuilders (one for container + one per nav item)
+      expect(find.byType(LayoutBuilder), findsWidgets);
     });
 
     testWidgets('should have gradient decoration in dark mode', (tester) async {

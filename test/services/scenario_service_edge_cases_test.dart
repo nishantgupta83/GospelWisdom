@@ -112,7 +112,7 @@ void main() {
         expect(results, isA<List<Scenario>>());
       });
 
-      test('should handle case sensitivity in tags', () {
+      test('should handle case sensitivity in tags', () async {
         // Create scenarios with different case tags
         final scenario1 = Scenario(
           title: 'Test1',
@@ -128,8 +128,8 @@ void main() {
           createdAt: DateTime.now(),
         );
 
-        scenariosBox.put('test1', scenario1);
-        service.getAllScenarios();
+        await scenariosBox.put('test1', scenario1);
+        await service.getAllScenarios();
 
         final results = service.filterByTag('Stress');
         expect(results, isNotEmpty);
@@ -158,7 +158,7 @@ void main() {
         expect(results, isA<List<Scenario>>());
       });
 
-      test('should calculate pages correctly for empty dataset', () {
+      test('should calculate pages correctly for empty dataset', () async {
         await service.clearCache();
         final pages = service.getTotalPages();
         expect(pages, greaterThanOrEqualTo(0));
@@ -181,10 +181,10 @@ void main() {
         expect(results, isA<List<Scenario>>());
       });
 
-      test('should shuffle scenarios consistently', () {
+      test('should shuffle scenarios consistently', () async {
         // Add multiple scenarios in same category
         for (int i = 0; i < 10; i++) {
-          scenariosBox.put('test$i', Scenario(
+          await scenariosBox.put('test$i', Scenario(
             title: 'Test $i',
             description: 'Test',
             category: 'same',
@@ -274,8 +274,8 @@ void main() {
       test('should handle getAdvancedCacheStats', () {
         final stats = service.getAdvancedCacheStats();
         expect(stats, isNotNull);
-        expect(stats, containsKey('Total Scenarios'));
-        expect(stats, containsKey('Cache Valid'));
+        expect(stats.containsKey('Total Scenarios'), isTrue);
+        expect(stats.containsKey('Cache Valid'), isTrue);
       });
     });
 

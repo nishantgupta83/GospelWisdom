@@ -234,8 +234,9 @@ void main() {
 
     group('Cache Clearing', () {
       test('should clear chapters box', () async {
-        final chaptersBox = Hive.box('chapters');
-        await chaptersBox.put('test', 'value');
+        final chaptersBox = Hive.box<Chapter>('chapters');
+        await chaptersBox.clear();
+        await chaptersBox.put('test', testChapters.first);
         expect(chaptersBox.isNotEmpty, isTrue);
 
         await service.refreshAllCaches(
@@ -246,8 +247,9 @@ void main() {
       });
 
       test('should clear verses box', () async {
-        final versesBox = Hive.box('gita_verses_cache');
-        await versesBox.put('test', 'value');
+        final versesBox = Hive.box<Verse>('gita_verses_cache');
+        await versesBox.clear();
+        await versesBox.put('test', testVerses.first);
         expect(versesBox.isNotEmpty, isTrue);
 
         await service.refreshAllCaches(
@@ -258,8 +260,9 @@ void main() {
       });
 
       test('should clear scenarios box', () async {
-        final scenariosBox = Hive.box('scenarios');
-        await scenariosBox.put('test', 'value');
+        final scenariosBox = Hive.box<Scenario>('scenarios');
+        await scenariosBox.clear();
+        await scenariosBox.put('test', testScenarios.first);
         expect(scenariosBox.isNotEmpty, isTrue);
 
         await service.refreshAllCaches(
@@ -411,7 +414,8 @@ void main() {
 
       test('should count items in cache boxes', () async {
         // Add some items to boxes
-        final chaptersBox = Hive.box('chapters');
+        final chaptersBox = Hive.box<Chapter>('chapters');
+        await chaptersBox.clear();
         await chaptersBox.put('ch1', testChapters.first);
         await chaptersBox.put('ch2', testChapters[1]);
 
@@ -438,13 +442,18 @@ void main() {
       test('should return empty map on error', () async {
         // Close all boxes to cause error
         if (Hive.isBoxOpen('chapters')) {
-          await Hive.box('chapters').close();
+          await Hive.box<Chapter>('chapters').close();
         }
 
         final stats = await service.getCacheStats();
 
         // Should return empty map instead of throwing
         expect(stats, isA<Map<String, dynamic>>());
+
+        // Reopen box for cleanup
+        if (!Hive.isBoxOpen('chapters')) {
+          await Hive.openBox<Chapter>('chapters');
+        }
       });
     });
 
@@ -502,16 +511,25 @@ void main() {
       });
 
       test('should clear then reload data', () async {
-        // Pre-populate boxes
-        final chaptersBox = Hive.box('chapters');
-        await chaptersBox.put('old', 'old_data');
+        // Pre-populate boxes with specific key
+        final chaptersBox = Hive.box<Chapter>('chapters');
+        await chaptersBox.clear();
+        final oldChapter = Chapter(
+          chapterId: 999,
+          title: 'Old Chapter',
+          summary: 'Old Summary',
+          verseCount: 1,
+        );
+        await chaptersBox.put('old_key', oldChapter);
+        expect(chaptersBox.containsKey('old_key'), isTrue);
 
         await service.refreshAllCaches(
           onProgress: (message, progress) {},
         );
 
         // Old data should be gone (cleared before refresh)
-        expect(chaptersBox.containsKey('old'), isFalse);
+        // Note: The box may have new data from fetchAllChapters, but the old key should be gone
+        expect(chaptersBox.containsKey('old_key'), isFalse);
       });
 
       test('should handle multiple consecutive refreshes', () async {

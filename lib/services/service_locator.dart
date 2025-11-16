@@ -21,6 +21,15 @@ class ServiceLocator {
     return _supabaseAuthService!;
   }
 
+  // For testing: inject mock services
+  void setEnhancedSupabaseService(EnhancedSupabaseService service) {
+    _enhancedSupabaseService = service;
+  }
+
+  void setSupabaseAuthService(SupabaseAuthService service) {
+    _supabaseAuthService = service;
+  }
+
   Future<void> initialize() async {
     await Future.wait([
       enhancedSupabaseService.initializeLanguages(),

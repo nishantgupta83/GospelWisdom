@@ -64,12 +64,8 @@ void main() {
       // Verify "Read more" exists
       expect(find.text('Read more'), findsOneWidget);
 
-      // Tap "Read more" using GestureDetector
-      final gestureDetector = find.ancestor(
-        of: find.text('Read more'),
-        matching: find.byType(GestureDetector),
-      );
-      await tester.tap(gestureDetector.first);
+      // Tap "Read more" directly on the text
+      await tester.tap(find.text('Read more'));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
@@ -97,12 +93,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
 
-      // Expand first - tap using GestureDetector
-      final gestureDetectorMore = find.ancestor(
-        of: find.text('Read more'),
-        matching: find.byType(GestureDetector),
-      );
-      await tester.tap(gestureDetectorMore.first);
+      // Expand first - tap directly on text
+      await tester.tap(find.text('Read more'));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
@@ -111,12 +103,8 @@ void main() {
       // Verify expanded state
       expect(find.text('Read less'), findsOneWidget);
 
-      // Tap "Read less" using GestureDetector
-      final gestureDetectorLess = find.ancestor(
-        of: find.text('Read less'),
-        matching: find.byType(GestureDetector),
-      );
-      await tester.tap(gestureDetectorLess.first);
+      // Tap "Read less" directly on text
+      await tester.tap(find.text('Read less'));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
@@ -147,27 +135,19 @@ void main() {
       // Toggle expand/collapse 3 times
       for (int i = 0; i < 3; i++) {
         // Expand
-        final gestureDetectorMore = find.ancestor(
-          of: find.text('Read more'),
-          matching: find.byType(GestureDetector),
-        );
-        await tester.tap(gestureDetectorMore.first);
+        await tester.tap(find.text('Read more'));
         await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
         await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump(const Duration(milliseconds: 100));
         expect(find.text('Read less'), findsOneWidget);
 
         // Collapse
-        final gestureDetectorLess = find.ancestor(
-          of: find.text('Read less'),
-          matching: find.byType(GestureDetector),
-        );
-        await tester.tap(gestureDetectorLess.first);
+        await tester.tap(find.text('Read less'));
         await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
         await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump(const Duration(milliseconds: 100));
+        await tester.pump(const Duration(milliseconds: 100));
         expect(find.text('Read more'), findsOneWidget);
       }
     });
@@ -279,7 +259,7 @@ void main() {
       );
       expect(gestureDetector, findsOneWidget);
 
-      await tester.tap(gestureDetector.first);
+      await tester.tap(find.text('Read more'));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
@@ -409,13 +389,17 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
 
-      // Rapid tap test
+      // Rapid tap test - tap on current text (Read more or Read less)
       for (int i = 0; i < 5; i++) {
-        final gestureDetector = find.ancestor(
-          of: find.textContaining('Read'),
-          matching: find.byType(GestureDetector),
-        );
-        await tester.tap(gestureDetector.first);
+        final readMore = find.text('Read more');
+        final readLess = find.text('Read less');
+
+        if (readMore.evaluate().isNotEmpty) {
+          await tester.tap(readMore);
+        } else if (readLess.evaluate().isNotEmpty) {
+          await tester.tap(readLess);
+        }
+
         await tester.pump(const Duration(milliseconds: 100));
         await tester.pump(const Duration(milliseconds: 100));
       }
@@ -443,11 +427,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
 
       // Expand the text
-      final gestureDetector = find.ancestor(
-        of: find.text('Read more'),
-        matching: find.byType(GestureDetector),
-      );
-      await tester.tap(gestureDetector.first);
+      await tester.tap(find.text('Read more'));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));

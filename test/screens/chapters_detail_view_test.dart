@@ -32,21 +32,18 @@ void main() {
 
   Chapter createTestChapter() {
     return Chapter(
-      id: 1,
-      chapterNumber: 1,
+      chapterId: 1,
       title: 'Test Chapter',
       subtitle: 'Test Subtitle',
       summary: 'Test Summary',
       keyTeachings: ['Teaching 1', 'Teaching 2', 'Teaching 3'],
       verseCount: 10,
-      transliteration: 'test-transliteration',
     );
   }
 
   List<Scenario> createTestScenarios() {
     return [
       Scenario(
-        id: 1,
         title: 'Scenario 1',
         description: 'Description 1',
         category: 'Category 1',
@@ -54,12 +51,9 @@ void main() {
         heartResponse: 'Heart 1',
         dutyResponse: 'Duty 1',
         gitaWisdom: 'Wisdom 1',
-        modernApplication: 'Application 1',
-        practicalAdvice: 'Advice 1',
-        reflection: 'Reflection 1',
+        languageCode: 'en',
       ),
       Scenario(
-        id: 2,
         title: 'Scenario 2',
         description: 'Description 2',
         category: 'Category 2',
@@ -67,9 +61,7 @@ void main() {
         heartResponse: 'Heart 2',
         dutyResponse: 'Duty 2',
         gitaWisdom: 'Wisdom 2',
-        modernApplication: 'Application 2',
-        practicalAdvice: 'Advice 2',
-        reflection: 'Reflection 2',
+        languageCode: 'en',
       ),
     ];
   }
@@ -77,22 +69,14 @@ void main() {
   List<Verse> createTestVerses() {
     return [
       Verse(
-        id: 1,
-        chapterNumber: 1,
-        verseNumber: 1,
-        sanskrit: 'Sanskrit 1',
-        transliteration: 'Transliteration 1',
-        translation: 'Translation 1',
-        explanation: 'Explanation 1',
+        verseId: 1,
+        chapterId: 1,
+        description: 'Translation 1',
       ),
       Verse(
-        id: 2,
-        chapterNumber: 1,
-        verseNumber: 2,
-        sanskrit: 'Sanskrit 2',
-        transliteration: 'Transliteration 2',
-        translation: 'Translation 2',
-        explanation: 'Explanation 2',
+        verseId: 2,
+        chapterId: 1,
+        description: 'Translation 2',
       ),
     ];
   }
@@ -301,14 +285,12 @@ void main() {
     testWidgets('expands summary on read more tap', (WidgetTester tester) async {
       final longSummary = 'This is a very long summary that should trigger the read more button. ' * 10;
       final chapterWithLongSummary = Chapter(
-        id: 1,
-        chapterNumber: 1,
+        chapterId: 1,
         title: 'Test Chapter',
         subtitle: 'Test Subtitle',
         summary: longSummary,
         keyTeachings: ['Teaching 1'],
         verseCount: 10,
-        transliteration: 'test-transliteration',
       );
 
       when(mockService.fetchChapterById(1)).thenAnswer((_) async => chapterWithLongSummary);
@@ -342,7 +324,6 @@ void main() {
       final longDescription = 'This is a very long description that should trigger read more. ' * 10;
       final scenariosWithLongDesc = [
         Scenario(
-          id: 1,
           title: 'Scenario 1',
           description: longDescription,
           category: 'Category 1',
@@ -350,9 +331,7 @@ void main() {
           heartResponse: 'Heart 1',
           dutyResponse: 'Duty 1',
           gitaWisdom: 'Wisdom 1',
-          modernApplication: 'Application 1',
-          practicalAdvice: 'Advice 1',
-          reflection: 'Reflection 1',
+          languageCode: 'en',
         ),
       ];
 

@@ -42,15 +42,17 @@ class MockBookmarkService extends BookmarkService {
   }
 
   @override
-  Future<void> removeBookmark(String id) async {
+  Future<bool> removeBookmark(String id) async {
     _mockBookmarks.removeWhere((b) => b.id == id);
     notifyListeners();
+    return true;
   }
 
   @override
-  Future<void> clearAllBookmarks() async {
+  Future<bool> clearAllBookmarks() async {
     _mockBookmarks.clear();
     notifyListeners();
+    return true;
   }
 
   @override

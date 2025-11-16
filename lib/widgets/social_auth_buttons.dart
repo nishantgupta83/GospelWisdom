@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../services/supabase_auth_service.dart';
+import '../screens/modern_auth_screen.dart';
 
 /// Social authentication buttons widget
 /// Displays Google and Apple sign-in options
@@ -14,7 +15,20 @@ class SocialAuthButtons extends StatelessWidget {
   });
 
   Future<void> _handleGoogleSignIn(BuildContext context) async {
+    // Mark as OAuth flow in parent ModernAuthScreen
+    final authScreen = context.findAncestorWidgetOfExactType<ModernAuthScreen>();
+    if (authScreen != null) {
+      // Access the state through the widget's createState
+      final state = context.findAncestorStateOfType<State<ModernAuthScreen>>();
+      if (state != null && state.mounted) {
+        // Call the public method via dynamic dispatch
+        (state as dynamic).setAuthFlow(AuthFlowType.oauth);
+      }
+    }
+
     final success = await authService.signInWithGoogle();
+    // Auth state listener will handle navigation for OAuth
+
     if (!success && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -26,7 +40,18 @@ class SocialAuthButtons extends StatelessWidget {
   }
 
   Future<void> _handleAppleSignIn(BuildContext context) async {
+    // Mark as OAuth flow in parent ModernAuthScreen
+    final authScreen = context.findAncestorWidgetOfExactType<ModernAuthScreen>();
+    if (authScreen != null) {
+      final state = context.findAncestorStateOfType<State<ModernAuthScreen>>();
+      if (state != null && state.mounted) {
+        (state as dynamic).setAuthFlow(AuthFlowType.oauth);
+      }
+    }
+
     final success = await authService.signInWithApple();
+    // Auth state listener will handle navigation for OAuth
+
     if (!success && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

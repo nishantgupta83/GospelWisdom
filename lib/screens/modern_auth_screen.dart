@@ -7,6 +7,9 @@ import '../services/supabase_auth_service.dart';
 import 'root_scaffold.dart';
 import '../widgets/social_auth_buttons.dart';
 
+// Enum to track which authentication flow is currently active
+enum AuthFlowType { none, oauth, emailPassword }
+
 class ModernAuthScreen extends StatefulWidget {
   final bool isModal; // Track if launched as modal from within app
 
@@ -42,11 +45,8 @@ class _ModernAuthScreenState extends State<ModernAuthScreen> with TickerProvider
   // Store auth service reference to avoid context access after dispose
   SupabaseAuthService? _authService;
 
-  // Flag to prevent auto-navigation during email/password sign-in
-  bool _isEmailPasswordSignInInProgress = false;
-
-  // Track previous auth state to detect transitions (for OAuth completion)
-  bool _wasAuthenticatedOnLastCheck = false;
+  // Track which authentication flow is active (OAuth vs Email)
+  AuthFlowType _currentAuthFlow = AuthFlowType.none;
 
   @override
   void initState() {
@@ -88,39 +88,37 @@ class _ModernAuthScreenState extends State<ModernAuthScreen> with TickerProvider
     });
   }
 
+  /// Public method to set the auth flow type
+  /// Called by SocialAuthButtons when OAuth is initiated
+  void setAuthFlow(AuthFlowType flow) {
+    if (mounted) {
+      setState(() {
+        _currentAuthFlow = flow;
+      });
+      debugPrint('🔄 Auth flow type set to: $flow');
+    }
+  }
+
   void _handleAuthStateChange() {
     // Use stored reference instead of reading from context
     final authService = _authService;
     if (authService == null || !mounted) return;
 
-    // Don't auto-navigate if we're in the middle of email/password sign-in
-    // (we handle navigation manually in _handleSignIn/_handleSignUp)
-    if (_isEmailPasswordSignInInProgress) {
-      debugPrint('⏸️ Skipping auto-navigation - email/password sign-in in progress');
-      return;
-    }
-
-    // ONLY auto-navigate if user just became authenticated (not if already authenticated)
-    // This handles OAuth completion (when app returns from browser)
-    // We track the previous auth state to detect transitions
-    final wasAuthenticated = _wasAuthenticatedOnLastCheck;
-    final isNowAuthenticated = authService.isAuthenticated || authService.isAnonymous;
-    _wasAuthenticatedOnLastCheck = isNowAuthenticated;
-
-    // Only navigate if:
-    // 1. User just transitioned from unauthenticated to authenticated
-    // 2. Auth service is not loading
-    // 3. We're not in the middle of email/password sign-in
-    if (!wasAuthenticated && isNowAuthenticated && !authService.isLoading) {
-      // Small delay to ensure state is fully updated
-      Future.delayed(const Duration(milliseconds: 300), () {
-        if (mounted) {
-          debugPrint('🔄 OAuth completed - auto-navigating from auth screen to home');
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const RootScaffold()),
-          );
-        }
-      });
+    // ONLY auto-navigate for OAuth flows (Google/Apple)
+    // Email sign-in handles navigation manually
+    if (_currentAuthFlow == AuthFlowType.oauth) {
+      // Check if user is now authenticated
+      if ((authService.isAuthenticated || authService.isAnonymous) && !authService.isLoading) {
+        // Small delay to ensure state is fully updated
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (mounted) {
+            debugPrint('🔄 OAuth completed - auto-navigating to home');
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const RootScaffold()),
+            );
+          }
+        });
+      }
     }
   }
 
@@ -943,8 +941,8 @@ class _ModernAuthScreenState extends State<ModernAuthScreen> with TickerProvider
 
     debugPrint('✅ EMAIL: Form validated, calling auth service...');
 
-    // Set flag to prevent auto-navigation from listener
-    _isEmailPasswordSignInInProgress = true;
+    // Mark as email flow (prevents OAuth auto-navigation)
+    _currentAuthFlow = AuthFlowType.emailPassword;
 
     try {
       final authService = context.read<SupabaseAuthService>();
@@ -986,33 +984,41 @@ class _ModernAuthScreenState extends State<ModernAuthScreen> with TickerProvider
         }
       }
     } finally {
-      // Clear flag after sign-in attempt completes (success or failure)
-      _isEmailPasswordSignInInProgress = false;
+      // Reset flow type after sign-in attempt completes
+      _currentAuthFlow = AuthFlowType.none;
     }
   }
 
   void _handleSignUp() async {
     if (!_signUpFormKey.currentState!.validate()) return;
 
-    final authService = context.read<SupabaseAuthService>();
-    final success = await authService.signUpWithEmail(
-      _emailController.text.trim(),
-      _passwordController.text,
-      _nameController.text.trim().isEmpty ? 'User' : _nameController.text.trim(),
-    );
+    // Mark as email flow (prevents OAuth auto-navigation)
+    _currentAuthFlow = AuthFlowType.emailPassword;
 
-    if (success && mounted) {
-      await Future.delayed(const Duration(milliseconds: 100));
-      if (!mounted) return;
+    try {
+      final authService = context.read<SupabaseAuthService>();
+      final success = await authService.signUpWithEmail(
+        _emailController.text.trim(),
+        _passwordController.text,
+        _nameController.text.trim().isEmpty ? 'User' : _nameController.text.trim(),
+      );
 
-      // Context-aware navigation
-      if (widget.isModal) {
-        Navigator.of(context).pop();
-      } else {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const RootScaffold()),
-        );
+      if (success && mounted) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        if (!mounted) return;
+
+        // Context-aware navigation
+        if (widget.isModal) {
+          Navigator.of(context).pop();
+        } else {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const RootScaffold()),
+          );
+        }
       }
+    } finally {
+      // Reset flow type after sign-up attempt completes
+      _currentAuthFlow = AuthFlowType.none;
     }
   }
 

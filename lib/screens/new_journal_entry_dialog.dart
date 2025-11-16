@@ -91,7 +91,7 @@ class _NewJournalEntryDialogState extends State<NewJournalEntryDialog> with Sing
           SnackBar(
             content: const Text('✓ Journal entry saved!'),
             backgroundColor: Colors.green,
-            duration: const Duration(seconds: 3),
+            duration: const Duration(milliseconds: 800),
             action: SnackBarAction(
               label: 'View Entries',
               textColor: Colors.white,

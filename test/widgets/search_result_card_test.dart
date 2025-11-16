@@ -7,6 +7,31 @@ import 'package:GitaWisdom/models/search_result.dart';
 
 import '../test_setup.dart';
 
+// Helper function to create SearchResult with all required fields
+SearchResult createTestSearchResult({
+  String id = 'test-1',
+  String searchQuery = 'test',
+  required SearchType resultType,
+  required String title,
+  required String snippet,
+  int? chapterId,
+  int? verseId,
+  required double relevanceScore,
+}) {
+  return SearchResult(
+    id: id,
+    searchQuery: searchQuery,
+    resultType: resultType,
+    title: title,
+    content: snippet,
+    snippet: snippet,
+    chapterId: chapterId,
+    verseId: verseId,
+    relevanceScore: relevanceScore,
+    searchDate: DateTime.now(),
+  );
+}
+
 void main() {
   group('SearchResultCard Widget Tests', () {
     setUp(() async {
@@ -18,7 +43,7 @@ void main() {
     });
 
     testWidgets('renders verse search result', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test Verse Title',
         snippet: 'This is a test verse snippet',
@@ -44,7 +69,7 @@ void main() {
     });
 
     testWidgets('renders chapter search result', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.chapter,
         title: 'Chapter 2',
         snippet: 'Sankhya Yoga',
@@ -69,7 +94,7 @@ void main() {
     });
 
     testWidgets('renders scenario search result', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.scenario,
         title: 'Career Dilemma',
         snippet: 'Balancing career and family',
@@ -93,7 +118,7 @@ void main() {
     });
 
     testWidgets('shows relevance score badge', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -116,7 +141,7 @@ void main() {
     });
 
     testWidgets('does not show score if zero', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -139,7 +164,7 @@ void main() {
     });
 
     testWidgets('displays verse type label correctly', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -165,7 +190,7 @@ void main() {
     });
 
     testWidgets('displays chapter type label correctly', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.chapter,
         title: 'Test',
         snippet: 'Snippet',
@@ -189,7 +214,7 @@ void main() {
     });
 
     testWidgets('displays scenario type label', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.scenario,
         title: 'Test',
         snippet: 'Snippet',
@@ -212,7 +237,7 @@ void main() {
     });
 
     testWidgets('has proper type icon for verse', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -235,7 +260,7 @@ void main() {
     });
 
     testWidgets('has proper type icon for chapter', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.chapter,
         title: 'Test',
         snippet: 'Snippet',
@@ -258,7 +283,7 @@ void main() {
     });
 
     testWidgets('has proper type icon for scenario', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.scenario,
         title: 'Test',
         snippet: 'Snippet',
@@ -281,7 +306,7 @@ void main() {
     });
 
     testWidgets('has arrow forward icon', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -306,7 +331,7 @@ void main() {
     testWidgets('calls onTap callback when tapped', (tester) async {
       bool tapped = false;
 
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -335,7 +360,7 @@ void main() {
     });
 
     testWidgets('has gradient background', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -358,7 +383,7 @@ void main() {
     });
 
     testWidgets('has rounded border radius', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -382,7 +407,7 @@ void main() {
     });
 
     testWidgets('has proper padding and margins', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -405,7 +430,7 @@ void main() {
     });
 
     testWidgets('truncates long title text', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'This is a very long title that should be truncated ' * 5,
         snippet: 'Snippet',
@@ -428,7 +453,7 @@ void main() {
     });
 
     testWidgets('truncates long snippet text', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'This is a very long snippet that should be truncated when displayed in the card ' * 10,
@@ -451,7 +476,7 @@ void main() {
     });
 
     testWidgets('highlights query terms in snippet', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'This snippet contains the test keyword',
@@ -474,7 +499,7 @@ void main() {
     });
 
     testWidgets('handles empty query gracefully', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Test snippet',
@@ -497,7 +522,7 @@ void main() {
     });
 
     testWidgets('handles empty snippet gracefully', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: '',
@@ -520,7 +545,7 @@ void main() {
     });
 
     testWidgets('adapts to light theme', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -544,7 +569,7 @@ void main() {
     });
 
     testWidgets('adapts to dark theme', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -568,7 +593,7 @@ void main() {
     });
 
     testWidgets('has proper touch target size', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -596,7 +621,7 @@ void main() {
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.reset);
 
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -623,7 +648,7 @@ void main() {
       tester.view.devicePixelRatio = 2.0;
       addTearDown(tester.view.reset);
 
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -646,7 +671,7 @@ void main() {
     });
 
     testWidgets('type icon has gradient background', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -669,7 +694,7 @@ void main() {
     });
 
     testWidgets('maintains structure across rebuilds', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -707,7 +732,7 @@ void main() {
     });
 
     testWidgets('highlights multiple query words', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'This snippet contains test and another word keyword',
@@ -730,7 +755,7 @@ void main() {
     });
 
     testWidgets('handles case-insensitive highlighting', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'This TEST snippet CONTAINS test',
@@ -753,7 +778,7 @@ void main() {
     });
 
     testWidgets('displays query type icon', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.query,
         title: 'Test Query',
         snippet: 'Query snippet',
@@ -776,7 +801,7 @@ void main() {
     });
 
     testWidgets('has proper icon container decoration', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -799,7 +824,7 @@ void main() {
     });
 
     testWidgets('handles null chapter ID gracefully', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -824,7 +849,7 @@ void main() {
     });
 
     testWidgets('displays relevance score as integer', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -847,7 +872,7 @@ void main() {
     });
 
     testWidgets('uses Row layout for header', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -870,7 +895,7 @@ void main() {
     });
 
     testWidgets('uses Column layout for content', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',
@@ -893,7 +918,7 @@ void main() {
     });
 
     testWidgets('has proper spacing with SizedBox', (tester) async {
-      final result = SearchResult(
+      final result = createTestSearchResult(
         resultType: SearchType.verse,
         title: 'Test',
         snippet: 'Snippet',

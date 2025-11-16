@@ -93,7 +93,8 @@ Future<void> pumpTestWidget(
   Duration? duration,
 }) async {
   await tester.pumpWidget(widget);
-  await tester.pumpAndSettle(duration ?? const Duration(milliseconds: 300));
+  await tester.pump(const Duration(milliseconds: 100));
+  await tester.pump(const Duration(milliseconds: 100));
 }
 
 /// Find a widget by type with error handling
@@ -116,7 +117,8 @@ Future<void> tapAndSettle(
   Duration? duration,
 }) async {
   await tester.tap(finder);
-  await tester.pumpAndSettle(duration ?? const Duration(milliseconds: 300));
+  await tester.pump(const Duration(milliseconds: 100));
+  await tester.pump(const Duration(milliseconds: 100));
 }
 
 /// Enter text and settle
@@ -127,7 +129,8 @@ Future<void> enterTextAndSettle(
   Duration? duration,
 }) async {
   await tester.enterText(finder, text);
-  await tester.pumpAndSettle(duration ?? const Duration(milliseconds: 300));
+  await tester.pump(const Duration(milliseconds: 100));
+  await tester.pump(const Duration(milliseconds: 100));
 }
 
 /// Scroll until visible with error handling
@@ -146,7 +149,8 @@ Future<void> scrollUntilVisible(
       break;
     }
     await tester.drag(scrollableFinder, Offset(0, delta));
-    await tester.pumpAndSettle(settleDuration);
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
   }
 
   expect(
@@ -255,7 +259,8 @@ Future<void> fillTextField(
 
   await tester.enterText(finder, text);
   if (shouldSettle) {
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
   }
 }
 
@@ -281,7 +286,8 @@ Future<void> fillTextFieldByLabel(
   }
 
   if (shouldSettle) {
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
   }
 }
 
@@ -312,7 +318,8 @@ Future<void> tapButtonByText(
   }
 
   if (shouldSettle) {
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
   }
 }
 
@@ -327,7 +334,8 @@ Future<void> tapButtonByIcon(
 
   await tester.tap(finder);
   if (shouldSettle) {
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
   }
 }
 
@@ -454,7 +462,8 @@ Future<void> waitForAnimation(
   Duration duration = const Duration(milliseconds: 500),
 }) async {
   await tester.pump(duration);
-  await tester.pumpAndSettle();
+  await tester.pump(const Duration(milliseconds: 100));
+  await tester.pump(const Duration(milliseconds: 100));
 }
 
 /// Verify animation is running
@@ -499,7 +508,8 @@ Future<void> longPress(
 }) async {
   await tester.longPress(finder);
   if (shouldSettle) {
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
   }
 }
 
@@ -512,7 +522,8 @@ Future<void> drag(
 }) async {
   await tester.drag(finder, offset);
   if (shouldSettle) {
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
   }
 }
 
@@ -526,6 +537,7 @@ Future<void> fling(
 }) async {
   await tester.fling(finder, offset, velocity);
   if (shouldSettle) {
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
   }
 }

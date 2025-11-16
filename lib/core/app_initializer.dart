@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../config/environment.dart';
+import '../config/app_environment.dart';
 import '../services/settings_service.dart';
 import '../services/daily_verse_service.dart';
 import '../services/progressive_scenario_service.dart';
@@ -23,7 +24,7 @@ import 'performance_monitor.dart';
 import 'ios_performance_optimizer.dart';
 import 'ios_audio_session_manager.dart';
 import 'ios_metal_optimizer.dart';
-import 'app_config.dart';
+import 'app_config.dart' as LegacyConfig;
 import '../models/journal_entry.dart';
 import '../models/scenario.dart';
 import '../models/chapter.dart';
@@ -66,6 +67,9 @@ class AppInitializer {
         anonKey: Environment.supabaseAnonKey,
       );
 
+      // ✅ Validate app configuration and Supabase connectivity
+      await validateAppConfig();
+
       // ✅ Basic Hive setup only
       final appDocDir = await getApplicationDocumentsDirectory();
       Hive.init(appDocDir.path);
@@ -91,7 +95,7 @@ class AppInitializer {
         _performSecondaryInitialization(),
         Future.delayed(const Duration(seconds: 6)).then((_) {
           debugPrint('⏰ Secondary service initialization timed out after 6 seconds');
-          throw TimeoutException('Secondary initialization timeout', const Duration(seconds: 6));
+          throw TimeoutException('Secondary initialization timeout after 6 seconds');
         }),
       ]);
     } catch (e) {
@@ -361,7 +365,7 @@ class AppInitializer {
       debugPrint('🎵 Background music service initialized successfully');
 
       // Start music if default enabled in config
-      if (AppConfig.defaultMusicEnabled) {
+      if (LegacyConfig.AppConfig.defaultMusicEnabled) {
         await BackgroundMusicService.instance.startMusic();
         debugPrint('🎵 Background music started automatically');
       }

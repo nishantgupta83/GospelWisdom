@@ -8,6 +8,7 @@ import 'package:GitaWisdom/services/settings_service.dart';
 import 'package:GitaWisdom/services/background_music_service.dart';
 import 'package:GitaWisdom/services/supabase_auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'more_screen_test_comprehensive.mocks.dart';
 
@@ -21,6 +22,17 @@ void main() {
   late MockSettingsService mockSettingsService;
   late MockBackgroundMusicService mockMusicService;
   late MockSupabaseAuthService mockAuthService;
+
+  // Mock PackageInfo for all tests
+  setUpAll(() {
+    PackageInfo.setMockInitialValues(
+      appName: 'GitaWisdom',
+      packageName: 'com.hub4apps.gitawisdom',
+      version: '2.2.8',
+      buildNumber: '21',
+      buildSignature: '',
+    );
+  });
 
   setUp(() {
     mockSettingsService = MockSettingsService();
@@ -55,16 +67,14 @@ void main() {
   group('MoreScreen Rendering Tests', () {
     testWidgets('screen renders without errors', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byType(MoreScreen), findsOneWidget);
     });
 
     testWidgets('displays app bar with title', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.text('More'), findsOneWidget);
@@ -80,16 +90,14 @@ void main() {
 
     testWidgets('displays app version', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('App Version'), findsOneWidget);
     });
 
     testWidgets('displays all main sections', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('APPEARANCE'), findsOneWidget);
       expect(find.text('CONTENT'), findsOneWidget);
@@ -101,8 +109,7 @@ void main() {
   group('Appearance Section Tests', () {
     testWidgets('displays dark mode toggle', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Dark Mode'), findsOneWidget);
       expect(find.byType(SwitchListTile), findsWidgets);
@@ -112,8 +119,7 @@ void main() {
       when(mockSettingsService.isDarkMode).thenReturn(true);
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final switchTile = tester.widget<SwitchListTile>(
         find.widgetWithText(SwitchListTile, 'Dark Mode'),
@@ -123,21 +129,18 @@ void main() {
 
     testWidgets('tapping dark mode toggle updates settings', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final darkModeSwitch = find.widgetWithText(SwitchListTile, 'Dark Mode');
       await tester.tap(darkModeSwitch);
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       verify(mockSettingsService.isDarkMode = true).called(1);
     });
 
     testWidgets('displays background music toggle', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Background Music'), findsOneWidget);
       expect(find.text('Enable ambient meditation music'), findsOneWidget);
@@ -147,8 +150,7 @@ void main() {
       when(mockMusicService.isEnabled).thenReturn(true);
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final switchTile = tester.widget<SwitchListTile>(
         find.widgetWithText(SwitchListTile, 'Background Music'),
@@ -158,8 +160,7 @@ void main() {
 
     testWidgets('displays font size dropdown', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Font Size'), findsOneWidget);
       expect(find.byType(DropdownButton<String>), findsOneWidget);
@@ -169,20 +170,17 @@ void main() {
       when(mockSettingsService.fontSize).thenReturn('large');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Large'), findsOneWidget);
     });
 
     testWidgets('font size dropdown has all options', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.byType(DropdownButton<String>));
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Small'), findsWidgets);
       expect(find.text('Medium'), findsWidgets);
@@ -191,16 +189,13 @@ void main() {
 
     testWidgets('changing font size updates settings', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.byType(DropdownButton<String>));
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Large').last);
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       verify(mockSettingsService.fontSize = 'large').called(1);
     });
@@ -209,8 +204,7 @@ void main() {
   group('Content Section Tests', () {
     testWidgets('displays search option', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Search'), findsOneWidget);
       expect(find.text('Find life situations and wisdom'), findsOneWidget);
@@ -219,15 +213,13 @@ void main() {
 
     testWidgets('search option is tappable', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final searchTile = find.widgetWithText(ListTile, 'Search');
       expect(searchTile, findsOneWidget);
 
       await tester.tap(searchTile);
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Verify navigation occurred
       expect(find.byType(MoreScreen), findsNothing);
@@ -237,8 +229,7 @@ void main() {
   group('Resources Section Tests', () {
     testWidgets('displays about option', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('About'), findsOneWidget);
       expect(find.byIcon(Icons.info_outline), findsOneWidget);
@@ -246,8 +237,7 @@ void main() {
 
     testWidgets('displays privacy policy option', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Privacy Policy'), findsOneWidget);
       expect(find.byIcon(Icons.privacy_tip_outlined), findsOneWidget);
@@ -255,8 +245,7 @@ void main() {
 
     testWidgets('displays terms of service option', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Terms of Service'), findsOneWidget);
       expect(find.byIcon(Icons.article_outlined), findsOneWidget);
@@ -264,8 +253,7 @@ void main() {
 
     testWidgets('resources have chevron indicators', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.chevron_right), findsWidgets);
     });
@@ -274,8 +262,7 @@ void main() {
   group('Extras Section Tests', () {
     testWidgets('displays share app option', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Share This App'), findsOneWidget);
       expect(find.byIcon(Icons.share), findsOneWidget);
@@ -283,8 +270,7 @@ void main() {
 
     testWidgets('displays app version', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('App Version'), findsOneWidget);
     });
@@ -295,8 +281,7 @@ void main() {
       when(mockAuthService.isAuthenticated).thenReturn(false);
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('ACCOUNT'), findsNothing);
     });
@@ -309,8 +294,7 @@ void main() {
       when(mockAuthService.userEmail).thenReturn('test@example.com');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('ACCOUNT'), findsOneWidget);
     });
@@ -321,8 +305,7 @@ void main() {
       when(mockAuthService.userEmail).thenReturn('john@example.com');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('John Doe'), findsOneWidget);
       expect(find.text('john@example.com'), findsOneWidget);
@@ -334,8 +317,7 @@ void main() {
       when(mockAuthService.userEmail).thenReturn('test@example.com');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byType(ExpansionTile), findsOneWidget);
     });
@@ -345,8 +327,7 @@ void main() {
       when(mockAuthService.displayName).thenReturn('Test User');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.account_circle), findsOneWidget);
     });
@@ -356,12 +337,10 @@ void main() {
       when(mockAuthService.displayName).thenReturn('Test User');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ExpansionTile));
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Sign Out'), findsOneWidget);
       expect(find.byIcon(Icons.logout), findsOneWidget);
@@ -383,8 +362,7 @@ void main() {
           ),
         ),
       );
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final context = tester.element(find.byType(MoreScreen));
       final theme = Theme.of(context);
@@ -405,8 +383,7 @@ void main() {
           ),
         ),
       );
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final context = tester.element(find.byType(MoreScreen));
       final theme = Theme.of(context);
@@ -417,7 +394,7 @@ void main() {
   group('Error Handling Tests', () {
     testWidgets('handles initialization error gracefully', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
     });
@@ -426,16 +403,14 @@ void main() {
       // This would require mocking PackageInfo to throw an error
       // For now, we verify the error UI structure exists
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byType(MoreScreen), findsOneWidget);
     });
 
     testWidgets('retry button works in error state', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
     });
@@ -444,8 +419,7 @@ void main() {
   group('Card Styling Tests', () {
     testWidgets('all setting cards have elevation', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final cards = tester.widgetList<Card>(find.byType(Card));
       for (final card in cards) {
@@ -455,8 +429,7 @@ void main() {
 
     testWidgets('cards have rounded corners', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final cards = tester.widgetList<Card>(find.byType(Card));
       for (final card in cards) {
@@ -466,8 +439,7 @@ void main() {
 
     testWidgets('cards have proper margins', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byType(Card), findsWidgets);
     });
@@ -476,8 +448,7 @@ void main() {
   group('Accessibility Tests', () {
     testWidgets('all interactive elements are tappable', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final listTiles = find.byType(ListTile);
       expect(listTiles, findsWidgets);
@@ -485,8 +456,7 @@ void main() {
 
     testWidgets('section headers have proper styling', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('APPEARANCE'), findsOneWidget);
       expect(find.text('CONTENT'), findsOneWidget);
@@ -494,8 +464,7 @@ void main() {
 
     testWidgets('icons have proper sizes', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byType(Icon), findsWidgets);
     });
@@ -504,28 +473,24 @@ void main() {
   group('Layout Tests', () {
     testWidgets('uses ListView for scrollable content', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byType(ListView), findsOneWidget);
     });
 
     testWidgets('content is scrollable', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.drag(find.byType(ListView), const Offset(0, -300));
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
     });
 
     testWidgets('sections have proper spacing', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final paddings = find.byType(Padding);
       expect(paddings, findsWidgets);
@@ -535,8 +500,7 @@ void main() {
   group('Settings Persistence Tests', () {
     testWidgets('dark mode changes persist', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final darkModeSwitch = find.widgetWithText(SwitchListTile, 'Dark Mode');
       await tester.tap(darkModeSwitch);
@@ -546,16 +510,13 @@ void main() {
 
     testWidgets('font size changes persist', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.byType(DropdownButton<String>));
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Large').last);
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       verify(mockSettingsService.fontSize = 'large').called(1);
     });
@@ -566,13 +527,11 @@ void main() {
       when(mockMusicService.setEnabled(any)).thenAnswer((_) async {});
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final musicSwitch = find.widgetWithText(SwitchListTile, 'Background Music');
       await tester.tap(musicSwitch);
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       verify(mockMusicService.setEnabled(any)).called(1);
     });
@@ -581,13 +540,11 @@ void main() {
       when(mockMusicService.setEnabled(any)).thenThrow(Exception('Audio error'));
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final musicSwitch = find.widgetWithText(SwitchListTile, 'Background Music');
       await tester.tap(musicSwitch);
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Should show snackbar with error
       expect(find.byType(SnackBar), findsWidgets);
@@ -597,8 +554,7 @@ void main() {
   group('Consumer Pattern Tests', () {
     testWidgets('uses Consumer for reactive updates', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byType(Consumer<BackgroundMusicService>), findsOneWidget);
       expect(find.byType(Consumer<SettingsService>), findsWidgets);
@@ -606,8 +562,7 @@ void main() {
 
     testWidgets('safe consumer provides fallback', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
     });
@@ -620,8 +575,7 @@ void main() {
       when(mockAuthService.userEmail).thenReturn(null);
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
     });
@@ -632,24 +586,21 @@ void main() {
       when(mockAuthService.userEmail).thenReturn('test@example.com');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('User'), findsOneWidget);
     });
 
     testWidgets('handles missing package info', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-    await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
     });
 
     testWidgets('handles rapid settings changes', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Toggle dark mode multiple times
       final darkModeSwitch = find.widgetWithText(SwitchListTile, 'Dark Mode');
@@ -663,16 +614,14 @@ void main() {
 
     testWidgets('rebuilds correctly when providers change', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Change mock values
       when(mockSettingsService.isDarkMode).thenReturn(true);
       when(mockSettingsService.fontSize).thenReturn('large');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
     });
@@ -681,8 +630,7 @@ void main() {
   group('Additional Coverage Tests', () {
     testWidgets('dividers separate list items', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final dividers = find.byType(Divider);
       expect(dividers, findsWidgets);
@@ -690,8 +638,7 @@ void main() {
 
     testWidgets('chevron icons indicate navigation', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final chevrons = find.byIcon(Icons.chevron_right);
       expect(chevrons, findsWidgets);
@@ -699,8 +646,7 @@ void main() {
 
     testWidgets('all cards have consistent styling', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final cards = tester.widgetList<Card>(find.byType(Card));
       for (final card in cards) {
@@ -711,8 +657,7 @@ void main() {
 
     testWidgets('section headers use consistent styling', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // All headers should be uppercase
       expect(find.text('APPEARANCE'), findsOneWidget);
@@ -726,8 +671,7 @@ void main() {
       when(mockAuthService.isAnonymous).thenReturn(true);
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Account section should not show for anonymous users
       expect(find.text('ACCOUNT'), findsNothing);
@@ -735,8 +679,7 @@ void main() {
 
     testWidgets('all list tiles have proper padding', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final listTiles = find.byType(ListTile);
       expect(listTiles, findsWidgets);
@@ -747,8 +690,7 @@ void main() {
       when(mockAuthService.displayName).thenReturn('Test User');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Sign Out should not be visible initially
       expect(find.text('Sign Out'), findsNothing);
@@ -759,20 +701,17 @@ void main() {
       when(mockAuthService.displayName).thenReturn('Test User');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Expand
       await tester.tap(find.byType(ExpansionTile));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Sign Out'), findsOneWidget);
 
       // Collapse
       await tester.tap(find.byType(ExpansionTile));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Sign Out'), findsNothing);
     });
@@ -782,16 +721,13 @@ void main() {
       when(mockAuthService.displayName).thenReturn('Test User');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ExpansionTile));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Sign Out'));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Cancel'), findsOneWidget);
     });
@@ -801,32 +737,27 @@ void main() {
       when(mockAuthService.displayName).thenReturn('Test User');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.byType(ExpansionTile));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Sign Out'));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Are you sure you want to sign out?'), findsOneWidget);
     });
 
     testWidgets('background music subtitle is descriptive', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Enable ambient meditation music'), findsOneWidget);
     });
 
     testWidgets('search subtitle is descriptive', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Find life situations and wisdom'), findsOneWidget);
     });
@@ -835,8 +766,7 @@ void main() {
       when(mockSettingsService.fontSize).thenReturn('medium');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Only Medium should be selected
       expect(find.text('Medium'), findsOneWidget);
@@ -844,8 +774,7 @@ void main() {
 
     testWidgets('background music switch has subtitle', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final musicSwitch = tester.widget<SwitchListTile>(
         find.widgetWithText(SwitchListTile, 'Background Music'),
@@ -855,8 +784,7 @@ void main() {
 
     testWidgets('dark mode switch has no subtitle', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final darkModeSwitch = tester.widget<SwitchListTile>(
         find.widgetWithText(SwitchListTile, 'Dark Mode'),
@@ -866,32 +794,27 @@ void main() {
 
     testWidgets('handles scroll to bottom', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.drag(find.byType(ListView), const Offset(0, -1000));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
     });
 
     testWidgets('handles scroll to top', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.drag(find.byType(ListView), const Offset(0, 1000));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
     });
 
     testWidgets('all sections render in correct order', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final appearancePos = tester.getTopLeft(find.text('APPEARANCE'));
       final contentPos = tester.getTopLeft(find.text('CONTENT'));
@@ -905,8 +828,7 @@ void main() {
 
     testWidgets('resources section has all expected items', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('About'), findsOneWidget);
       expect(find.text('Privacy Policy'), findsOneWidget);
@@ -915,8 +837,7 @@ void main() {
 
     testWidgets('extras section has all expected items', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Share This App'), findsOneWidget);
       expect(find.text('App Version'), findsOneWidget);
@@ -924,8 +845,7 @@ void main() {
 
     testWidgets('appearance section has all expected items', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Dark Mode'), findsOneWidget);
       expect(find.text('Background Music'), findsOneWidget);
@@ -934,16 +854,14 @@ void main() {
 
     testWidgets('content section has search item', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Search'), findsOneWidget);
     });
 
     testWidgets('handles multiple rapid taps on same tile', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final aboutTile = find.widgetWithText(ListTile, 'About');
       await tester.tap(aboutTile);
@@ -956,18 +874,15 @@ void main() {
 
     testWidgets('handles navigation back and forth', (WidgetTester tester) async {
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Navigate to About
       await tester.tap(find.widgetWithText(ListTile, 'About'));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       // Go back
       await tester.pageBack();
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byType(MoreScreen), findsOneWidget);
     });
@@ -976,8 +891,7 @@ void main() {
       when(mockSettingsService.isDarkMode).thenReturn(true);
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       final switchTile = tester.widget<SwitchListTile>(
         find.widgetWithText(SwitchListTile, 'Dark Mode'),
@@ -989,8 +903,7 @@ void main() {
       when(mockAuthService.isAuthenticated).thenReturn(false);
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('ACCOUNT'), findsNothing);
 
@@ -999,8 +912,7 @@ void main() {
       when(mockAuthService.userEmail).thenReturn('new@example.com');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('ACCOUNT'), findsOneWidget);
     });
@@ -1010,16 +922,14 @@ void main() {
       when(mockAuthService.displayName).thenReturn('Test User');
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('ACCOUNT'), findsOneWidget);
 
       when(mockAuthService.isAuthenticated).thenReturn(false);
 
       await tester.pumpWidget(createMoreScreen());
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('ACCOUNT'), findsNothing);
     });

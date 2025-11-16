@@ -20,19 +20,17 @@ void main() {
         chapterId: 2,
         verseId: 47,
         description: 'You have the right to perform your duties, but you are not entitled to the fruits of your actions.',
-        audio: null,
-        translation: 'Test translation',
       );
 
       testScenario = Scenario(
-        id: 1,
         title: 'Career vs Family Balance',
         description: 'Struggling to balance demanding career with family responsibilities',
         heartResponse: 'Heart guidance',
         dutyResponse: 'Duty guidance',
+        gitaWisdom: 'Follow your dharma',
         category: 'Relationships',
-        relatedChapters: '2,3',
-        relevanceScore: 95.0,
+        chapter: 2,
+        createdAt: DateTime.now(),
       );
     });
 
@@ -433,8 +431,6 @@ void main() {
         chapterId: 2,
         verseId: 47,
         description: 'This is a very long verse description that should be truncated when displayed in the preview card. ' * 10,
-        audio: null,
-        translation: 'Test',
       );
 
       await tester.pumpWidget(
@@ -454,14 +450,14 @@ void main() {
 
     testWidgets('scenario preview truncates long text', (tester) async {
       final longScenario = Scenario(
-        id: 1,
         title: 'Very Long Title ' * 20,
         description: 'Very Long Description ' * 20,
         heartResponse: 'Heart',
         dutyResponse: 'Duty',
+        gitaWisdom: 'Wisdom',
         category: 'Test',
-        relatedChapters: '2',
-        relevanceScore: 90.0,
+        chapter: 2,
+        createdAt: DateTime.now(),
       );
 
       await tester.pumpWidget(

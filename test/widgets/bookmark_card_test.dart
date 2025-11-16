@@ -228,7 +228,9 @@ void main() {
         ),
       );
 
-      await tester.tap(find.byType(InkWell));
+      // Use find.byType(BookmarkCard) and tap on it instead of finding InkWell
+      // (there are 2 InkWells: one for card, one for PopupMenuButton)
+      await tester.tap(find.byType(BookmarkCard));
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 100));
 
@@ -246,8 +248,7 @@ void main() {
 
       // Find and tap the more button
       await tester.tap(find.byIcon(Icons.more_vert));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Edit'), findsOneWidget);
       expect(find.text('Remove'), findsOneWidget);
@@ -270,12 +271,10 @@ void main() {
       );
 
       await tester.tap(find.byIcon(Icons.more_vert));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Edit'));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(editCalled, isTrue);
     });
@@ -297,18 +296,17 @@ void main() {
       );
 
       await tester.tap(find.byIcon(Icons.more_vert));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Remove'));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(removeCalled, isTrue);
     });
 
     testWidgets('hides notes section if notes are empty', (tester) async {
-      final noNotesBookmark = testBookmark.copyWith(notes: null);
+      // Create a bookmark with empty notes string (not null, as copyWith may not handle null properly)
+      final noNotesBookmark = testBookmark.copyWith(notes: '');
 
       await tester.pumpWidget(
         MaterialApp(
@@ -337,7 +335,8 @@ void main() {
     });
 
     testWidgets('hides content preview if empty', (tester) async {
-      final noPreviewBookmark = testBookmark.copyWith(contentPreview: null);
+      // Use empty string instead of null (copyWith may not handle null properly)
+      final noPreviewBookmark = testBookmark.copyWith(contentPreview: '');
 
       await tester.pumpWidget(
         MaterialApp(
@@ -583,8 +582,7 @@ void main() {
       );
 
       await tester.tap(find.byIcon(Icons.more_vert));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.edit), findsOneWidget);
     });
@@ -599,8 +597,7 @@ void main() {
       );
 
       await tester.tap(find.byIcon(Icons.more_vert));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.delete), findsOneWidget);
     });
@@ -645,8 +642,7 @@ void main() {
       );
 
       await tester.tap(find.byIcon(Icons.more_vert));
-      await tester.pump(const Duration(milliseconds: 100));
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
 
       expect(find.text('Edit'), findsOneWidget);
       expect(find.text('Remove'), findsOneWidget);
@@ -689,13 +685,11 @@ void main() {
 
       for (int i = 0; i < 3; i++) {
         await tester.tap(find.byIcon(Icons.more_vert));
-        await tester.pump(const Duration(milliseconds: 50));
-        await tester.pump(const Duration(milliseconds: 50));
+        await tester.pumpAndSettle();
 
         // Tap outside to close
         await tester.tapAt(const Offset(10, 10));
-        await tester.pump(const Duration(milliseconds: 50));
-        await tester.pump(const Duration(milliseconds: 50));
+        await tester.pumpAndSettle();
       }
 
       expect(find.byType(BookmarkCard), findsOneWidget);
@@ -772,7 +766,8 @@ void main() {
         ),
       );
 
-      expect(find.byType(InkWell), findsOneWidget);
+      // Widget has 2 InkWells: one for card tap, one inside PopupMenuButton
+      expect(find.byType(InkWell), findsNWidgets(2));
     });
 
     testWidgets('handles empty tags list', (tester) async {
