@@ -8,6 +8,28 @@
 
 ## 📝 Change Log
 
+### 2025-11-19 - Daily Features (Inspired by Top Bible Apps)
+- ✅ **Daily Verse of the Day** (Feature 1)
+  - Daily Gospel verse with devotional content
+  - Reflection prompts and video teaching support
+  - Sample data for 7 days
+- ✅ **Audio Bible / Read-Aloud** (Feature 2)
+  - Audio chapter support with playback tracking
+  - Offline download capability
+  - Resume progress functionality
+- ✅ **Highlights, Notes & Journaling** (Feature 5)
+  - Color-coded verse highlighting (5 colors)
+  - Personal notes on verses/scenarios
+  - Spiritual journal with mood tracking
+  - Prayer list with answered prayer tracking
+- ✅ **AI-Powered Personalization** (Feature 6)
+  - Mood-based verse recommendations
+  - Personalized daily content
+  - Reading streaks & achievements system
+  - User preference tracking
+- 📄 Migration: `supabase/migrations/102_add_daily_features.sql`
+- 📄 Documentation: `DAILY_FEATURES_GUIDE.md`
+
 ### 2025-11-19 - Performance & Review Agents + Scenario Migration
 - ✅ Created Scenario Migration Script
   - Gita → Gospel category mapping
