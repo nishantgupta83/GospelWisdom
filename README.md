@@ -1,4 +1,25 @@
-# GitaWisdom - Ancient Wisdom for Modern Life
+# GospelWisdom
+
+> **📌 Project Baseline**: This repository is based on the [gitawisdom2](https://github.com/nishantgupta83/gitawisdom2) codebase, which was successfully approved on the Apple App Store. The complete architecture, UI/UX patterns, and technical infrastructure have been cloned as a foundation for the GospelWisdom app.
+>
+> **🎯 Purpose**: Reusing the proven GitaWisdom architecture to create a Gospel-based spiritual guidance application while maintaining the same high-quality user experience and technical standards.
+
+---
+
+## 📝 Change Log
+
+### 2025-11-19 - Initial Setup
+- Cloned from gitawisdom2 (commit: f83ad26)
+- Created new GitHub repository: https://github.com/nishantgupta83/GospelWisdom
+- Disconnected from original repo (no connection to gitawisdom2)
+- Ready for Gospel-specific customization
+
+---
+
+# Original GitaWisdom Documentation
+*The documentation below describes the baseline architecture inherited from GitaWisdom*
+
+## 🎯 Original App Purpose
 
 A sophisticated Flutter application that bridges timeless spiritual wisdom from the Bhagavad Gita with contemporary life challenges, offering personalized guidance through real-world scenarios.
 
