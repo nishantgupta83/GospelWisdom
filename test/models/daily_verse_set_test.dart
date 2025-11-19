@@ -1,8 +1,8 @@
 // test/models/daily_verse_set_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/models/daily_verse_set.dart';
-import 'package:GitaWisdom/models/verse.dart';
+import 'package:GospelWisdom/models/daily_verse_set.dart';
+import 'package:GospelWisdom/models/verse.dart';
 
 void main() {
   group('DailyVerseSet Model', () {

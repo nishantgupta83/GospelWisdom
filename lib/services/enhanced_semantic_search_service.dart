@@ -367,7 +367,7 @@ class EnhancedSemanticSearchService {
       scenario.category,
       scenario.heartResponse ?? '',
       scenario.dutyResponse ?? '',
-      scenario.gitaWisdom ?? '',
+      scenario.gospelWisdom ?? '',
     ];
 
     return parts.join(' ').toLowerCase();
@@ -585,7 +585,7 @@ String _extractSearchableTextStatic(Scenario scenario) {
     scenario.category,
     scenario.heartResponse ?? '',
     scenario.dutyResponse ?? '',
-    scenario.gitaWisdom ?? '',
+    scenario.gospelWisdom ?? '',
   ];
 
   return parts.join(' ').toLowerCase();

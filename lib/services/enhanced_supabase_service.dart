@@ -657,7 +657,7 @@ class EnhancedSupabaseService {
           chapter: scenarioData['sc_chapter'] as int? ?? chapterId,
           heartResponse: scenarioData['sc_heart_response'] as String? ?? '',
           dutyResponse: scenarioData['sc_duty_response'] as String? ?? '',
-          gitaWisdom: scenarioData['sc_gita_wisdom'] as String? ?? '',
+          gospelWisdom: scenarioData['sc_gita_wisdom'] as String? ?? '',
           actionSteps: (scenarioData['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
           createdAt: DateTime.parse(scenarioData['created_at'] as String),
         );
@@ -717,7 +717,7 @@ class EnhancedSupabaseService {
           chapter: item['sc_chapter'] as int? ?? chapterId,
           heartResponse: item['sc_heart_response'] as String? ?? '',
           dutyResponse: item['sc_duty_response'] as String? ?? '',
-          gitaWisdom: item['sc_gita_wisdom'] as String? ?? '',
+          gospelWisdom: item['sc_gita_wisdom'] as String? ?? '',
           actionSteps: (item['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
           createdAt: DateTime.parse(item['created_at'] as String),
         );
@@ -761,7 +761,7 @@ class EnhancedSupabaseService {
         chapter: item['sc_chapter'] as int? ?? chapterId,
         heartResponse: item['sc_heart_response'] as String? ?? '',
         dutyResponse: item['sc_duty_response'] as String? ?? '',
-        gitaWisdom: item['sc_gita_wisdom'] as String? ?? '',
+        gospelWisdom: item['sc_gita_wisdom'] as String? ?? '',
         actionSteps: (item['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
         createdAt: DateTime.parse(item['created_at'] as String),
       )).toList();
@@ -832,7 +832,7 @@ class EnhancedSupabaseService {
           chapter: scenarioData['sc_chapter'] as int? ?? 1,
           heartResponse: scenarioData['sc_heart_response'] as String? ?? '',
           dutyResponse: scenarioData['sc_duty_response'] as String? ?? '',
-          gitaWisdom: scenarioData['sc_gita_wisdom'] as String? ?? '',
+          gospelWisdom: scenarioData['sc_gita_wisdom'] as String? ?? '',
           actionSteps: (scenarioData['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
           createdAt: DateTime.parse(scenarioData['created_at'] as String),
         );
@@ -878,7 +878,7 @@ class EnhancedSupabaseService {
         chapter: response['sc_chapter'] as int? ?? 1,
         heartResponse: response['sc_heart_response'] as String? ?? '',
         dutyResponse: response['sc_duty_response'] as String? ?? '',
-        gitaWisdom: response['sc_gita_wisdom'] as String? ?? '',
+        gospelWisdom: response['sc_gita_wisdom'] as String? ?? '',
         actionSteps: (response['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
         createdAt: DateTime.parse(response['created_at'] as String),
       );
@@ -932,7 +932,7 @@ class EnhancedSupabaseService {
           chapter: 1, // Would need to be fetched from scenarios table
           heartResponse: item['heart_response'] as String? ?? '',
           dutyResponse: item['duty_response'] as String? ?? '',
-          gitaWisdom: item['gita_wisdom'] as String? ?? '',
+          gospelWisdom: item['gita_wisdom'] as String? ?? '',
           verse: item['verse'] as String?,
           verseNumber: item['verse_number'] as String?,
           tags: (item['tags'] as List<dynamic>?)?.cast<String>(),
@@ -1000,7 +1000,7 @@ class EnhancedSupabaseService {
           chapter: scenarioData['sc_chapter'] as int? ?? 1,
           heartResponse: scenarioData['sc_heart_response'] as String? ?? '',
           dutyResponse: scenarioData['sc_duty_response'] as String? ?? '',
-          gitaWisdom: scenarioData['sc_gita_wisdom'] as String? ?? '',
+          gospelWisdom: scenarioData['sc_gita_wisdom'] as String? ?? '',
           actionSteps: (scenarioData['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
           createdAt: DateTime.parse(scenarioData['created_at'] as String),
         );
@@ -1049,7 +1049,7 @@ class EnhancedSupabaseService {
         chapter: item['sc_chapter'] as int? ?? 1,
         heartResponse: item['sc_heart_response'] as String? ?? '',
         dutyResponse: item['sc_duty_response'] as String? ?? '',
-        gitaWisdom: item['sc_gita_wisdom'] as String? ?? '',
+        gospelWisdom: item['sc_gita_wisdom'] as String? ?? '',
         actionSteps: (item['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
         createdAt: DateTime.parse(item['created_at'] as String),
       )).toList();
@@ -1308,7 +1308,7 @@ class EnhancedSupabaseService {
         chapter: item['sc_chapter'] as int? ?? 1,
         heartResponse: item['sc_heart_response'] as String? ?? '',
         dutyResponse: item['sc_duty_response'] as String? ?? '',
-        gitaWisdom: item['sc_gita_wisdom'] as String? ?? '',
+        gospelWisdom: item['sc_gita_wisdom'] as String? ?? '',
         actionSteps: (item['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
         createdAt: DateTime.parse(item['created_at'] as String),
       )).toList();

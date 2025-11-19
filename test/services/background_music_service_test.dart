@@ -3,8 +3,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:GitaWisdom/services/background_music_service.dart';
-import 'package:GitaWisdom/models/simple_meditation.dart';
+import 'package:GospelWisdom/services/background_music_service.dart';
+import 'package:GospelWisdom/models/simple_meditation.dart';
 import 'package:just_audio/just_audio.dart';
 import '../test_setup.dart';
 import 'background_music_service_test.mocks.dart';

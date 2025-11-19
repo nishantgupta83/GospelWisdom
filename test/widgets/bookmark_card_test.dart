@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/widgets/bookmark_card.dart';
-import 'package:GitaWisdom/models/bookmark.dart';
+import 'package:GospelWisdom/widgets/bookmark_card.dart';
+import 'package:GospelWisdom/models/bookmark.dart';
 
 import '../test_setup.dart';
 

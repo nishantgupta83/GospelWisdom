@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:GitaWisdom/services/settings_service.dart';
+import 'package:GospelWisdom/services/settings_service.dart';
 import '../test_setup.dart';
 
 void main() {

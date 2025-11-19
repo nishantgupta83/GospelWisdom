@@ -2,8 +2,8 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
-import 'package:GitaWisdom/services/search_service.dart';
-import 'package:GitaWisdom/models/search_result.dart';
+import 'package:GospelWisdom/services/search_service.dart';
+import 'package:GospelWisdom/models/search_result.dart';
 import '../test_setup.dart';
 
 void main() {

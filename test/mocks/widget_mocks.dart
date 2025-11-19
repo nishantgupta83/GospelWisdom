@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:mockito/mockito.dart';
-import 'package:GitaWisdom/services/settings_service.dart';
-import 'package:GitaWisdom/services/simple_auth_service.dart';
-import 'package:GitaWisdom/services/background_music_service.dart';
-import 'package:GitaWisdom/services/journal_service.dart';
-import 'package:GitaWisdom/services/bookmark_service.dart';
+import 'package:GospelWisdom/services/settings_service.dart';
+import 'package:GospelWisdom/services/simple_auth_service.dart';
+import 'package:GospelWisdom/services/background_music_service.dart';
+import 'package:GospelWisdom/services/journal_service.dart';
+import 'package:GospelWisdom/services/bookmark_service.dart';
 import 'service_mocks.dart';
 
 // ==================== Widget Test Helpers ====================

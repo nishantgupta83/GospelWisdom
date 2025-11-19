@@ -394,7 +394,7 @@ class _ScenarioDetailViewState extends State<ScenarioDetailView> {
                     if (!_showActions) _buildShowWisdomButton(theme),
                     
                     if (widget.scenario.tags?.isNotEmpty ?? false) _tagCard(theme),
-                    // TODO: Temporarily hidden - _card('Gita Wisdom', widget.scenario.gitaWisdom, theme),
+                    // TODO: Temporarily hidden - _card('Gita Wisdom', widget.scenario.gospelWisdom, theme),
                     if (_showActions) _actionStepsCard(theme),
                     
                     // Bottom padding for floating elements and bottom navigation bar

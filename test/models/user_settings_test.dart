@@ -1,7 +1,7 @@
 // test/models/user_settings_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/models/user_settings.dart';
+import 'package:GospelWisdom/models/user_settings.dart';
 
 void main() {
   group('FontSize Enum', () {

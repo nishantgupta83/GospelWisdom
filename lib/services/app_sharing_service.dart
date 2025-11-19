@@ -16,19 +16,19 @@ class AppSharingService {
   AppSharingService._internal();
   
   /// Store URLs
-  static const String _playStoreUrl = 'https://play.google.com/store/apps/details?id=com.hub4apps.gitawisdom';
+  static const String _playStoreUrl = 'https://play.google.com/store/apps/details?id=com.hub4apps.gospel';
   static const String _appStoreUrl = 'https://apps.apple.com'; // App Store search until published
 
   /// Fallback website URL
   static const String _websiteUrl = 'https://hub4apps.com';
 
   /// Development/testing URLs
-  static const String _devPlayStoreUrl = 'https://play.google.com/store/apps/details?id=com.hub4apps.gitawisdom';
+  static const String _devPlayStoreUrl = 'https://play.google.com/store/apps/details?id=com.hub4apps.gospel';
   static const String _devAppStoreUrl = 'https://apps.apple.com';
   
   /// App information
-  static const String _appName = 'GitaWisdom';
-  static const String _appDescription = 'Ancient wisdom for modern life - Experience the timeless teachings of the Bhagavad Gita applied to contemporary situations.';
+  static const String _appName = 'Gospel';
+  static const String _appDescription = 'Ancient wisdom for modern life - Experience the timeless teachings of the Gospel applied to contemporary situations.';
   
   /// Check if we're in a development/testing environment
   bool get _isDevelopment => kDebugMode;
@@ -51,7 +51,7 @@ class AppSharingService {
 
     try {
       await Share.share(
-        '$message\n\n📱 Download GitaWisdom:\n$storeLink',
+        '$message\n\n📱 Download Gospel:\n$storeLink',
       );
       debugPrint('📤 Shared app link');
     } catch (e) {
@@ -69,7 +69,7 @@ class AppSharingService {
     final message = '''
 $content
 
-Discover more wisdom with $_appName - $featureName and 18 Gita chapters with modern applications.
+Discover more wisdom with $_appName - $featureName and 18 Gospel chapters with modern applications.
 
 Download: $storeUrl''';
 
@@ -130,10 +130,10 @@ Download: $storeUrl''';
     await shareFeature('Heart vs Duty Guidance', message);
   }
   
-  /// Share a Gita verse
+  /// Share a Gospel verse
   Future<void> shareVerse(String verseText, String chapter, String verseNumber) async {
     final message = '''
-📜 Daily Guidance from Bhagavad Gita
+📜 Daily Guidance from Gospel
 
 Chapter $chapter, Verse $verseNumber:
 "$verseText"
@@ -189,7 +189,7 @@ Find daily inspiration and 700+ verses with $_appName.''';
 
   /// Share scenario to WhatsApp with formatted message
   Future<bool> shareScenarioToWhatsApp(String scenarioTitle, String heartResponse, String dutyResponse, String wisdom, {List<String>? actionSteps}) async {
-    String message = '''🎭 *GitaWisdom Daily Dilemma*
+    String message = '''🎭 *Gospel Daily Dilemma*
 
 *Situation:* $scenarioTitle
 
@@ -207,7 +207,7 @@ Find daily inspiration and 700+ verses with $_appName.''';
       }
     }
 
-    message += '\n\n✨ _Find more wisdom for modern life with GitaWisdom app_';
+    message += '\n\n✨ _Find more wisdom for modern life with Gospel app_';
     message += '\n${_getStoreUrl()}';
 
     return await shareToWhatsApp(message);
@@ -215,7 +215,7 @@ Find daily inspiration and 700+ verses with $_appName.''';
 
   /// Share verse to WhatsApp with formatted message
   Future<bool> shareVerseToWhatsApp(String verseText, String chapter, String verseNumber, {String? translation}) async {
-    String message = '''📜 *Daily Wisdom from Bhagavad Gita*
+    String message = '''📜 *Daily Wisdom from Gospel*
 
 *Chapter $chapter, Verse $verseNumber:*
 "$verseText"''';
@@ -224,7 +224,7 @@ Find daily inspiration and 700+ verses with $_appName.''';
       message += '\n\n*Meaning:* $translation';
     }
 
-    message += '\n\n✨ _Get daily inspiration with 700+ verses on GitaWisdom_';
+    message += '\n\n✨ _Get daily inspiration with 700+ verses on Gospel_';
     message += '\n${_getStoreUrl()}';
 
     return await shareToWhatsApp(message);
@@ -232,13 +232,13 @@ Find daily inspiration and 700+ verses with $_appName.''';
 
   /// Share chapter summary to WhatsApp
   Future<bool> shareChapterToWhatsApp(String chapterTitle, String summary, int chapterNumber) async {
-    String message = '''📖 *Bhagavad Gita Chapter $chapterNumber*
+    String message = '''📖 *Gospel Chapter $chapterNumber*
 
 *$chapterTitle*
 
 $summary
 
-✨ _Explore all 18 chapters with modern applications on GitaWisdom_
+✨ _Explore all 18 chapters with modern applications on Gospel_
 ${_getStoreUrl()}''';
 
     return await shareToWhatsApp(message);
@@ -295,7 +295,7 @@ $_appDescription
 
 ✨ Features:
 • Heart vs Duty guidance for real-life dilemmas
-• 18 complete Gita chapters with modern applications
+• 18 complete Gospel chapters with modern applications
 • Daily verses for inspiration''';
   }
   

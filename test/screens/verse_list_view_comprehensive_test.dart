@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/screens/verse_list_view.dart';
-import 'package:GitaWisdom/models/verse.dart';
-import 'package:GitaWisdom/models/chapter.dart';
+import 'package:GospelWisdom/screens/verse_list_view.dart';
+import 'package:GospelWisdom/models/verse.dart';
+import 'package:GospelWisdom/models/chapter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../test_setup.dart';

@@ -2,8 +2,8 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/services/app_lifecycle_manager.dart';
-import 'package:GitaWisdom/services/background_music_service.dart';
+import 'package:GospelWisdom/services/app_lifecycle_manager.dart';
+import 'package:GospelWisdom/services/background_music_service.dart';
 import '../test_setup.dart';
 
 void main() {

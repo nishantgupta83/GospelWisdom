@@ -1,7 +1,7 @@
 // test/models/scenario_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/models/scenario.dart';
+import 'package:GospelWisdom/models/scenario.dart';
 
 void main() {
   group('Scenario Model', () {

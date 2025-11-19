@@ -97,7 +97,7 @@ abstract class AppLocalizations {
   /// The title of the application
   ///
   /// In en, this message translates to:
-  /// **'GitaWisdom'**
+  /// **'Gospel'**
   String get appTitle;
 
   /// Home tab label in bottom navigation
@@ -163,8 +163,8 @@ abstract class AppLocalizations {
   /// Subtitle text describing app purpose
   ///
   /// In en, this message translates to:
-  /// **'Win Daily Battle of life choices by bite sized guidance'**
-  String get applyGitaTeaching;
+  /// **'Win Daily Battle of life choices by bite sized Gospel guidance'**
+  String get applyGospelTeaching;
 
   /// Button text to view all dilemmas with count
   ///
@@ -376,11 +376,11 @@ abstract class AppLocalizations {
   /// **'Italiano'**
   String get italian;
 
-  /// Header title for chapters screen
+  /// Main title for Gospel books screen
   ///
   /// In en, this message translates to:
-  /// **'GITA CHAPTERS'**
-  String get gitaChapters;
+  /// **'GOSPEL BOOKS'**
+  String get gospelBooks;
 
   /// Subtitle for chapters screen
   ///
@@ -415,7 +415,7 @@ abstract class AppLocalizations {
   /// Subtitle for dilemmas screen
   ///
   /// In en, this message translates to:
-  /// **'Real-world dilemmas guided by Gita wisdom'**
+  /// **'Real-world dilemmas guided by Gospel wisdom'**
   String get realWorldSituations;
 
   /// Search hint text for dilemmas
@@ -445,8 +445,8 @@ abstract class AppLocalizations {
   /// Title for About screen
   ///
   /// In en, this message translates to:
-  /// **'About GitaWisdom'**
-  String get aboutGitaWisdom;
+  /// **'About Gospel'**
+  String get aboutGospel;
 
   /// Dedication message in About screen
   ///
@@ -457,25 +457,25 @@ abstract class AppLocalizations {
   /// App description in About screen
   ///
   /// In en, this message translates to:
-  /// **'A bite-size guide to the Bhagavad Gita, offering chapters, situations, and reflections—now with custom themes, language support, and more.'**
+  /// **'A bite-size guide to the Gospel, offering books, situations, and reflections—now with custom themes, language support, and more.'**
   String get aboutDescription;
 
-  /// Famous Gita quote in About screen
+  /// Famous Gospel verse in About screen
   ///
   /// In en, this message translates to:
-  /// **'\"You have the right to perform your actions, but you are not entitled to the fruits of action.\"'**
-  String get gitaQuote;
+  /// **'\"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.\"'**
+  String get gospelQuote;
 
-  /// Reference for the Gita quote
+  /// Reference for the Gospel verse
   ///
   /// In en, this message translates to:
-  /// **'- Bhagavad Gita 2.47'**
-  String get gitaQuoteReference;
+  /// **'- John 3:16'**
+  String get gospelQuoteReference;
 
   /// App version display
   ///
   /// In en, this message translates to:
-  /// **'GitaWisdom v2.2.8'**
+  /// **'Gospel v1.0.96'**
   String get appVersion;
 
   /// Title for References screen
@@ -487,13 +487,13 @@ abstract class AppLocalizations {
   /// First reference source
   ///
   /// In en, this message translates to:
-  /// **'* Bhagavad-gītā As It Is (A. C. Bhaktivedanta Swami Prabhupāda)'**
+  /// **'* The Holy Bible (NIV, KJV, ESV translations)'**
   String get reference1;
 
   /// Second reference source
   ///
   /// In en, this message translates to:
-  /// **'* The Bhagavad Gita: A New Translation (Stephen Mitchell)'**
+  /// **'* Bible.org API, ESV API (Gospel text sources)'**
   String get reference2;
 
   /// Third reference source
@@ -574,6 +574,12 @@ abstract class AppLocalizations {
   /// **'Overview'**
   String get overview;
 
+  /// Header title for Gospel books screen
+  ///
+  /// In en, this message translates to:
+  /// **'GOSPEL BOOKS'**
+  String get gospelBooksHeader;
+
   /// Subtitle for chapters screen
   ///
   /// In en, this message translates to:
@@ -590,7 +596,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Get clarity for your Dilemmas'**
-  String get applyGitaWisdom;
+  String get applyGospelWisdom;
 
   /// Back button tooltip
   ///
@@ -769,7 +775,7 @@ abstract class AppLocalizations {
   /// Subtitle for chapter-specific dilemmas
   ///
   /// In en, this message translates to:
-  /// **'Dilemmas from Bhagavad Gita Chapter {chapter}'**
+  /// **'Dilemmas from Gospel of {chapter}'**
   String chapterScenariosSubtitle(int chapter);
 
   /// Filter status message for chapter dilemmas
@@ -829,7 +835,7 @@ abstract class AppLocalizations {
   /// Explanation tooltip for the Duty Says section
   ///
   /// In en, this message translates to:
-  /// **'What your sense of duty or dharma recommends'**
+  /// **'What your sense of duty or righteousness recommends'**
   String get dutySaysExplanation;
 }
 

@@ -2,9 +2,9 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:GitaWisdom/core/theme/theme_provider.dart';
-import 'package:GitaWisdom/core/app_config.dart';
-import 'package:GitaWisdom/services/settings_service.dart';
+import 'package:GospelWisdom/core/theme/theme_provider.dart';
+import 'package:GospelWisdom/core/app_config.dart';
+import 'package:GospelWisdom/services/settings_service.dart';
 import '../../test_setup.dart';
 
 void main() {

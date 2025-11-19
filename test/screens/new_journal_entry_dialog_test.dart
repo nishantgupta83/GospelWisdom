@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/screens/new_journal_entry_dialog.dart';
-import 'package:GitaWisdom/models/journal_entry.dart';
-import 'package:GitaWisdom/l10n/app_localizations.dart';
+import 'package:GospelWisdom/screens/new_journal_entry_dialog.dart';
+import 'package:GospelWisdom/models/journal_entry.dart';
+import 'package:GospelWisdom/l10n/app_localizations.dart';
 import '../test_setup.dart';
 
 void main() {

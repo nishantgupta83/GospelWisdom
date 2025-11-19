@@ -1,7 +1,7 @@
 // test/models/bookmark_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/models/bookmark.dart';
+import 'package:GospelWisdom/models/bookmark.dart';
 
 void main() {
   group('BookmarkType Enum', () {

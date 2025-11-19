@@ -5,11 +5,11 @@ import 'package:hive/hive.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:GitaWisdom/services/bookmark_service.dart';
-import 'package:GitaWisdom/models/verse.dart';
-import 'package:GitaWisdom/models/scenario.dart';
-import 'package:GitaWisdom/models/chapter.dart';
-import 'package:GitaWisdom/models/bookmark.dart';
+import 'package:GospelWisdom/services/bookmark_service.dart';
+import 'package:GospelWisdom/models/verse.dart';
+import 'package:GospelWisdom/models/scenario.dart';
+import 'package:GospelWisdom/models/chapter.dart';
+import 'package:GospelWisdom/models/bookmark.dart';
 import '../test_setup.dart';
 
 @GenerateMocks([SupabaseClient, SupabaseQueryBuilder, PostgrestFilterBuilder])

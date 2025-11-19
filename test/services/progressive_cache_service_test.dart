@@ -1,8 +1,8 @@
 // test/services/progressive_cache_service_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/services/progressive_cache_service.dart';
-import 'package:GitaWisdom/models/scenario.dart';
+import 'package:GospelWisdom/services/progressive_cache_service.dart';
+import 'package:GospelWisdom/models/scenario.dart';
 import '../test_setup.dart';
 
 void main() {

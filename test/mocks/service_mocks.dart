@@ -6,13 +6,13 @@ import 'package:mockito/mockito.dart';
 import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:audio_session/audio_session.dart';
-import 'package:GitaWisdom/models/journal_entry.dart';
-import 'package:GitaWisdom/models/bookmark.dart';
-import 'package:GitaWisdom/models/scenario.dart';
-import 'package:GitaWisdom/models/chapter.dart';
-import 'package:GitaWisdom/models/verse.dart';
-import 'package:GitaWisdom/models/simple_meditation.dart';
-import 'package:GitaWisdom/models/search_result.dart';
+import 'package:GospelWisdom/models/journal_entry.dart';
+import 'package:GospelWisdom/models/bookmark.dart';
+import 'package:GospelWisdom/models/scenario.dart';
+import 'package:GospelWisdom/models/chapter.dart';
+import 'package:GospelWisdom/models/verse.dart';
+import 'package:GospelWisdom/models/simple_meditation.dart';
+import 'package:GospelWisdom/models/search_result.dart';
 
 // ==================== Hive Mocks ====================
 

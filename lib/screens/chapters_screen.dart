@@ -137,7 +137,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        AppLocalizations.of(context)!.gitaChapters,
+                                        AppLocalizations.of(context)!.gospelBooks,
                                         style: GoogleFonts.poiretOne(
                                           fontSize: textScaler.scale(30),
                                           fontWeight: FontWeight.w800,

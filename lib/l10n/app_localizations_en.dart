@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'GitaWisdom';
+  String get appTitle => 'Gospel';
 
   @override
   String get homeTab => 'Home';
@@ -42,8 +42,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get showWisdom => 'Show Wisdom';
 
   @override
-  String get applyGitaTeaching =>
-      'Win Daily Battle of life choices by bite sized guidance';
+  String get applyGospelTeaching =>
+      'Win Daily Battle of life choices by bite sized Gospel guidance';
 
   @override
   String viewScenarios(int count) {
@@ -157,7 +157,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get italian => 'Italiano';
 
   @override
-  String get gitaChapters => 'GITA CHAPTERS';
+  String get gospelBooks => 'GOSPEL BOOKS';
 
   @override
   String get immerseInKnowledge => 'Immerse into the ocean of knowledge';
@@ -175,7 +175,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scenarios => 'DILEMMAS';
 
   @override
-  String get realWorldSituations => 'Real-world dilemmas guided by Gita wisdom';
+  String get realWorldSituations =>
+      'Real-world dilemmas guided by Gospel wisdom';
 
   @override
   String get searchScenarios => 'Search dilemmas by title or description...';
@@ -190,35 +191,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToRefresh => 'Failed to refresh dilemmas';
 
   @override
-  String get aboutGitaWisdom => 'About GitaWisdom';
+  String get aboutGospel => 'About Gospel';
 
   @override
   String get madeWithLove => 'Made with ❤️ for spiritual seekers everywhere';
 
   @override
   String get aboutDescription =>
-      'A bite-size guide to the Bhagavad Gita, offering chapters, situations, and reflections—now with custom themes, language support, and more.';
+      'A bite-size guide to the Gospel, offering books, situations, and reflections—now with custom themes, language support, and more.';
 
   @override
-  String get gitaQuote =>
-      '\"You have the right to perform your actions, but you are not entitled to the fruits of action.\"';
+  String get gospelQuote =>
+      '\"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.\"';
 
   @override
-  String get gitaQuoteReference => '- Bhagavad Gita 2.47';
+  String get gospelQuoteReference => '- John 3:16';
 
   @override
-  String get appVersion => 'GitaWisdom v2.2.8';
+  String get appVersion => 'Gospel v1.0.96';
 
   @override
   String get referencesTitle => 'References';
 
   @override
-  String get reference1 =>
-      '* Bhagavad-gītā As It Is (A. C. Bhaktivedanta Swami Prabhupāda)';
+  String get reference1 => '* The Holy Bible (NIV, KJV, ESV translations)';
 
   @override
-  String get reference2 =>
-      '* The Bhagavad Gita: A New Translation (Stephen Mitchell)';
+  String get reference2 => '* Bible.org API, ESV API (Gospel text sources)';
 
   @override
   String get reference3 => '• Other academic and traditional commentaries';
@@ -261,13 +260,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get overview => 'Overview';
 
   @override
+  String get gospelBooksHeader => 'GOSPEL BOOKS';
+
+  @override
   String get immersiveKnowledge => 'Explore Scripture, Word for Word';
 
   @override
   String get lifeScenarios => 'LIFE\'S DILEMMA';
 
   @override
-  String get applyGitaWisdom => 'Get clarity for your Dilemmas';
+  String get applyGospelWisdom => 'Get clarity for your Dilemmas';
 
   @override
   String get back => 'Back';
@@ -365,7 +367,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String chapterScenariosSubtitle(int chapter) {
-    return 'Dilemmas from Bhagavad Gita Chapter $chapter';
+    return 'Dilemmas from Gospel of $chapter';
   }
 
   @override
@@ -404,5 +406,5 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dutySaysExplanation =>
-      'What your sense of duty or dharma recommends';
+      'What your sense of duty or righteousness recommends';
 }

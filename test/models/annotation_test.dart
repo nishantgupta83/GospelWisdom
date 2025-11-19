@@ -1,7 +1,7 @@
 // test/models/annotation_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/models/annotation.dart';
+import 'package:GospelWisdom/models/annotation.dart';
 
 void main() {
   group('Annotation Constructor', () {

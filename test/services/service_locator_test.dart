@@ -1,9 +1,9 @@
 // test/services/service_locator_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/services/service_locator.dart';
-import 'package:GitaWisdom/services/enhanced_supabase_service.dart';
-import 'package:GitaWisdom/services/supabase_auth_service.dart';
+import 'package:GospelWisdom/services/service_locator.dart';
+import 'package:GospelWisdom/services/enhanced_supabase_service.dart';
+import 'package:GospelWisdom/services/supabase_auth_service.dart';
 import '../test_setup.dart';
 
 void main() {

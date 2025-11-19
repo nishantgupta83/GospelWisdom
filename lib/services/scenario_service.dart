@@ -186,7 +186,7 @@ class ScenarioService {
     if (s.tags?.any((tag) => tag.toLowerCase().contains(term)) ?? false) return true;
     
     // Search in Gita wisdom content
-    if (s.gitaWisdom.toLowerCase().contains(term)) return true;
+    if (s.gospelWisdom.toLowerCase().contains(term)) return true;
     
     // Search in heart/duty responses
     if (s.heartResponse.toLowerCase().contains(term)) return true;
@@ -663,7 +663,7 @@ class ScenarioService {
     score += tagScore * 10;
     
     // Content matches (lower priority)
-    if (scenario.gitaWisdom.toLowerCase().contains(query)) score += 5;
+    if (scenario.gospelWisdom.toLowerCase().contains(query)) score += 5;
     if (scenario.heartResponse.toLowerCase().contains(query)) score += 3;
     if (scenario.dutyResponse.toLowerCase().contains(query)) score += 3;
     

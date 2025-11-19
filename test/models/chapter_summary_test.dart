@@ -1,7 +1,7 @@
 // test/models/chapter_summary_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/models/chapter_summary.dart';
+import 'package:GospelWisdom/models/chapter_summary.dart';
 
 void main() {
   group('ChapterSummary Model', () {

@@ -1,7 +1,7 @@
 // test/models/search_result_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/models/search_result.dart';
+import 'package:GospelWisdom/models/search_result.dart';
 
 void main() {
   group('SearchType Enum', () {

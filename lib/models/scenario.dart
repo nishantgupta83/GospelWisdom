@@ -25,7 +25,7 @@ class Scenario extends HiveObject {
   final String dutyResponse;    // sc_duty_response
   
   @HiveField(6)
-  final String gitaWisdom;      // sc_gita_wisdom
+  final String gospelWisdom;    // sc_gospel_wisdom
   
   @HiveField(7)
   final String? verse;          // sc_verse
@@ -49,7 +49,7 @@ class Scenario extends HiveObject {
     required this.chapter,
     required this.heartResponse,
     required this.dutyResponse,
-    required this.gitaWisdom,
+    required this.gospelWisdom,
     this.verse,
     this.verseNumber,
     this.tags,
@@ -65,7 +65,7 @@ class Scenario extends HiveObject {
       chapter: json['sc_chapter'] as int,
       heartResponse: json['sc_heart_response'] as String,
       dutyResponse: json['sc_duty_response'] as String,
-      gitaWisdom: json['sc_gita_wisdom'] as String,
+      gospelWisdom: json['sc_gospel_wisdom'] as String,
       verse: json['sc_verse'] as String?,
       verseNumber: json['sc_verse_number'] as String?,
       tags: (json['sc_tags'] as List<dynamic>?)
@@ -85,7 +85,7 @@ class Scenario extends HiveObject {
         'sc_chapter': chapter,
         'sc_heart_response': heartResponse,
         'sc_duty_response': dutyResponse,
-        'sc_gita_wisdom': gitaWisdom,
+        'sc_gospel_wisdom': gospelWisdom,
         'sc_verse': verse,
         'sc_verse_number': verseNumber,
         'sc_tags': tags,
@@ -108,7 +108,7 @@ extension ScenarioMultilingualExtensions on Scenario {
       chapter: json['sc_chapter'] as int,
       heartResponse: json['sc_heart_response'] as String,
       dutyResponse: json['sc_duty_response'] as String,
-      gitaWisdom: json['sc_gita_wisdom'] as String,
+      gospelWisdom: json['sc_gospel_wisdom'] as String,
       verse: json['sc_verse'] as String?,
       verseNumber: json['sc_verse_number'] as String?,
       tags: (json['sc_tags'] as List<dynamic>?)
@@ -131,7 +131,7 @@ extension ScenarioMultilingualExtensions on Scenario {
       'category': category,
       'heart_response': heartResponse,
       'duty_response': dutyResponse,
-      'gita_wisdom': gitaWisdom,
+      'gospel_wisdom': gospelWisdom,
       'verse': verse,
       'verse_number': verseNumber,
       'tags': tags,
@@ -149,7 +149,7 @@ extension ScenarioMultilingualExtensions on Scenario {
       chapter: chapterId, // Not stored in translations table
       heartResponse: json['heart_response'] as String,
       dutyResponse: json['duty_response'] as String,
-      gitaWisdom: json['gita_wisdom'] as String,
+      gospelWisdom: json['gospel_wisdom'] as String,
       verse: json['verse'] as String?,
       verseNumber: json['verse_number'] as String?,
       tags: (json['tags'] as List<dynamic>?)
@@ -165,10 +165,10 @@ extension ScenarioMultilingualExtensions on Scenario {
   /// Returns true if this scenario has complete translation data
   bool get hasTranslationData => 
       title.isNotEmpty && 
-      description.isNotEmpty && 
+      description.isNotEmpty &&
       heartResponse.isNotEmpty &&
       dutyResponse.isNotEmpty &&
-      gitaWisdom.isNotEmpty;
+      gospelWisdom.isNotEmpty;
 
   /// Creates a copy with updated translation fields
   Scenario withTranslation({
@@ -177,7 +177,7 @@ extension ScenarioMultilingualExtensions on Scenario {
     String? category,
     String? heartResponse,
     String? dutyResponse,
-    String? gitaWisdom,
+    String? gospelWisdom,
     String? verse,
     String? verseNumber,
     List<String>? tags,
@@ -190,7 +190,7 @@ extension ScenarioMultilingualExtensions on Scenario {
       chapter: chapter,
       heartResponse: heartResponse ?? this.heartResponse,
       dutyResponse: dutyResponse ?? this.dutyResponse,
-      gitaWisdom: gitaWisdom ?? this.gitaWisdom,
+      gospelWisdom: gospelWisdom ?? this.gospelWisdom,
       verse: verse ?? this.verse,
       verseNumber: verseNumber ?? this.verseNumber,
       tags: tags ?? this.tags,
@@ -206,7 +206,7 @@ extension ScenarioMultilingualExtensions on Scenario {
     'category': category.isNotEmpty,
     'heart_response': heartResponse.isNotEmpty,
     'duty_response': dutyResponse.isNotEmpty,
-    'gita_wisdom': gitaWisdom.isNotEmpty,
+    'gospel_wisdom': gospelWisdom.isNotEmpty,
     'verse': verse?.isNotEmpty ?? false,
     'verse_number': verseNumber?.isNotEmpty ?? false,
     'tags': tags?.isNotEmpty ?? false,

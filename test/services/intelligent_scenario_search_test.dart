@@ -1,10 +1,10 @@
 // test/services/intelligent_scenario_search_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/services/intelligent_scenario_search.dart';
-import 'package:GitaWisdom/services/keyword_search_service.dart';
-import 'package:GitaWisdom/services/enhanced_semantic_search_service.dart';
-import 'package:GitaWisdom/models/scenario.dart';
+import 'package:GospelWisdom/services/intelligent_scenario_search.dart';
+import 'package:GospelWisdom/services/keyword_search_service.dart';
+import 'package:GospelWisdom/services/enhanced_semantic_search_service.dart';
+import 'package:GospelWisdom/models/scenario.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import '../test_setup.dart';

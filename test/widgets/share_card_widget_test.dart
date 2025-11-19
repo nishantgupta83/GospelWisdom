@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/widgets/share_card_widget.dart';
-import 'package:GitaWisdom/models/verse.dart';
-import 'package:GitaWisdom/models/scenario.dart';
+import 'package:GospelWisdom/widgets/share_card_widget.dart';
+import 'package:GospelWisdom/models/verse.dart';
+import 'package:GospelWisdom/models/scenario.dart';
 
 import '../test_setup.dart';
 

@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:GitaWisdom/screens/modern_auth_screen.dart';
-import 'package:GitaWisdom/services/supabase_auth_service.dart';
+import 'package:GospelWisdom/screens/modern_auth_screen.dart';
+import 'package:GospelWisdom/services/supabase_auth_service.dart';
 import '../test_setup.dart';
 
 class MockSupabaseAuthService extends ChangeNotifier implements SupabaseAuthService {

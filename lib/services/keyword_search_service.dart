@@ -148,7 +148,7 @@ class KeywordSearchService {
       scenario.category,
       scenario.heartResponse,
       scenario.dutyResponse,
-      scenario.gitaWisdom,
+      scenario.gospelWisdom,
       if (scenario.tags != null) scenario.tags!.join(' '),
       if (scenario.actionSteps != null) scenario.actionSteps!.join(' '),
     ];

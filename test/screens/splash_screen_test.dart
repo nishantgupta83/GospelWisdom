@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/screens/splash_screen.dart';
-import 'package:GitaWisdom/core/app_config.dart';
+import 'package:GospelWisdom/screens/splash_screen.dart';
+import 'package:GospelWisdom/core/app_config.dart';
 import '../test_setup.dart';
 
 void main() {

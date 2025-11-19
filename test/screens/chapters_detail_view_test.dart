@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:GitaWisdom/screens/chapters_detail_view.dart';
-import 'package:GitaWisdom/models/chapter.dart';
-import 'package:GitaWisdom/models/scenario.dart';
-import 'package:GitaWisdom/models/verse.dart';
-import 'package:GitaWisdom/services/enhanced_supabase_service.dart';
-import 'package:GitaWisdom/l10n/app_localizations.dart';
+import 'package:GospelWisdom/screens/chapters_detail_view.dart';
+import 'package:GospelWisdom/models/chapter.dart';
+import 'package:GospelWisdom/models/scenario.dart';
+import 'package:GospelWisdom/models/verse.dart';
+import 'package:GospelWisdom/services/enhanced_supabase_service.dart';
+import 'package:GospelWisdom/l10n/app_localizations.dart';
 import '../test_setup.dart';
 
 @GenerateMocks([EnhancedSupabaseService])

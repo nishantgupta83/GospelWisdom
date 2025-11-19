@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/core/responsive/responsive_helper.dart';
+import 'package:GospelWisdom/core/responsive/responsive_helper.dart';
 
 void main() {
   group('ResponsiveHelper', () {

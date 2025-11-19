@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.hub4apps.gitawisdom"
+    namespace = "com.hub4apps.gospel"
     compileSdk = 36  // Required by plugins (app_links, path_provider, etc) - backward compatible
    // ndkVersion = flutter.ndkVersion
     ndkVersion = "28.0.12674087"  // Updated for API 35 compatibility
@@ -66,7 +66,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.hub4apps.gitawisdom"
+        applicationId = "com.hub4apps.gospel"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
 

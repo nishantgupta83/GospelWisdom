@@ -2,7 +2,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
-import 'package:GitaWisdom/services/analytics_service.dart';
+import 'package:GospelWisdom/services/analytics_service.dart';
 import '../test_setup.dart';
 
 void main() {

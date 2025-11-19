@@ -2,7 +2,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:GitaWisdom/services/cache_service.dart';
+import 'package:GospelWisdom/services/cache_service.dart';
 import '../test_setup.dart';
 
 @GenerateMocks([])

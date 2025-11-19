@@ -3,9 +3,9 @@
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:GitaWisdom/services/share_card_service.dart';
-import 'package:GitaWisdom/models/verse.dart';
-import 'package:GitaWisdom/models/scenario.dart';
+import 'package:GospelWisdom/services/share_card_service.dart';
+import 'package:GospelWisdom/models/verse.dart';
+import 'package:GospelWisdom/models/scenario.dart';
 import '../test_setup.dart';
 
 @GenerateMocks([])

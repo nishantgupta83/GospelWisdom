@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:GitaWisdom/services/supabase_auth_service.dart';
+import 'package:GospelWisdom/services/supabase_auth_service.dart';
 import '../test_setup.dart';
 import '../mocks/auth_mocks.dart';
 

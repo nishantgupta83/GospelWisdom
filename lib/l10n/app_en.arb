@@ -1,7 +1,7 @@
 {
   "@@locale": "en",
   
-  "appTitle": "GitaWisdom",
+  "appTitle": "Gospel",
   "@appTitle": {
     "description": "The title of the application"
   },
@@ -56,8 +56,8 @@
     "description": "Button text to view scenario wisdom"
   },
   
-  "applyGitaTeaching": "Win Daily Battle of life choices by bite sized guidance",
-  "@applyGitaTeaching": {
+  "applyGospelTeaching": "Win Daily Battle of life choices by bite sized Gospel guidance",
+  "@applyGospelTeaching": {
     "description": "Subtitle text describing app purpose"
   },
   
@@ -254,9 +254,9 @@
     "description": "Italian language option"
   },
 
-  "gitaChapters": "GITA CHAPTERS",
-  "@gitaChapters": {
-    "description": "Main title for chapters screen"
+  "gospelBooks": "GOSPEL BOOKS",
+  "@gospelBooks": {
+    "description": "Main title for Gospel books screen"
   },
 
   "immerseInKnowledge": "Immerse into the ocean of knowledge",
@@ -284,7 +284,7 @@
     "description": "Main title for dilemmas screen"
   },
 
-  "realWorldSituations": "Real-world dilemmas guided by Gita wisdom",
+  "realWorldSituations": "Real-world dilemmas guided by Gospel wisdom",
   "@realWorldSituations": {
     "description": "Subtitle for dilemmas screen"
   },
@@ -309,8 +309,8 @@
     "description": "Error message when refresh fails"
   },
 
-  "aboutGitaWisdom": "About GitaWisdom",
-  "@aboutGitaWisdom": {
+  "aboutGospel": "About Gospel",
+  "@aboutGospel": {
     "description": "Title for About screen"
   },
 
@@ -319,22 +319,22 @@
     "description": "Dedication message in About screen"
   },
 
-  "aboutDescription": "A bite-size guide to the Bhagavad Gita, offering chapters, situations, and reflections—now with custom themes, language support, and more.",
+  "aboutDescription": "A bite-size guide to the Gospel, offering books, situations, and reflections—now with custom themes, language support, and more.",
   "@aboutDescription": {
     "description": "App description in About screen"
   },
 
-  "gitaQuote": "\"You have the right to perform your actions, but you are not entitled to the fruits of action.\"",
-  "@gitaQuote": {
-    "description": "Famous Gita quote in About screen"
+  "gospelQuote": "\"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.\"",
+  "@gospelQuote": {
+    "description": "Famous Gospel verse in About screen"
   },
 
-  "gitaQuoteReference": "- Bhagavad Gita 2.47",
-  "@gitaQuoteReference": {
-    "description": "Reference for the Gita quote"
+  "gospelQuoteReference": "- John 3:16",
+  "@gospelQuoteReference": {
+    "description": "Reference for the Gospel verse"
   },
 
-  "appVersion": "GitaWisdom v2.2.8",
+  "appVersion": "Gospel v1.0.96",
   "@appVersion": {
     "description": "App version display"
   },
@@ -344,12 +344,12 @@
     "description": "Title for References screen"
   },
 
-  "reference1": "* Bhagavad-gītā As It Is (A. C. Bhaktivedanta Swami Prabhupāda)",
+  "reference1": "* The Holy Bible (NIV, KJV, ESV translations)",
   "@reference1": {
     "description": "First reference source"
   },
 
-  "reference2": "* The Bhagavad Gita: A New Translation (Stephen Mitchell)",
+  "reference2": "* Bible.org API, ESV API (Gospel text sources)",
   "@reference2": {
     "description": "Second reference source"
   },
@@ -424,9 +424,9 @@
     "description": "Button text to collapse scenario list"
   },
 
-  "gitaChapters": "GITA CHAPTERS", 
-  "@gitaChapters": {
-    "description": "Header title for chapters screen"
+  "gospelBooksHeader": "GOSPEL BOOKS",
+  "@gospelBooksHeader": {
+    "description": "Header title for Gospel books screen"
   },
 
   "immersiveKnowledge": "Explore Scripture, Word for Word",
@@ -439,8 +439,8 @@
     "description": "Header title for scenarios screen"
   },
 
-  "applyGitaWisdom": "Get clarity for your Dilemmas",
-  "@applyGitaWisdom": {
+  "applyGospelWisdom": "Get clarity for your Dilemmas",
+  "@applyGospelWisdom": {
     "description": "Subtitle for dilemmas screen"
   },
 
@@ -607,7 +607,7 @@
     }
   },
 
-  "chapterScenariosSubtitle": "Dilemmas from Bhagavad Gita Chapter {chapter}",
+  "chapterScenariosSubtitle": "Dilemmas from Gospel of {chapter}",
   "@chapterScenariosSubtitle": {
     "description": "Subtitle for chapter-specific dilemmas",
     "placeholders": {
@@ -681,7 +681,7 @@
     "description": "Explanation tooltip for the Heart Says section"
   },
 
-  "dutySaysExplanation": "What your sense of duty or dharma recommends",
+  "dutySaysExplanation": "What your sense of duty or righteousness recommends",
   "@dutySaysExplanation": {
     "description": "Explanation tooltip for the Duty Says section"
   }

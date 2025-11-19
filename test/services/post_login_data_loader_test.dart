@@ -4,11 +4,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:GitaWisdom/services/post_login_data_loader.dart';
-import 'package:GitaWisdom/services/progressive_scenario_service.dart';
-import 'package:GitaWisdom/services/enhanced_supabase_service.dart';
-import 'package:GitaWisdom/services/service_locator.dart';
-import 'package:GitaWisdom/models/scenario.dart';
+import 'package:GospelWisdom/services/post_login_data_loader.dart';
+import 'package:GospelWisdom/services/progressive_scenario_service.dart';
+import 'package:GospelWisdom/services/enhanced_supabase_service.dart';
+import 'package:GospelWisdom/services/service_locator.dart';
+import 'package:GospelWisdom/models/scenario.dart';
 import '../test_setup.dart';
 import 'post_login_data_loader_test.mocks.dart';
 

@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:GitaWisdom/screens/bookmarks_screen.dart';
-import 'package:GitaWisdom/services/bookmark_service.dart';
-import 'package:GitaWisdom/models/bookmark.dart';
+import 'package:GospelWisdom/screens/bookmarks_screen.dart';
+import 'package:GospelWisdom/services/bookmark_service.dart';
+import 'package:GospelWisdom/models/bookmark.dart';
 import '../test_setup.dart';
 
 class MockBookmarkService extends BookmarkService {

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:GitaWisdom/main.dart' as app;
+import 'package:GospelWisdom/main.dart' as app;
 import 'integration_test_setup.dart';
 
 /// Offline and Caching Flow Integration Tests

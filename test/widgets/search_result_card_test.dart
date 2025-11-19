@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/widgets/search_result_card.dart';
-import 'package:GitaWisdom/models/search_result.dart';
+import 'package:GospelWisdom/widgets/search_result_card.dart';
+import 'package:GospelWisdom/models/search_result.dart';
 
 import '../test_setup.dart';
 

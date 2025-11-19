@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/widgets/social_auth_buttons.dart';
-import 'package:GitaWisdom/services/supabase_auth_service.dart';
+import 'package:GospelWisdom/widgets/social_auth_buttons.dart';
+import 'package:GospelWisdom/services/supabase_auth_service.dart';
 
 import '../test_setup.dart';
 

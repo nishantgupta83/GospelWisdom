@@ -6,7 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:GitaWisdom/models/search_result.dart';
+import 'package:GospelWisdom/models/search_result.dart';
 import 'dart:io';
 import 'dart:async' show TimeoutException;
 

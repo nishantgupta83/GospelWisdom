@@ -1,8 +1,8 @@
 // test/services/semantic_search_service_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/services/semantic_search_service.dart';
-import 'package:GitaWisdom/models/scenario.dart';
+import 'package:GospelWisdom/services/semantic_search_service.dart';
+import 'package:GospelWisdom/models/scenario.dart';
 import '../test_setup.dart';
 
 void main() {

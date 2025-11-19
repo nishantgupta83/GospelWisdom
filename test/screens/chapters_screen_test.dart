@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/screens/chapters_screen.dart';
-import 'package:GitaWisdom/models/chapter_summary.dart';
-import 'package:GitaWisdom/l10n/app_localizations.dart';
+import 'package:GospelWisdom/screens/chapters_screen.dart';
+import 'package:GospelWisdom/models/chapter_summary.dart';
+import 'package:GospelWisdom/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../test_setup.dart';

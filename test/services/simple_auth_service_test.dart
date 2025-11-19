@@ -1,7 +1,7 @@
 // test/services/simple_auth_service_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/services/simple_auth_service.dart';
+import 'package:GospelWisdom/services/simple_auth_service.dart';
 import '../test_setup.dart';
 
 void main() {

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>GitaWisdom</string>
+	<string>Gospel</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>GitaWisdom</string>
+	<string>Gospel</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -67,10 +67,10 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.hub4apps.gitawisdom.deeplink</string>
+			<string>com.hub4apps.gospel.deeplink</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.hub4apps.gitawisdom</string>
+				<string>com.hub4apps.gospel</string>
 			</array>
 		</dict>
 		<dict>
@@ -85,7 +85,7 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>GitaWisdom does not use the microphone. This permission is required by a third-party library but microphone access is never requested or used in the app.</string>
+	<string>Gospel does not use the microphone. This permission is required by a third-party library but microphone access is never requested or used in the app.</string>
 	<!-- Google Sign-In Configuration -->
 	<key>GIDClientID</key>
 	<string>152831727829-e0p8ng29aq5nujidl4o0frffnq910ugt.apps.googleusercontent.com</string>
@@ -97,7 +97,7 @@
 	<key>FacebookClientToken</key>
 	<string>YOUR_FACEBOOK_CLIENT_TOKEN</string>
 	<key>FacebookDisplayName</key>
-	<string>GitaWisdom</string>
+	<string>Gospel</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

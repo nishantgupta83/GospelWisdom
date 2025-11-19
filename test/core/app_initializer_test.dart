@@ -1,7 +1,7 @@
 // test/core/app_initializer_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/core/app_initializer.dart';
+import 'package:GospelWisdom/core/app_initializer.dart';
 
 void main() {
   group('AppInitializer', () {

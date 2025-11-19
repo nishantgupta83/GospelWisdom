@@ -135,7 +135,7 @@ class _ChapterDetailViewState extends State<ChapterDetailView> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Chapter ${widget.chapterId} of the Bhagavad Gita',
+                    'Chapter ${widget.chapterId} of the Gospel',
                     style: GoogleFonts.poppins(
                       fontSize: textScaler.scale(14),
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.7),

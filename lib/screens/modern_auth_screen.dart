@@ -336,7 +336,7 @@ class _ModernAuthScreenState extends State<ModernAuthScreen> with TickerProvider
             ],
           ).createShader(bounds),
           child: Text(
-            'GitaWisdom',
+            'Gospel',
             style: theme.textTheme.headlineLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w700,

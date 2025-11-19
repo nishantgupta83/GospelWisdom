@@ -1,7 +1,7 @@
 // test/models/journal_entry_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/models/journal_entry.dart';
+import 'package:GospelWisdom/models/journal_entry.dart';
 
 void main() {
   group('JournalEntry Model', () {

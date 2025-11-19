@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/screens/root_scaffold.dart';
-import 'package:GitaWisdom/widgets/modern_nav_bar.dart';
-import 'package:GitaWisdom/l10n/app_localizations.dart';
-import 'package:GitaWisdom/core/navigation/navigation_service.dart';
+import 'package:GospelWisdom/screens/root_scaffold.dart';
+import 'package:GospelWisdom/widgets/modern_nav_bar.dart';
+import 'package:GospelWisdom/l10n/app_localizations.dart';
+import 'package:GospelWisdom/core/navigation/navigation_service.dart';
 import '../test_setup.dart';
 
 void main() {

@@ -113,7 +113,7 @@ class ProgressiveScenarioService {
              scenario.category.toLowerCase().contains(lowerQuery) ||
              (scenario.heartResponse?.toLowerCase().contains(lowerQuery) ?? false) ||
              (scenario.dutyResponse?.toLowerCase().contains(lowerQuery) ?? false) ||
-             (scenario.gitaWisdom?.toLowerCase().contains(lowerQuery) ?? false);
+             (scenario.gospelWisdom?.toLowerCase().contains(lowerQuery) ?? false);
     }).toList();
   }
 

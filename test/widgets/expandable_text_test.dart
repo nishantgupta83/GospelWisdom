@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/widgets/expandable_text.dart';
+import 'package:GospelWisdom/widgets/expandable_text.dart';
 
 void main() {
   group('ExpandableText Widget Tests', () {

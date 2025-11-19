@@ -3,9 +3,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:GitaWisdom/services/progressive_scenario_service.dart';
-import 'package:GitaWisdom/services/intelligent_caching_service.dart';
-import 'package:GitaWisdom/models/scenario.dart';
+import 'package:GospelWisdom/services/progressive_scenario_service.dart';
+import 'package:GospelWisdom/services/intelligent_caching_service.dart';
+import 'package:GospelWisdom/models/scenario.dart';
 import '../test_setup.dart';
 import 'progressive_scenario_service_test.mocks.dart';
 

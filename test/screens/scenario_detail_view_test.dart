@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:GitaWisdom/screens/scenario_detail_view.dart';
-import 'package:GitaWisdom/models/scenario.dart';
-import 'package:GitaWisdom/widgets/modern_nav_bar.dart';
-import 'package:GitaWisdom/l10n/app_localizations.dart';
+import 'package:GospelWisdom/screens/scenario_detail_view.dart';
+import 'package:GospelWisdom/models/scenario.dart';
+import 'package:GospelWisdom/widgets/modern_nav_bar.dart';
+import 'package:GospelWisdom/l10n/app_localizations.dart';
 
 import '../test_setup.dart';
 

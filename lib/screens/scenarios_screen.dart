@@ -162,7 +162,7 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
         chapter: 1,
         heartResponse: '',
         dutyResponse: '',
-        gitaWisdom: '',
+        gospelWisdom: '',
         tags: [widget.filterTag!],
         createdAt: DateTime.now(),
       );
@@ -390,7 +390,7 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
           s.title.toLowerCase().contains(_search.toLowerCase()) ||
           s.description.toLowerCase().contains(_search.toLowerCase()) ||
           s.category.toLowerCase().contains(_search.toLowerCase()) ||
-          s.gitaWisdom.toLowerCase().contains(_search.toLowerCase()) ||
+          s.gospelWisdom.toLowerCase().contains(_search.toLowerCase()) ||
           (s.tags?.any((tag) => tag.toLowerCase().contains(_search.toLowerCase())) ?? false)
         ).toList();
       }
@@ -693,7 +693,7 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
                           Text(
                             _selectedChapter != null
                                 ? AppLocalizations.of(context)!.chapterScenariosSubtitle(_selectedChapter!)
-                                : AppLocalizations.of(context)!.applyGitaWisdom,
+                                : AppLocalizations.of(context)!.applyGospelWisdom,
                             style: GoogleFonts.poppins(
                               fontSize: theme.textTheme.bodyMedium?.fontSize,
                               color: theme.colorScheme.onSurface.withValues(alpha:0.7),
@@ -1504,7 +1504,7 @@ List<Map<String, dynamic>> _performSearchCompute(Map<String, dynamic> params) {
           s.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
           s.description.toLowerCase().contains(searchQuery.toLowerCase()) ||
           s.category.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          s.gitaWisdom.toLowerCase().contains(searchQuery.toLowerCase()) ||
+          s.gospelWisdom.toLowerCase().contains(searchQuery.toLowerCase()) ||
           (s.tags?.any((tag) => tag.toLowerCase().contains(searchQuery.toLowerCase())) ?? false)
         ).toList();
       }
@@ -1515,7 +1515,7 @@ List<Map<String, dynamic>> _performSearchCompute(Map<String, dynamic> params) {
           s.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
           s.description.toLowerCase().contains(searchQuery.toLowerCase()) ||
           s.category.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          s.gitaWisdom.toLowerCase().contains(searchQuery.toLowerCase()) ||
+          s.gospelWisdom.toLowerCase().contains(searchQuery.toLowerCase()) ||
           s.heartResponse.toLowerCase().contains(searchQuery.toLowerCase()) ||
           s.dutyResponse.toLowerCase().contains(searchQuery.toLowerCase()) ||
           (s.tags?.any((tag) => tag.toLowerCase().contains(searchQuery.toLowerCase())) ?? false)

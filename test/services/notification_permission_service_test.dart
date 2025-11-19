@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:GitaWisdom/services/notification_permission_service.dart';
+import 'package:GospelWisdom/services/notification_permission_service.dart';
 import '../test_setup.dart';
 
 // Generate mocks for Permission

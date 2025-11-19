@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/screens/verse_list_view.dart';
-import 'package:GitaWisdom/models/chapter.dart';
-import 'package:GitaWisdom/models/verse.dart';
-import 'package:GitaWisdom/services/service_locator.dart';
-import 'package:GitaWisdom/services/enhanced_supabase_service.dart';
-import 'package:GitaWisdom/core/navigation/navigation_service.dart';
+import 'package:GospelWisdom/screens/verse_list_view.dart';
+import 'package:GospelWisdom/models/chapter.dart';
+import 'package:GospelWisdom/models/verse.dart';
+import 'package:GospelWisdom/services/service_locator.dart';
+import 'package:GospelWisdom/services/enhanced_supabase_service.dart';
+import 'package:GospelWisdom/core/navigation/navigation_service.dart';
 import '../test_setup.dart';
 
 class MockEnhancedSupabaseService extends EnhancedSupabaseService {

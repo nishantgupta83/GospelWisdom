@@ -72,7 +72,7 @@ class _MoreScreenState extends State<MoreScreen> {
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyyMMdd-HHmmss').format(now);
 
-    final subject = Uri.encodeComponent('Gitawisdom || Feedback $formattedDate');
+    final subject = Uri.encodeComponent('Gospel || Feedback $formattedDate');
     final body = Uri.encodeComponent(
       'Hi Team,\n\nWould like to give feedback!\n[Please add your feedback here...]\n\n\n',
     );

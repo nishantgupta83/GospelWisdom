@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/widgets/app_background.dart';
+import 'package:GospelWisdom/widgets/app_background.dart';
 
 import '../test_setup.dart';
 

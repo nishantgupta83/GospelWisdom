@@ -44,13 +44,13 @@ class ShareCardService {
 
       final result = await Share.shareXFiles(
         [XFile(imagePath)],
-        text: '''Bhagavad Gita Chapter ${verse.chapterId}, Verse ${verse.verseId}
+        text: '''Gospel Chapter ${verse.chapterId}, Verse ${verse.verseId}
 
 ${verse.description}
 
-🌿 Get GitaWisdom App:
-📱 https://play.google.com/store/apps/details?id=com.hub4apps.gitawisdom''',
-        subject: 'Wisdom from Bhagavad Gita',
+🌿 Get Gospel App:
+📱 https://play.google.com/store/apps/details?id=com.hub4apps.gospel''',
+        subject: 'Wisdom from Gospel',
         sharePositionOrigin: const Rect.fromLTWH(0, 0, 200, 200),
       );
 
@@ -78,9 +78,9 @@ ${verse.description}
 
 ${scenario.description}
 
-🌿 Get GitaWisdom - Ancient wisdom for modern life:
-📱 https://play.google.com/store/apps/details?id=com.hub4apps.gitawisdom''',
-        subject: 'Gita Wisdom for Daily Life',
+🌿 Get Gospel - Ancient wisdom for modern life:
+📱 https://play.google.com/store/apps/details?id=com.hub4apps.gospel''',
+        subject: 'Gospel Wisdom for Daily Life',
         sharePositionOrigin: const Rect.fromLTWH(0, 0, 200, 200),
       );
 
@@ -163,7 +163,7 @@ ${scenario.description}
     // Draw chapter and verse reference
     final referencePainter = TextPainter(
       text: TextSpan(
-        text: 'Bhagavad Gita ${verse.chapterId}.${verse.verseId}',
+        text: 'Gospel ${verse.chapterId}.${verse.verseId}',
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w300,
@@ -264,7 +264,7 @@ ${scenario.description}
   void _drawBranding(Canvas canvas, Size size) {
     final brandPainter = TextPainter(
       text: const TextSpan(
-        text: 'GitaWisdom',
+        text: 'Gospel',
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w600,

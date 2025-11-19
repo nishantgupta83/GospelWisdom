@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:GitaWisdom/screens/journal_screen.dart';
-import 'package:GitaWisdom/screens/new_journal_entry_dialog.dart';
-import 'package:GitaWisdom/services/journal_service.dart';
-import 'package:GitaWisdom/models/journal_entry.dart';
-import 'package:GitaWisdom/l10n/app_localizations.dart';
+import 'package:GospelWisdom/screens/journal_screen.dart';
+import 'package:GospelWisdom/screens/new_journal_entry_dialog.dart';
+import 'package:GospelWisdom/services/journal_service.dart';
+import 'package:GospelWisdom/models/journal_entry.dart';
+import 'package:GospelWisdom/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'journal_screen_test.mocks.dart';

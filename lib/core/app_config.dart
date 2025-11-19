@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 /// Maintains app-wide settings and feature flags
 class AppConfig {
   // App Information
-  static const String appName = 'GitaWisdom';
-  static const String appTitle = 'Wisdom Guide';
+  static const String appName = 'Gospel';
+  static const String appTitle = 'Gospel Guide';
   
   // Version and Build Information (User-facing version)
   // Note: pubspec.yaml has store version 2.3.1+25 for Google Play/App Store

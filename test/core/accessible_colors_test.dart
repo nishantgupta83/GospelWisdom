@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/core/accessible_colors.dart';
+import 'package:GospelWisdom/core/accessible_colors.dart';
 
 void main() {
   group('AccessibleColors', () {

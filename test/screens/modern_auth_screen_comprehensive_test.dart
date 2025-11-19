@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:GitaWisdom/screens/modern_auth_screen.dart';
-import 'package:GitaWisdom/screens/root_scaffold.dart';
-import 'package:GitaWisdom/services/supabase_auth_service.dart';
-import 'package:GitaWisdom/widgets/social_auth_buttons.dart';
+import 'package:GospelWisdom/screens/modern_auth_screen.dart';
+import 'package:GospelWisdom/screens/root_scaffold.dart';
+import 'package:GospelWisdom/services/supabase_auth_service.dart';
+import 'package:GospelWisdom/widgets/social_auth_buttons.dart';
 import '../test_setup.dart';
 
 /// Comprehensive mock for SupabaseAuthService

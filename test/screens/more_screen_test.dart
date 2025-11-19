@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:provider/provider.dart';
-import 'package:GitaWisdom/screens/more_screen.dart';
-import 'package:GitaWisdom/services/supabase_auth_service.dart';
-import 'package:GitaWisdom/services/settings_service.dart';
-import 'package:GitaWisdom/services/background_music_service.dart';
-import 'package:GitaWisdom/core/theme/theme_provider.dart';
+import 'package:GospelWisdom/screens/more_screen.dart';
+import 'package:GospelWisdom/services/supabase_auth_service.dart';
+import 'package:GospelWisdom/services/settings_service.dart';
+import 'package:GospelWisdom/services/background_music_service.dart';
+import 'package:GospelWisdom/core/theme/theme_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'more_screen_test.mocks.dart';

@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/screens/about_screen.dart';
-import 'package:GitaWisdom/l10n/app_localizations.dart';
-import 'package:GitaWisdom/core/navigation/navigation_service.dart';
+import 'package:GospelWisdom/screens/about_screen.dart';
+import 'package:GospelWisdom/l10n/app_localizations.dart';
+import 'package:GospelWisdom/core/navigation/navigation_service.dart';
 import '../test_setup.dart';
 
 void main() {

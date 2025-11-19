@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:GitaWisdom/widgets/modern_nav_bar.dart';
+import 'package:GospelWisdom/widgets/modern_nav_bar.dart';
 
 void main() {
   group('ModernNavBar Widget Tests', () {

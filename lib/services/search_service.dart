@@ -69,9 +69,9 @@ class SearchService extends ChangeNotifier {
       // Load popular search terms and key concepts from verses
       final suggestions = <String>[];
       
-      // Add common Gita concepts
+      // Add common Gospel concepts
       suggestions.addAll([
-        'dharma', 'karma', 'moksha', 'bhakti', 'yoga',
+        'righteousness', 'deeds', 'salvation', 'devotion', 'yoga',
         'arjuna', 'krishna', 'duty', 'righteousness', 'devotion',
         'meditation', 'wisdom', 'action', 'surrender', 'truth',
         'soul', 'consciousness', 'peace', 'love', 'detachment',

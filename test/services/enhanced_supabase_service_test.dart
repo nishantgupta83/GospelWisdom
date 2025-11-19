@@ -2,12 +2,12 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
-import 'package:GitaWisdom/services/enhanced_supabase_service.dart';
-import 'package:GitaWisdom/models/chapter.dart';
-import 'package:GitaWisdom/models/chapter_summary.dart';
-import 'package:GitaWisdom/models/scenario.dart';
-import 'package:GitaWisdom/models/verse.dart';
-import 'package:GitaWisdom/models/journal_entry.dart';
+import 'package:GospelWisdom/services/enhanced_supabase_service.dart';
+import 'package:GospelWisdom/models/chapter.dart';
+import 'package:GospelWisdom/models/chapter_summary.dart';
+import 'package:GospelWisdom/models/scenario.dart';
+import 'package:GospelWisdom/models/verse.dart';
+import 'package:GospelWisdom/models/journal_entry.dart';
 import '../test_setup.dart';
 void main() {
   setUpAll(() async {

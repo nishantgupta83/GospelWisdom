@@ -45,7 +45,7 @@
         android:resizeable="true" />
 
     <application
-        android:label="GitaWisdom"
+        android:label="Gospel"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true"
@@ -79,7 +79,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="com.hub4apps.gitawisdom" />
+                <data android:scheme="com.hub4apps.gospel" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

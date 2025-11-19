@@ -187,7 +187,7 @@ class AboutScreen extends StatelessWidget {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
-                                  AppLocalizations.of(context)?.aboutGitaWisdom ?? 'About GitaWisdom',
+                                  AppLocalizations.of(context)?.aboutGospel ?? 'About Gospel',
                                   style: GoogleFonts.poppins(
                                     fontSize: isTablet ? 22 : 20,
                                     fontWeight: FontWeight.bold,
@@ -201,7 +201,7 @@ class AboutScreen extends StatelessWidget {
                           const SizedBox(height: 20),
                           
                           Text(
-                            AppLocalizations.of(context)?.aboutDescription ?? 'GitaWisdom brings timeless wisdom to modern life. Navigate daily challenges with timeless teachings from the Bhagavad Gita.',
+                            AppLocalizations.of(context)?.aboutDescription ?? 'Gospel brings timeless wisdom to modern life. Navigate daily challenges with timeless teachings from the Gospel.',
                             style: GoogleFonts.poppins(
                               fontSize: isTablet ? 16 : 15,
                               color: theme.colorScheme.onSurface,
@@ -238,7 +238,7 @@ class AboutScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
-                                  AppLocalizations.of(context)?.gitaQuote ?? '"You have a right to perform your prescribed duty, but never to the fruits of action."',
+                                  AppLocalizations.of(context)?.gospelQuote ?? '"You have a right to perform your prescribed duty, but never to the fruits of action."',
                                   style: GoogleFonts.poppins(
                                     fontSize: isTablet ? 16 : 14,
                                     fontStyle: FontStyle.italic,
@@ -250,7 +250,7 @@ class AboutScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '- Bhagavad Gita 2.47',
+                                  '- Gospel 2.47',
                                   style: GoogleFonts.poppins(
                                     fontSize: isTablet ? 14 : 12,
                                     color: theme.colorScheme.primary,
@@ -326,7 +326,7 @@ class AboutScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              'Our Bhagavad Gita verses and chapter interpretations have been cross-validated against these authoritative sources to ensure accuracy and authenticity. We verified verse translations, chapter themes, and structural integrity across multiple traditions.',
+                              'Our Gospel verses and chapter interpretations have been cross-validated against these authoritative sources to ensure accuracy and authenticity. We verified verse translations, chapter themes, and structural integrity across multiple traditions.',
                               style: GoogleFonts.poppins(
                                 fontSize: isTablet ? 14 : 13,
                                 color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
@@ -347,7 +347,7 @@ class AboutScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             _buildSourceItem(
-                              'Holy Bhagavad Gita',
+                              'Holy Gospel',
                               theme,
                               isTablet,
                             ),
@@ -359,7 +359,7 @@ class AboutScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             _buildSourceItem(
-                              'IIT Kanpur Gita Supersite',
+                              'IIT Kanpur Gospel Supersite',
                               theme,
                               isTablet,
                             ),

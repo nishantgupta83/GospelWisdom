@@ -23,7 +23,7 @@ class ScenarioAdapter extends TypeAdapter<Scenario> {
       chapter: fields[3] as int,
       heartResponse: fields[4] as String,
       dutyResponse: fields[5] as String,
-      gitaWisdom: fields[6] as String,
+      gospelWisdom: fields[6] as String,
       verse: fields[7] as String?,
       verseNumber: fields[8] as String?,
       tags: (fields[9] as List?)?.cast<String>(),
@@ -49,7 +49,7 @@ class ScenarioAdapter extends TypeAdapter<Scenario> {
       ..writeByte(5)
       ..write(obj.dutyResponse)
       ..writeByte(6)
-      ..write(obj.gitaWisdom)
+      ..write(obj.gospelWisdom)
       ..writeByte(7)
       ..write(obj.verse)
       ..writeByte(8)
