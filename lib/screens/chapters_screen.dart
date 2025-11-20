@@ -8,31 +8,46 @@ import 'chapters_detail_view.dart';
 import '../l10n/app_localizations.dart';
 import '../core/navigation/navigation_service.dart';
 import '../widgets/app_background.dart';
+import '../widgets/enhanced_chapter_card.dart';
 
-/// CHAPTERS SCREEN: Modern UI, themed background, Material cards, floating buttons.
-/// This screen lists all Gita chapters as cards, using current app theming with enhanced multilingual support.
+/// CHAPTERS SCREEN: Tabbed Gospel navigation with grid layout
+/// Features:
+/// - 4 Gospel tabs (Matthew, Mark, Luke, John)
+/// - Responsive grid (2 columns mobile, 3 columns tablet)
+/// - Enhanced chapter cards with audio and bookmarks
+/// - Apple HIG accessibility compliance
 class ChapterScreen extends StatefulWidget {
-  const ChapterScreen({Key? key}) : super(key: key);
+  const ChapterScreen({super.key});
 
   @override
   State<ChapterScreen> createState() => _ChapterScreenState();
 }
 
-class _ChapterScreenState extends State<ChapterScreen> {
+class _ChapterScreenState extends State<ChapterScreen>
+    with SingleTickerProviderStateMixin {
   final _service = ServiceLocator.instance.enhancedSupabaseService;
-  List<ChapterSummary> _chapters = [];
+  List<ChapterSummary> _allChapters = [];
   bool _isLoading = true;
   String? _errorMessage;
+
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 4, vsync: this);
     _loadChapters();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadChapters() async {
     if (!mounted) return;
-    
+
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -42,7 +57,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
       final data = await _service.fetchChapterSummaries();
       if (mounted) {
         setState(() {
-          _chapters = data;
+          _allChapters = data;
         });
       }
     } catch (e) {
@@ -52,6 +67,13 @@ class _ChapterScreenState extends State<ChapterScreen> {
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  /// Filter chapters by gospel ID and sort by chapter number
+  List<ChapterSummary> _getChaptersForGospel(int gospelId) {
+    final chapters = _allChapters.where((c) => c.gospelId == gospelId).toList();
+    chapters.sort((a, b) => a.chapterNumber.compareTo(b.chapterNumber));
+    return chapters;
   }
 
   /// Fade-transition helper
@@ -69,8 +91,8 @@ class _ChapterScreenState extends State<ChapterScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final localizations = AppLocalizations.of(context);
-    final textScaler = MediaQuery.of(context).textScaler;
+    final l10n = AppLocalizations.of(context)!;
+    final textScaler = MediaQuery.textScalerOf(context);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -79,229 +101,26 @@ class _ChapterScreenState extends State<ChapterScreen> {
           // Unified gradient background
           AppBackground(isDark: isDark),
 
-          // Scrollable content area
+          // Main content
           SafeArea(
-            child: Container(
-              margin: const EdgeInsets.only(top: 20),
-              child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : _errorMessage != null
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                _errorMessage!,
-                                style: GoogleFonts.poppins(color: theme.colorScheme.error),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 16),
-                              ElevatedButton(
-                                onPressed: _loadChapters,
-                                child: Text(AppLocalizations.of(context)!.retry),
-                              ),
-                            ],
-                          ),
-                        )
-                      : _chapters.isEmpty
-                          ? Center(
-                              child: Text(
-                                AppLocalizations.of(context)!.noChaptersAvailable,
-                                style: GoogleFonts.poppins(color: theme.colorScheme.onSurface),
-                              ),
-                            )
-                          : ListView(
-                              // Preserve bottom inset + extra padding
-                              padding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                                top: 20,
-                                bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-                              ),
-                              children: [
-                                // Floating header card
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 20),
-                                  padding: const EdgeInsets.all(24),
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.surface.withValues(alpha:0.85),
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withValues(alpha:0.1),
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        AppLocalizations.of(context)!.gospelBooks,
-                                        style: GoogleFonts.poiretOne(
-                                          fontSize: textScaler.scale(30),
-                                          fontWeight: FontWeight.w800,
-                                          color: theme.colorScheme.onSurface,
-                                          letterSpacing: 1.3,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(height: 12),
-                                      Container(
-                                        width: 80,
-                                        height: 3,
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              theme.colorScheme.primary,
-                                              theme.colorScheme.primary.withValues(alpha: 0.6),
-                                            ],
-                                          ),
-                                          borderRadius: BorderRadius.circular(2),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        AppLocalizations.of(context)!.immersiveKnowledge,
-                                        style: GoogleFonts.poppins(
-                                          fontSize: textScaler.scale(14),
-                                          color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                                          letterSpacing: 0.8,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // Chapters list
-                                ..._chapters.map((ch) => Container(
-                                    margin: const EdgeInsets.only(bottom: 14),
-                                    child: Card(
-                                      elevation: 4,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(22),
-                                      ),
-                                      color: theme.colorScheme.surface,
-                                      shadowColor: theme.colorScheme.primary.withValues(alpha: 0.12),
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(22),
-                                        onTap: () {
-                                          _fadePush(ChapterDetailView(chapterId: ch.chapterId));
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    width: 48,
-                                                    height: 48,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      gradient: LinearGradient(
-                                                        colors: [
-                                                          theme.colorScheme.primary,
-                                                          theme.colorScheme.primary.withValues(alpha:0.8),
-                                                        ],
-                                                        begin: Alignment.topLeft,
-                                                        end: Alignment.bottomRight,
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: theme.colorScheme.primary.withValues(alpha:0.3),
-                                                          blurRadius: 8,
-                                                          spreadRadius: 1,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        '${ch.chapterId}',
-                                                        style: GoogleFonts.poppins(
-                                                          fontSize: textScaler.scale(16),
-                                                          fontWeight: FontWeight.bold,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 16),
-                                                  
-                                                  // Title and subtitle
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          ch.title,
-                                                          style: GoogleFonts.poppins(
-                                                            fontSize: textScaler.scale(16),
-                                                            fontWeight: FontWeight.w600,
-                                                            color: theme.colorScheme.onSurface,
-                                                          ),
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow.ellipsis,
-                                                        ),
-                                                        if (ch.subtitle != null && ch.subtitle!.isNotEmpty) ...[
-                                                          const SizedBox(height: 4),
-                                                          Text(
-                                                            ch.subtitle!,
-                                                            style: GoogleFonts.poppins(
-                                                              fontSize: textScaler.scale(13),
-                                                              color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                                                            ),
-                                                            maxLines: 2,
-                                                            overflow: TextOverflow.ellipsis,
-                                                          ),
-                                                        ],
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  
-                                                  // Chevron icon
-                                                  Icon(
-                                                    Icons.chevron_right,
-                                                    color: theme.colorScheme.onSurface.withValues(alpha:0.5),
-                                                    size: 24,
-                                                  ),
-                                                ],
-                                              ),
-                                              
-                                              const SizedBox(height: 16),
-                                              
-                                              // Bottom row with verse and scenario counts
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  _buildCountChip(
-                                                    '${ch.verseCount} ${AppLocalizations.of(context)!.versesCount}',
-                                                    Icons.book_outlined,
-                                                    theme,
-                                                  ),
-                                                  const SizedBox(width: 8),
-                                                  _buildCountChip(
-                                                    '${ch.scenarioCount} ${AppLocalizations.of(context)!.scenariosCount}',
-                                                    Icons.lightbulb_outline,
-                                                    theme,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )).toList(),
-                              ],
-                            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+
+                // Header card
+                _buildHeader(theme, l10n, textScaler),
+
+                // Tab bar
+                _buildTabBar(theme, l10n),
+
+                // Tab views with grids
+                Expanded(
+                  child: _buildContent(theme, l10n),
+                ),
+              ],
             ),
           ),
-          
+
           // Floating Back Button
           Positioned(
             top: 26,
@@ -320,15 +139,14 @@ class _ChapterScreenState extends State<ChapterScreen> {
                   if (Navigator.canPop(context)) {
                     Navigator.pop(context);
                   } else {
-                    // Navigate to home tab instead of trying to pop empty stack
                     NavigationService.instance.goToTab(0);
                   }
                 },
-                tooltip: AppLocalizations.of(context)!.back,
+                tooltip: l10n.back,
               ),
             ),
           ),
-          
+
           // Floating Home Button
           Positioned(
             top: 26,
@@ -344,10 +162,9 @@ class _ChapterScreenState extends State<ChapterScreen> {
                 ),
                 splashRadius: 32,
                 onPressed: () {
-                  // Use proper tab navigation to sync bottom navigation state
-                  NavigationService.instance.goToTab(0); // 0 = Home tab index
+                  NavigationService.instance.goToTab(0);
                 },
-                tooltip: AppLocalizations.of(context)!.home,
+                tooltip: l10n.home,
               ),
             ),
           ),
@@ -356,37 +173,171 @@ class _ChapterScreenState extends State<ChapterScreen> {
     );
   }
 
-  /// Helper to build count chips (verses/scenarios)
-  Widget _buildCountChip(String text, IconData icon, ThemeData theme) {
+  Widget _buildHeader(
+    ThemeData theme,
+    AppLocalizations l10n,
+    TextScaler textScaler,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withValues(alpha:0.08),
+        color: theme.colorScheme.surface.withOpacity(0.85),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: theme.colorScheme.primary.withValues(alpha:0.2),
-          width: 1,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 14,
-            color: theme.colorScheme.primary,
-          ),
-          const SizedBox(width: 4),
-          Text(
-            text,
-            style: GoogleFonts.poppins(
-              fontSize: MediaQuery.of(context).textScaler.scale(12), // Using MediaQuery directly since textScaler isn't in scope here
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w500,
-            ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
+      child: Column(
+        children: [
+          Text(
+            l10n.gospelBooks,
+            style: GoogleFonts.poiretOne(
+              fontSize: textScaler.scale(30),
+              fontWeight: FontWeight.w800,
+              color: theme.colorScheme.onSurface,
+              letterSpacing: 1.3,
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: 80,
+            height: 3,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  theme.colorScheme.primary,
+                  theme.colorScheme.primary.withOpacity(0.6),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.exploreScripture,
+            style: GoogleFonts.poppins(
+              fontSize: textScaler.scale(14),
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
+              letterSpacing: 0.8,
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabBar(ThemeData theme, AppLocalizations l10n) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: TabBar(
+        controller: _tabController,
+        tabs: [
+          Tab(text: l10n.matthew),
+          Tab(text: l10n.mark),
+          Tab(text: l10n.luke),
+          Tab(text: l10n.john),
+        ],
+        indicator: BoxDecoration(
+          color: theme.colorScheme.primary,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        indicatorSize: TabBarIndicatorSize.tab,
+        labelColor: theme.colorScheme.onPrimary,
+        unselectedLabelColor: theme.colorScheme.onSurface.withOpacity(0.6),
+        labelStyle: GoogleFonts.poppins(
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
+        ),
+        unselectedLabelStyle: GoogleFonts.poppins(
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+        ),
+        splashBorderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
+  Widget _buildContent(ThemeData theme, AppLocalizations l10n) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _errorMessage!,
+              style: GoogleFonts.poppins(color: theme.colorScheme.error),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _loadChapters,
+              child: Text(l10n.retry),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_allChapters.isEmpty) {
+      return Center(
+        child: Text(
+          l10n.noChaptersAvailable,
+          style: GoogleFonts.poppins(color: theme.colorScheme.onSurface),
+        ),
+      );
+    }
+
+    return TabBarView(
+      controller: _tabController,
+      children: [
+        _buildChapterGrid(_getChaptersForGospel(1)), // Matthew
+        _buildChapterGrid(_getChaptersForGospel(2)), // Mark
+        _buildChapterGrid(_getChaptersForGospel(3)), // Luke
+        _buildChapterGrid(_getChaptersForGospel(4)), // John
+      ],
+    );
+  }
+
+  Widget _buildChapterGrid(List<ChapterSummary> chapters) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = screenWidth > 600 ? 3 : 2;
+
+    return GridView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.75, // Card height > width
+      ),
+      itemCount: chapters.length,
+      itemBuilder: (context, index) {
+        final chapter = chapters[index];
+        return EnhancedChapterCard(
+          chapter: chapter,
+          onTap: () => _fadePush(ChapterDetailView(chapterId: chapter.id)),
+          // theme: null, // TODO: Fetch from full Chapter model if needed
+        );
+      },
     );
   }
 }

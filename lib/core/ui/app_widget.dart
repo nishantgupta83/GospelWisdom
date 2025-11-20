@@ -15,6 +15,7 @@ import '../../services/supabase_auth_service.dart';
 import '../../services/bookmark_service.dart';
 import '../../services/background_music_service.dart';
 import '../../services/settings_service.dart';
+import '../../services/chapter_audio_service.dart';
 
 /// Main app widget - clean MaterialApp configuration
 /// Replaces the complex 200+ line build method from main.dart
@@ -59,6 +60,10 @@ class AppWidget extends StatelessWidget {
             service.initialize('default_device');
             return service;
           },
+        ),
+        // Chapter audio service for Gospel audio narration
+        ChangeNotifierProvider<ChapterAudioService>(
+          create: (_) => ChapterAudioService(),
         ),
       ],
       child: Consumer<ThemeProvider>(

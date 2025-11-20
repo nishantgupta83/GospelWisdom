@@ -684,5 +684,75 @@
   "dutySaysExplanation": "What your sense of duty or righteousness recommends",
   "@dutySaysExplanation": {
     "description": "Explanation tooltip for the Duty Says section"
+  },
+
+  "matthew": "Matthew",
+  "@matthew": {
+    "description": "Gospel of Matthew tab label"
+  },
+
+  "mark": "Mark",
+  "@mark": {
+    "description": "Gospel of Mark tab label"
+  },
+
+  "luke": "Luke",
+  "@luke": {
+    "description": "Gospel of Luke tab label"
+  },
+
+  "john": "John",
+  "@john": {
+    "description": "Gospel of John tab label"
+  },
+
+  "playAudio": "Play audio",
+  "@playAudio": {
+    "description": "Play chapter audio button tooltip"
+  },
+
+  "pauseAudio": "Pause audio",
+  "@pauseAudio": {
+    "description": "Pause chapter audio button tooltip"
+  },
+
+  "bookmarkChapter": "Bookmark chapter",
+  "@bookmarkChapter": {
+    "description": "Bookmark chapter button tooltip"
+  },
+
+  "removeBookmark": "Remove bookmark",
+  "@removeBookmark": {
+    "description": "Remove bookmark button tooltip"
+  },
+
+  "chapterTheme": "Theme",
+  "@chapterTheme": {
+    "description": "Chapter theme label"
+  },
+
+  "audioSpeed": "Speed",
+  "@audioSpeed": {
+    "description": "Audio playback speed label"
+  },
+
+  "autoAdvance": "Auto-advance to next chapter",
+  "@autoAdvance": {
+    "description": "Auto-advance setting label"
+  },
+
+  "downloadAudio": "Download for offline",
+  "@downloadAudio": {
+    "description": "Download audio button label"
+  },
+
+  "shareChapter": "Share chapter",
+  "@shareChapter": {
+    "description": "Share chapter button label"
+  },
+
+  "exploreScripture": "Explore Scripture, Word for Word",
+  "@exploreScripture": {
+    "description": "Tagline for Gospel books screen"
   }
 }

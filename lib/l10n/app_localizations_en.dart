@@ -407,4 +407,46 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get dutySaysExplanation =>
       'What your sense of duty or righteousness recommends';
+
+  @override
+  String get matthew => 'Matthew';
+
+  @override
+  String get mark => 'Mark';
+
+  @override
+  String get luke => 'Luke';
+
+  @override
+  String get john => 'John';
+
+  @override
+  String get playAudio => 'Play audio';
+
+  @override
+  String get pauseAudio => 'Pause audio';
+
+  @override
+  String get bookmarkChapter => 'Bookmark chapter';
+
+  @override
+  String get removeBookmark => 'Remove bookmark';
+
+  @override
+  String get chapterTheme => 'Theme';
+
+  @override
+  String get audioSpeed => 'Speed';
+
+  @override
+  String get autoAdvance => 'Auto-advance to next chapter';
+
+  @override
+  String get downloadAudio => 'Download for offline';
+
+  @override
+  String get shareChapter => 'Share chapter';
+
+  @override
+  String get exploreScripture => 'Explore Scripture, Word for Word';
 }

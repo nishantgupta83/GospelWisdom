@@ -837,6 +837,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What your sense of duty or righteousness recommends'**
   String get dutySaysExplanation;
+
+  /// Gospel of Matthew tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Matthew'**
+  String get matthew;
+
+  /// Gospel of Mark tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Mark'**
+  String get mark;
+
+  /// Gospel of Luke tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Luke'**
+  String get luke;
+
+  /// Gospel of John tab label
+  ///
+  /// In en, this message translates to:
+  /// **'John'**
+  String get john;
+
+  /// Play chapter audio button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Play audio'**
+  String get playAudio;
+
+  /// Pause chapter audio button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Pause audio'**
+  String get pauseAudio;
+
+  /// Bookmark chapter button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark chapter'**
+  String get bookmarkChapter;
+
+  /// Remove bookmark button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Remove bookmark'**
+  String get removeBookmark;
+
+  /// Chapter theme label
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get chapterTheme;
+
+  /// Audio playback speed label
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get audioSpeed;
+
+  /// Auto-advance setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-advance to next chapter'**
+  String get autoAdvance;
+
+  /// Download audio button label
+  ///
+  /// In en, this message translates to:
+  /// **'Download for offline'**
+  String get downloadAudio;
+
+  /// Share chapter button label
+  ///
+  /// In en, this message translates to:
+  /// **'Share chapter'**
+  String get shareChapter;
+
+  /// Tagline for Gospel books screen
+  ///
+  /// In en, this message translates to:
+  /// **'Explore Scripture, Word for Word'**
+  String get exploreScripture;
 }
 
 class _AppLocalizationsDelegate
