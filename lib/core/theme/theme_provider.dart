@@ -7,22 +7,33 @@ import '../app_config.dart';
 import '../../services/settings_service.dart';
 import 'app_theme.dart';
 
+/// Theme styles available in the app
+enum ThemeStyle {
+  light,   // Modern light theme (default)
+  dark,    // Modern dark theme
+  paper,   // Paper/journal theme with vintage aesthetic
+  sage,    // Pastel green (sage) theme
+}
+
 /// Theme provider that manages app theme state and settings
 /// Replaces complex ValueListenableBuilder logic from main.dart
+/// Now supports 4 theme styles with light/dark variants
 class ThemeProvider extends ChangeNotifier {
   late Box _settingsBox;
-  
+
   // Current theme settings
   bool _isDark = AppConfig.defaultDarkMode;
   String _fontPref = AppConfig.defaultFontSize;
   bool _shadowEnabled = AppConfig.defaultShadowEnabled;
   double _backgroundOpacity = AppConfig.defaultBackgroundOpacity;
+  ThemeStyle _themeStyle = ThemeStyle.light;  // NEW: Theme style selection
 
   // Getters for current theme settings
   bool get isDark => _isDark;
   String get fontPref => _fontPref;
   bool get shadowEnabled => _shadowEnabled;
   double get backgroundOpacity => _backgroundOpacity;
+  ThemeStyle get themeStyle => _themeStyle;
   double get textScale => AppConfig.getTextScale(_fontPref);
   ThemeMode get themeMode => AppTheme.getThemeMode(_isDark);
   
@@ -56,13 +67,22 @@ class ThemeProvider extends ChangeNotifier {
       _fontPref = _settingsBox.get(SettingsService.fontKey, defaultValue: AppConfig.defaultFontSize) as String;
       _shadowEnabled = _settingsBox.get(SettingsService.shadowKey, defaultValue: AppConfig.defaultShadowEnabled) as bool;
       _backgroundOpacity = _settingsBox.get(SettingsService.opacityKey, defaultValue: AppConfig.defaultBackgroundOpacity) as double;
-      debugPrint('🎨 Theme settings loaded: dark=$_isDark, font=$_fontPref, shadow=$_shadowEnabled');
+
+      // Load theme style (backward compatible - defaults to 'light')
+      final styleString = _settingsBox.get(SettingsService.themeStyleKey, defaultValue: 'light') as String;
+      _themeStyle = ThemeStyle.values.firstWhere(
+        (e) => e.name == styleString,
+        orElse: () => ThemeStyle.light,
+      );
+
+      debugPrint('🎨 Theme settings loaded: dark=$_isDark, font=$_fontPref, shadow=$_shadowEnabled, style=${_themeStyle.name}');
     } catch (e) {
       debugPrint('❌ Failed to load theme settings: $e - using defaults');
       _isDark = AppConfig.defaultDarkMode;
       _fontPref = AppConfig.defaultFontSize;
       _shadowEnabled = AppConfig.defaultShadowEnabled;
       _backgroundOpacity = AppConfig.defaultBackgroundOpacity;
+      _themeStyle = ThemeStyle.light;
     }
   }
 
@@ -83,11 +103,18 @@ class ThemeProvider extends ChangeNotifier {
       final newFontPref = _settingsBox.get(SettingsService.fontKey, defaultValue: AppConfig.defaultFontSize) as String;
       final newShadowEnabled = _settingsBox.get(SettingsService.shadowKey, defaultValue: AppConfig.defaultShadowEnabled) as bool;
       final newBackgroundOpacity = _settingsBox.get(SettingsService.opacityKey, defaultValue: AppConfig.defaultBackgroundOpacity) as double;
-      
-      if (newIsDark != _isDark || 
-          newFontPref != _fontPref || 
-          newShadowEnabled != _shadowEnabled || 
-          newBackgroundOpacity != _backgroundOpacity) {
+
+      final styleString = _settingsBox.get(SettingsService.themeStyleKey, defaultValue: 'light') as String;
+      final newThemeStyle = ThemeStyle.values.firstWhere(
+        (e) => e.name == styleString,
+        orElse: () => ThemeStyle.light,
+      );
+
+      if (newIsDark != _isDark ||
+          newFontPref != _fontPref ||
+          newShadowEnabled != _shadowEnabled ||
+          newBackgroundOpacity != _backgroundOpacity ||
+          newThemeStyle != _themeStyle) {
         
         // Notify widget service about theme transition
         // Widget service removed
@@ -96,10 +123,11 @@ class ThemeProvider extends ChangeNotifier {
         _fontPref = newFontPref;
         _shadowEnabled = newShadowEnabled;
         _backgroundOpacity = newBackgroundOpacity;
-        
+        _themeStyle = newThemeStyle;
+
         // Use microtask to prevent main thread blocking
         Future.microtask(() => notifyListeners());
-        debugPrint('🎨 Theme updated: dark=$newIsDark, shadow=$newShadowEnabled');
+        debugPrint('🎨 Theme updated: dark=$newIsDark, shadow=$newShadowEnabled, style=${newThemeStyle.name}');
       }
     });
   }
@@ -119,6 +147,7 @@ class ThemeProvider extends ChangeNotifier {
     String? fontPref,
     bool? shadowEnabled,
     double? backgroundOpacity,
+    ThemeStyle? themeStyle,
   }) async {
     try {
       // Ensure settings box is available and open
@@ -155,6 +184,10 @@ class ThemeProvider extends ChangeNotifier {
         await _settingsBox.put(SettingsService.opacityKey, backgroundOpacity);
         debugPrint('🎨 Background opacity updated: $backgroundOpacity');
       }
+      if (themeStyle != null && themeStyle != _themeStyle) {
+        await _settingsBox.put(SettingsService.themeStyleKey, themeStyle.name);
+        debugPrint('🎨 Theme style updated: ${themeStyle.name}');
+      }
       // Settings change will be handled by _onSettingsChanged
     } catch (e) {
       debugPrint('❌ Failed to update theme settings: $e');
@@ -179,6 +212,11 @@ class ThemeProvider extends ChangeNotifier {
   /// Set background opacity
   Future<void> setBackgroundOpacity(double opacity) async {
     await updateTheme(backgroundOpacity: opacity);
+  }
+
+  /// Set theme style
+  Future<void> setThemeStyle(ThemeStyle style) async {
+    await updateTheme(themeStyle: style);
   }
 
   @override

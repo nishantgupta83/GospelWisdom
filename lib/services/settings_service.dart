@@ -13,6 +13,7 @@ class SettingsService extends ChangeNotifier {
   static const String musicKey = 'music_enabled';
   static const String shadowKey = 'text_shadow_enabled';
   static const String opacityKey = 'background_opacity';
+  static const String themeStyleKey = 'theme_style';
   static const String lastCacheRefreshKey = 'last_cache_refresh_date';
 
   /// Call once at startup:
