@@ -132,14 +132,18 @@ class ThemeProvider extends ChangeNotifier {
     });
   }
 
-  /// Get light theme with current settings
+  /// Get light theme with current settings (legacy support)
   ThemeData get lightTheme => AppTheme.buildLightTheme(shadowEnabled: _shadowEnabled);
-  
-  /// Get dark theme with current settings
+
+  /// Get dark theme with current settings (legacy support)
   ThemeData get darkTheme => AppTheme.buildDarkTheme(shadowEnabled: _shadowEnabled);
-  
-  /// Get current theme based on dark mode setting
-  ThemeData get currentTheme => _isDark ? darkTheme : lightTheme;
+
+  /// Get current theme based on theme style and dark mode setting
+  ThemeData get currentTheme => AppTheme.buildTheme(
+        style: _themeStyle,
+        isDark: _isDark,
+        shadowEnabled: _shadowEnabled,
+      );
 
   /// Update theme settings
   Future<void> updateTheme({
