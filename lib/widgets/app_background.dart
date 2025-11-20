@@ -91,7 +91,7 @@ class AppBackground extends StatelessWidget {
 
   const AppBackground({
     Key? key,
-    required this.themeStyle,
+    this.themeStyle,
     required this.isDark,
     this.opacity = 1.0,
     this.showAnimatedOrbs = false,

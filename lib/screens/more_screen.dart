@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import '../screens/about_screen.dart';
 import '../screens/search_screen.dart';
 import '../screens/web_view_screen.dart';
+import '../core/theme/theme_provider.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({Key? key}) : super(key: key);
@@ -260,6 +261,42 @@ class _MoreScreenState extends State<MoreScreen> {
                     );
                   },
                   fallback: _buildLoadingListTile('Dark Mode', 'Loading theme settings...'),
+                ),
+                const Divider(height: 1),
+                Consumer<ThemeProvider>(
+                  builder: (context, themeProvider, child) {
+                    return ListTile(
+                      title: const Text('Theme Style'),
+                      subtitle: const Text('Choose your visual style'),
+                      trailing: DropdownButton<ThemeStyle>(
+                        value: themeProvider.themeStyle,
+                        items: const [
+                          DropdownMenuItem(
+                            value: ThemeStyle.light,
+                            child: Text('Light'),
+                          ),
+                          DropdownMenuItem(
+                            value: ThemeStyle.dark,
+                            child: Text('Dark'),
+                          ),
+                          DropdownMenuItem(
+                            value: ThemeStyle.paper,
+                            child: Text('Paper'),
+                          ),
+                          DropdownMenuItem(
+                            value: ThemeStyle.sage,
+                            child: Text('Sage'),
+                          ),
+                        ],
+                        onChanged: (ThemeStyle? newStyle) {
+                          if (newStyle != null) {
+                            themeProvider.setThemeStyle(newStyle);
+                            debugPrint('🎨 Theme style changed to: $newStyle');
+                          }
+                        },
+                      ),
+                    );
+                  },
                 ),
                 const Divider(height: 1),
                 Consumer<BackgroundMusicService>(
