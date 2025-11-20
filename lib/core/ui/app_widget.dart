@@ -88,10 +88,9 @@ class AppWidget extends StatelessWidget {
               ],
               supportedLocales: AppConfig.supportedLocales,
 
-              // Theme configuration
-              theme: themeProvider.lightTheme,
-              darkTheme: themeProvider.darkTheme,
-              themeMode: themeProvider.themeMode,
+              // Theme configuration - uses current theme style (Light, Dark, Paper, Sage)
+              theme: themeProvider.currentTheme,
+              themeMode: ThemeMode.light, // Always use light mode since theme is determined by themeStyle
 
               // Custom builder with background and text scaling
               builder: (context, child) {

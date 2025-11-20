@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   
   final PageController _pageController = PageController();
   final PageController _dilemmasPageController = PageController();
-  late final String _chapterId;
+  String _chapterId = '';
   Future<Verse>? _verseFuture;
   Future<List<Chapter>>? _chaptersFuture;
   Future<List<Scenario>>? _dilemmasFuture;
@@ -133,10 +133,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     _fadeController.forward();
     _slideController.forward();
 
-    // Pick a random chapter UUID - will be initialized after first frame
-    _chapterId = '';
-
     // Defer heavy data loading until after the first frame renders
+    // _chapterId will be initialized in _initializeDataAfterFirstFrame()
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initializeDataAfterFirstFrame();
     });
