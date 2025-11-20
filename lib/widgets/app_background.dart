@@ -4,36 +4,94 @@ import 'dart:io' show Platform;
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../core/ios_performance_optimizer.dart';
+import '../core/theme/theme_provider.dart';
 
-/// App background widget - provides unified gradient backgrounds across all screens
+/// App background widget - provides unified gradient backgrounds for all 4 theme styles
 /// Replaces image-based backgrounds for better performance and smaller bundle size
 class AppBackground extends StatelessWidget {
+  final ThemeStyle? themeStyle;
   final bool isDark;
   final double opacity;
   final bool showAnimatedOrbs;
   final AnimationController? orbController;
 
-  // Pre-cached gradient colors for performance (avoid runtime calculations)
-  static const _darkGradientColors = [
-    Color(0xFF0D1B2A),
-    Color(0xFF1B263B),
-    Color(0xFF415A77),
-  ];
+  // ═══════════════════════════════════════════════════════════════════
+  // GRADIENT COLORS (8 variants for 4 theme styles × light/dark)
+  // ═══════════════════════════════════════════════════════════════════
 
+  // Light Theme - Clean whites to light purples
   static const _lightGradientColors = [
-    Color(0xFFF8FAFC),
-    Color(0xFFE2E8F0),
-    Color(0xFFCBD5E1),
+    Color(0xFFF8FAFC), // Very light gray
+    Color(0xFFE9DDFF), // Light purple tint
+    Color(0xFFE2E8F0), // Light gray-blue
   ];
 
-  // Pre-calculated orb colors with alpha (avoid runtime withValues calls)
-  static const _orbColorDarkPrimary = Color(0x1AFF9800); // Orange with alpha ~0.1
-  static const _orbColorDarkSecondary = Color(0x0DFF5722); // Deep Orange with alpha ~0.05
-  static const _orbColorLightPrimary = Color(0x1A2196F3); // Blue with alpha ~0.1
-  static const _orbColorLightSecondary = Color(0x0D3F51B5); // Indigo with alpha ~0.05
+  // Dark Theme - Deep navy to steel blues
+  static const _darkGradientColors = [
+    Color(0xFF0D1B2A), // Deep navy
+    Color(0xFF1B263B), // Navy blue
+    Color(0xFF415A77), // Steel blue
+  ];
+
+  // Paper Theme Light - Cream to warm beige
+  static const _paperLightGradientColors = [
+    Color(0xFFFAF3E0), // Cream (matches paperLightBackground)
+    Color(0xFFF5E6D3), // Aged paper (matches paperLightSurface)
+    Color(0xFFE8D5B7), // Light tan
+  ];
+
+  // Paper Theme Dark - Deep brown to sepia
+  static const _paperDarkGradientColors = [
+    Color(0xFF2C1810), // Deep brown (matches paperDarkBackground)
+    Color(0xFF3E2723), // Dark paper (matches paperDarkSurface)
+    Color(0xFF4E342E), // Warm brown
+  ];
+
+  // Sage Theme Light - Soft green to sage
+  static const _sageLightGradientColors = [
+    Color(0xFFF1F8F4), // Soft green tint (matches sageLightBackground)
+    Color(0xFFE8F5E9), // Very light green (matches sageLightSurface)
+    Color(0xFFD4E7D7), // Light sage
+  ];
+
+  // Sage Theme Dark - Forest to deep green
+  static const _sageDarkGradientColors = [
+    Color(0xFF1B3A1F), // Dark forest (matches sageDarkBackground)
+    Color(0xFF1B5E20), // Forest green (matches sageDarkSurface)
+    Color(0xFF2E7D32), // Deep green
+  ];
+
+  // ═══════════════════════════════════════════════════════════════════
+  // ORB COLORS (animated background accents)
+  // ═══════════════════════════════════════════════════════════════════
+
+  // Light Theme Orbs - Purple accents
+  static const _orbColorLightPrimary = Color(0x1A6750A4); // Purple with alpha ~0.1
+  static const _orbColorLightSecondary = Color(0x0D625B71); // Muted purple with alpha ~0.05
+
+  // Dark Theme Orbs - Light purple accents
+  static const _orbColorDarkPrimary = Color(0x1ACFBCFF); // Light purple with alpha ~0.1
+  static const _orbColorDarkSecondary = Color(0x0DCBC2DB); // Muted light purple with alpha ~0.05
+
+  // Paper Light Orbs - Warm brown accents
+  static const _orbColorPaperLightPrimary = Color(0x1A8B6F47); // Warm brown with alpha ~0.1
+  static const _orbColorPaperLightSecondary = Color(0x0D6D4C41); // Dark brown with alpha ~0.05
+
+  // Paper Dark Orbs - Light brown accents
+  static const _orbColorPaperDarkPrimary = Color(0x1AD7A86E); // Light brown with alpha ~0.1
+  static const _orbColorPaperDarkSecondary = Color(0x0DBCAAA4); // Muted brown with alpha ~0.05
+
+  // Sage Light Orbs - Sage green accents
+  static const _orbColorSageLightPrimary = Color(0x1A6B8E6F); // Sage green with alpha ~0.1
+  static const _orbColorSageLightSecondary = Color(0x0D558B2F); // Dark green with alpha ~0.05
+
+  // Sage Dark Orbs - Light sage accents
+  static const _orbColorSageDarkPrimary = Color(0x1AA5D6A7); // Light sage with alpha ~0.1
+  static const _orbColorSageDarkSecondary = Color(0x0D9CCC65); // Muted green with alpha ~0.05
 
   const AppBackground({
     Key? key,
+    required this.themeStyle,
     required this.isDark,
     this.opacity = 1.0,
     this.showAnimatedOrbs = false,
@@ -43,6 +101,40 @@ class AppBackground extends StatelessWidget {
          'orbController must be provided when showAnimatedOrbs is true',
        ),
        super(key: key);
+
+  /// Get gradient colors based on theme style and brightness
+  List<Color> get _gradientColors {
+    final style = themeStyle ?? (isDark ? ThemeStyle.dark : ThemeStyle.light);
+    switch (style) {
+      case ThemeStyle.light:
+      case ThemeStyle.dark:
+        return isDark ? _darkGradientColors : _lightGradientColors;
+      case ThemeStyle.paper:
+        return isDark ? _paperDarkGradientColors : _paperLightGradientColors;
+      case ThemeStyle.sage:
+        return isDark ? _sageDarkGradientColors : _sageLightGradientColors;
+    }
+  }
+
+  /// Get orb colors based on theme style and brightness
+  List<Color> get _orbColors {
+    final style = themeStyle ?? (isDark ? ThemeStyle.dark : ThemeStyle.light);
+    switch (style) {
+      case ThemeStyle.light:
+      case ThemeStyle.dark:
+        return isDark
+            ? [_orbColorDarkPrimary, _orbColorDarkSecondary]
+            : [_orbColorLightPrimary, _orbColorLightSecondary];
+      case ThemeStyle.paper:
+        return isDark
+            ? [_orbColorPaperDarkPrimary, _orbColorPaperDarkSecondary]
+            : [_orbColorPaperLightPrimary, _orbColorPaperLightSecondary];
+      case ThemeStyle.sage:
+        return isDark
+            ? [_orbColorSageDarkPrimary, _orbColorSageDarkSecondary]
+            : [_orbColorSageLightPrimary, _orbColorSageLightSecondary];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +149,7 @@ class AppBackground extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: isDark ? _darkGradientColors : _lightGradientColors,
+              colors: _gradientColors,
             ),
           ),
           child: showAnimatedOrbs && orbController != null
@@ -92,9 +184,7 @@ class AppBackground extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: RadialGradient(
-                            colors: isDark
-                                ? [_orbColorDarkPrimary, _orbColorDarkSecondary]
-                                : [_orbColorLightPrimary, _orbColorLightSecondary],
+                            colors: _orbColors,
                           ),
                         ),
                       ),
@@ -115,9 +205,7 @@ class AppBackground extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: RadialGradient(
-                            colors: isDark
-                                ? [_orbColorDarkPrimary, _orbColorDarkSecondary]
-                                : [_orbColorLightPrimary, _orbColorLightSecondary],
+                            colors: _orbColors,
                           ),
                         ),
                       ),
