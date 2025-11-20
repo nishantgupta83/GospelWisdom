@@ -138,7 +138,37 @@
   "@darkMode": {
     "description": "Dark mode toggle setting"
   },
-  
+
+  "themeStyle": "Theme Style",
+  "@themeStyle": {
+    "description": "Theme style picker setting label"
+  },
+
+  "chooseVisualStyle": "Choose your visual style",
+  "@chooseVisualStyle": {
+    "description": "Theme style picker subtitle"
+  },
+
+  "themeStyleLight": "Light",
+  "@themeStyleLight": {
+    "description": "Light theme option"
+  },
+
+  "themeStyleDark": "Dark",
+  "@themeStyleDark": {
+    "description": "Dark theme option"
+  },
+
+  "themeStylePaper": "Paper",
+  "@themeStylePaper": {
+    "description": "Paper/journal theme option with vintage aesthetic"
+  },
+
+  "themeStyleSage": "Sage",
+  "@themeStyleSage": {
+    "description": "Sage green theme option"
+  },
+
   "backgroundMusic": "Background Music",
   "@backgroundMusic": {
     "description": "Background music toggle setting"

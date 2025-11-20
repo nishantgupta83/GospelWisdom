@@ -238,6 +238,42 @@ abstract class AppLocalizations {
   /// **'Dark Mode'**
   String get darkMode;
 
+  /// Theme style picker setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Style'**
+  String get themeStyle;
+
+  /// Theme style picker subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your visual style'**
+  String get chooseVisualStyle;
+
+  /// Light theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeStyleLight;
+
+  /// Dark theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeStyleDark;
+
+  /// Paper/journal theme option with vintage aesthetic
+  ///
+  /// In en, this message translates to:
+  /// **'Paper'**
+  String get themeStylePaper;
+
+  /// Sage green theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Sage'**
+  String get themeStyleSage;
+
   /// Background music toggle setting
   ///
   /// In en, this message translates to:

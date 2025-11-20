@@ -16,6 +16,7 @@ import '../screens/about_screen.dart';
 import '../screens/search_screen.dart';
 import '../screens/web_view_screen.dart';
 import '../core/theme/theme_provider.dart';
+import '../l10n/app_localizations.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({Key? key}) : super(key: key);
@@ -265,27 +266,28 @@ class _MoreScreenState extends State<MoreScreen> {
                 const Divider(height: 1),
                 Consumer<ThemeProvider>(
                   builder: (context, themeProvider, child) {
+                    final localizations = AppLocalizations.of(context)!;
                     return ListTile(
-                      title: const Text('Theme Style'),
-                      subtitle: const Text('Choose your visual style'),
+                      title: Text(localizations.themeStyle),
+                      subtitle: Text(localizations.chooseVisualStyle),
                       trailing: DropdownButton<ThemeStyle>(
                         value: themeProvider.themeStyle,
-                        items: const [
+                        items: [
                           DropdownMenuItem(
                             value: ThemeStyle.light,
-                            child: Text('Light'),
+                            child: Text(localizations.themeStyleLight),
                           ),
                           DropdownMenuItem(
                             value: ThemeStyle.dark,
-                            child: Text('Dark'),
+                            child: Text(localizations.themeStyleDark),
                           ),
                           DropdownMenuItem(
                             value: ThemeStyle.paper,
-                            child: Text('Paper'),
+                            child: Text(localizations.themeStylePaper),
                           ),
                           DropdownMenuItem(
                             value: ThemeStyle.sage,
-                            child: Text('Sage'),
+                            child: Text(localizations.themeStyleSage),
                           ),
                         ],
                         onChanged: (ThemeStyle? newStyle) {

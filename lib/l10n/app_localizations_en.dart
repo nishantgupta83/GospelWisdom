@@ -88,6 +88,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get darkMode => 'Dark Mode';
 
   @override
+  String get themeStyle => 'Theme Style';
+
+  @override
+  String get chooseVisualStyle => 'Choose your visual style';
+
+  @override
+  String get themeStyleLight => 'Light';
+
+  @override
+  String get themeStyleDark => 'Dark';
+
+  @override
+  String get themeStylePaper => 'Paper';
+
+  @override
+  String get themeStyleSage => 'Sage';
+
+  @override
   String get backgroundMusic => 'Background Music';
 
   @override
