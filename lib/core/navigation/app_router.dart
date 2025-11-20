@@ -97,7 +97,7 @@ class AppRouter {
         final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(
           builder: (_) => ScenariosScreen(
-            filterChapter: args?['filterChapter'] as int?,
+            filterChapter: args?['filterChapter'] as String?,
           ),
         );
       

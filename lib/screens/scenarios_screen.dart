@@ -100,7 +100,7 @@ class CategoryFilter {
 
 class ScenariosScreen extends StatefulWidget {
   final String? filterTag;
-  final int? filterChapter; // Add chapter filtering
+  final String? filterChapter; // Add chapter filtering (UUID)
   const ScenariosScreen({Key? key, this.filterTag, this.filterChapter}) : super(key: key);
 
   @override
@@ -118,7 +118,7 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
   String _search = '';
   String _selectedFilter = 'All'; // Top-level filter: All, Favorite, Teenager, Parents
   String? _selectedSubCategory; // Sub-category filter for enhanced filtering
-  int? _selectedChapter; // Add chapter filter state
+  String? _selectedChapter; // Add chapter filter state (UUID)
   bool _isLoading = true;
   bool _isLoadingMore = false; // Loading more scenarios for pagination
   bool _hasNewContent = false;
@@ -651,8 +651,8 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
                       child: Column(
                         children: [
                           Text(
-                            _selectedChapter != null 
-                                ? AppLocalizations.of(context)!.chapterScenarios(_selectedChapter!)
+                            _selectedChapter != null
+                                ? 'Chapter Scenarios'  // TODO: Map UUID to chapter number
                                 : AppLocalizations.of(context)!.lifeScenarios,
                             style: GoogleFonts.poiretOne(
                               fontSize: theme.textTheme.headlineLarge?.fontSize,
@@ -681,7 +681,7 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
                           const SizedBox(height: 8),
                           Text(
                             _selectedChapter != null
-                                ? AppLocalizations.of(context)!.chapterScenariosSubtitle(_selectedChapter!)
+                                ? 'Scenarios from this chapter'  // TODO: Map UUID to chapter number
                                 : AppLocalizations.of(context)!.applyGospelWisdom,
                             style: GoogleFonts.poppins(
                               fontSize: theme.textTheme.bodyMedium?.fontSize,
@@ -775,7 +775,7 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
                           Expanded(
                             child: Text(
                               _selectedChapter != null
-                                  ? AppLocalizations.of(context)!.showingScenariosForChapter(_selectedChapter!)
+                                  ? 'Chapter Scenarios'  // TODO: Map UUID to chapter number
                                   : _selectedFilter.startsWith('Tag:')
                                       ? AppLocalizations.of(context)!.showingScenariosTaggedWith(_selectedFilter.substring(4))
                                       : 'Showing $_selectedFilter scenarios',

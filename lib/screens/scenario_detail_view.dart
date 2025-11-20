@@ -321,7 +321,7 @@ class _ScenarioDetailViewState extends State<ScenarioDetailView> {
                                         try {
                                           await AppSharingService().shareScenario(
                                             widget.scenario.title,
-                                            widget.scenario.heartResponse,
+                                            widget.scenario.heartResponse ?? '',
                                             widget.scenario.dutyResponse,
                                             '', // Remove Gita wisdom references as requested
                                             actionSteps: widget.scenario.actionSteps,
@@ -682,7 +682,7 @@ class _ScenarioDetailViewState extends State<ScenarioDetailView> {
             ),
             const SizedBox(height: 16),
             // Heart response text - split into scannable sentences with markers
-            _buildScannableText(widget.scenario.heartResponse, theme, cardType: 'heart'),
+            _buildScannableText(widget.scenario.heartResponse ?? '', theme, cardType: 'heart'),
           ],
         ),
       ),

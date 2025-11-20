@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   
   final PageController _pageController = PageController();
   final PageController _dilemmasPageController = PageController();
-  late final int _chapterId;
+  late final String _chapterId;
   Future<Verse>? _verseFuture;
   Future<List<Chapter>>? _chaptersFuture;
   Future<List<Scenario>>? _dilemmasFuture;
@@ -133,8 +133,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     _fadeController.forward();
     _slideController.forward();
 
-    // Pick a random chapter (lightweight) - using chapter number not ID
-    _chapterId = math.Random().nextInt(18) + 1;
+    // Pick a random chapter UUID - will be initialized after first frame
+    _chapterId = '';
 
     // Defer heavy data loading until after the first frame renders
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -154,11 +154,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   Future<void> _initializeDataAfterFirstFrame() async {
     if (!mounted) return;
 
+    // First, fetch all chapters to get a valid chapter ID
+    final allChapters = await _service.fetchAllChapters();
+    if (allChapters.isNotEmpty) {
+      _chapterId = allChapters[math.Random().nextInt(allChapters.length)].id;
+    } else {
+      _chapterId = ''; // Fallback if no chapters available
+    }
+
     // Load data with staggered timing to prevent overwhelming the device
-    setState(() {
-      // Start with the most critical data first
-      _verseFuture = _service.fetchRandomVerseByChapter(_chapterId);
-    });
+    if (_chapterId.isNotEmpty) {
+      setState(() {
+        // Start with the most critical data first
+        _verseFuture = _service.fetchRandomVerseByChapter(_chapterId);
+      });
+    }
 
     // Small delay before loading chapters (less critical)
     await Future.delayed(const Duration(milliseconds: 100));
@@ -837,7 +847,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        'Chapter ${chapter.chapterId}',
+                        'Chapter ${chapter.id}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -859,7 +869,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        chapter.title,
+                        chapter.title ?? 'Untitled',
                         style: theme.textTheme.titleLarge?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
@@ -1184,8 +1194,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
           final scenarioDataList = allScenarios.map((scenario) => ScenarioData(
             title: scenario.title,
             description: scenario.description,
-            category: scenario.category,
-            chapter: scenario.chapter,
+            category: scenario.category ?? '',
+            chapter: scenario.gospelId ?? 0,
           )).toList();
 
           // Use compute() for background filtering to prevent UI blocking
@@ -1226,8 +1236,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         final scenarioDataList = allScenarios.map((scenario) => ScenarioData(
           title: scenario.title,
           description: scenario.description,
-          category: scenario.category,
-          chapter: scenario.chapter,
+          category: scenario.category ?? '',
+          chapter: scenario.gospelId ?? 0,
         )).toList();
 
         final filteredData = await compute(_filterParentingAndRelationshipScenarios, scenarioDataList);

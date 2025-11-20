@@ -25,7 +25,7 @@ class _RootScaffoldState extends State<RootScaffold> with WidgetsBindingObserver
   @override
   bool get wantKeepAlive => true; // Preserve state across rebuilds (rotation, low memory)
   int _currentIndex = 0;
-  int? _pendingChapterFilter;
+  String? _pendingChapterFilter;
 
   // Lazy loading: Only build pages when accessed (saves memory and initialization time)
   final Map<int, Widget> _builtPages = {};
@@ -205,7 +205,7 @@ class _RootScaffoldState extends State<RootScaffold> with WidgetsBindingObserver
   }
 
   /// Navigate to scenarios with chapter filter - optimized for lazy loading
-  void _goToScenariosWithChapter(int chapterId) {
+  void _goToScenariosWithChapter(String chapterId) {
     debugPrint('🔧 Navigating to scenarios with chapter filter: $chapterId');
 
     // Only update if filter actually changed
