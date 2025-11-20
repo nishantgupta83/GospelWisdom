@@ -154,18 +154,7 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
     // Set initial filter based on any existing tag
     if (widget.filterTag != null) {
       // Map tags to comprehensive filter categories with intelligent matching
-      // Create a dummy scenario to test tag matching
-      final testScenario = Scenario(
-        title: '',
-        description: '',
-        category: '',
-        chapter: 1,
-        heartResponse: '',
-        dutyResponse: '',
-        gospelWisdom: '',
-        tags: [widget.filterTag!],
-        createdAt: DateTime.now(),
-      );
+      // No need to create dummy scenario - just use tag directly for filtering
 
       // For tag-based filtering, set to 'All' and let search handle it
       _selectedFilter = 'All';
@@ -233,7 +222,7 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
     try {
       // If a specific chapter is requested, fetch scenarios directly from Supabase for that chapter
       if (_selectedChapter != null) {
-        final chapterScenarios = await _service.fetchScenariosByChapter(_selectedChapter!);
+        final chapterScenarios = await _service.fetchScenariosByChapter(_selectedChapter!.toString());
 
         if (mounted) {
           setState(() {
@@ -386,11 +375,11 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
       
       // STEP 2: Apply search within chapter scenarios if search exists
       if (_search.trim().isNotEmpty) {
-        filtered = filtered.where((s) => 
+        filtered = filtered.where((s) =>
           s.title.toLowerCase().contains(_search.toLowerCase()) ||
           s.description.toLowerCase().contains(_search.toLowerCase()) ||
-          s.category.toLowerCase().contains(_search.toLowerCase()) ||
-          s.gospelWisdom.toLowerCase().contains(_search.toLowerCase()) ||
+          (s.category?.toLowerCase().contains(_search.toLowerCase()) ?? false) ||
+          (s.gospelWisdom?.toLowerCase().contains(_search.toLowerCase()) ?? false) ||
           (s.tags?.any((tag) => tag.toLowerCase().contains(_search.toLowerCase())) ?? false)
         ).toList();
       }
@@ -414,7 +403,7 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
         case 'Financial':
         case 'Education & Learning':
         case 'Modern Living':
-          filtered = filtered.where((s) => s.category == _selectedFilter).toList();
+          filtered = filtered.where((s) => s.category?.toLowerCase() == _selectedFilter.toLowerCase()).toList();
           break;
           
         case 'All':
@@ -431,9 +420,9 @@ class _ScenariosScreenState extends State<ScenariosScreen> {
           }
           // STEP 5: Handle any other unknown filter types
           else if (_selectedFilter != 'All') {
-            filtered = filtered.where((s) => 
+            filtered = filtered.where((s) =>
               s.tags?.any((tag) => tag.toLowerCase().contains(_selectedFilter.toLowerCase())) ?? false ||
-              s.category.toLowerCase().contains(_selectedFilter.toLowerCase())
+              (s.category?.toLowerCase().contains(_selectedFilter.toLowerCase()) ?? false)
             ).toList();
           }
           break;
@@ -1500,24 +1489,24 @@ List<Map<String, dynamic>> _performSearchCompute(Map<String, dynamic> params) {
       
       // Apply search within chapter scenarios
       if (searchQuery.trim().isNotEmpty) {
-        filtered = filtered.where((s) => 
+        filtered = filtered.where((s) =>
           s.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
           s.description.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          s.category.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          s.gospelWisdom.toLowerCase().contains(searchQuery.toLowerCase()) ||
+          (s.category?.toLowerCase().contains(searchQuery.toLowerCase()) ?? false) ||
+          (s.gospelWisdom?.toLowerCase().contains(searchQuery.toLowerCase()) ?? false) ||
           (s.tags?.any((tag) => tag.toLowerCase().contains(searchQuery.toLowerCase())) ?? false)
         ).toList();
       }
     } else {
       // Apply search filter first (if exists) - using basic search for compute
       if (searchQuery.trim().isNotEmpty) {
-        filtered = filtered.where((s) => 
+        filtered = filtered.where((s) =>
           s.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
           s.description.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          s.category.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          s.gospelWisdom.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          s.heartResponse.toLowerCase().contains(searchQuery.toLowerCase()) ||
-          s.dutyResponse.toLowerCase().contains(searchQuery.toLowerCase()) ||
+          (s.category?.toLowerCase().contains(searchQuery.toLowerCase()) ?? false) ||
+          (s.gospelWisdom?.toLowerCase().contains(searchQuery.toLowerCase()) ?? false) ||
+          (s.heartResponse?.toLowerCase().contains(searchQuery.toLowerCase()) ?? false) ||
+          (s.gospelResponse?.toLowerCase().contains(searchQuery.toLowerCase()) ?? false) ||
           (s.tags?.any((tag) => tag.toLowerCase().contains(searchQuery.toLowerCase())) ?? false)
         ).toList();
       }
@@ -1546,9 +1535,9 @@ List<Map<String, dynamic>> _performSearchCompute(Map<String, dynamic> params) {
                 s.tags?.any((tag) => tag.toLowerCase().contains(tagName.toLowerCase())) ?? false
               ).toList();
             } else {
-              filtered = filtered.where((s) => 
+              filtered = filtered.where((s) =>
                 s.tags?.any((tag) => tag.toLowerCase().contains(selectedFilter.toLowerCase())) ?? false ||
-                s.category.toLowerCase().contains(selectedFilter.toLowerCase())
+                (s.category?.toLowerCase().contains(selectedFilter.toLowerCase()) ?? false)
               ).toList();
             }
             break;

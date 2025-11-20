@@ -20,7 +20,7 @@ import '../widgets/share_card_widget.dart';
 
 class VerseListView extends StatefulWidget {
   /// The ID of the chapter whose verses we're displaying.
-  final int chapterId;
+  final String chapterId;
 
   const VerseListView({Key? key, required this.chapterId}) : super(key: key);
 

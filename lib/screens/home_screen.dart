@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     _fadeController.forward();
     _slideController.forward();
 
-    // Pick a random chapter (lightweight)
+    // Pick a random chapter (lightweight) - using chapter number not ID
     _chapterId = math.Random().nextInt(18) + 1;
 
     // Defer heavy data loading until after the first frame renders
@@ -818,7 +818,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChapterDetailView(chapterId: chapter.chapterId),
+                builder: (context) => ChapterDetailView(chapterId: chapter.id),
               ),
             );
           },
@@ -868,17 +868,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
-                      Flexible(
-                        child: Text(
-                          chapter.summary ?? '',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: Colors.white.withValues(alpha:0.9),
-                            height: 1.4,
+                      if (chapter.summary != null)
+                        Flexible(
+                          child: Text(
+                            chapter.summary!,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: Colors.white.withValues(alpha:0.9),
+                              height: 1.4,
+                            ),
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
                     ],
                   ),
                 ),

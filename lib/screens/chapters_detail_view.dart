@@ -11,7 +11,7 @@ import '../l10n/app_localizations.dart';
 import '../widgets/app_background.dart';
 
 class ChapterDetailView extends StatefulWidget {
-  final int chapterId;
+  final String chapterId;
 
   const ChapterDetailView({Key? key, required this.chapterId}) : super(key: key);
 
@@ -107,7 +107,7 @@ class _ChapterDetailViewState extends State<ChapterDetailView> {
               child: Column(
                 children: [
                   Text(
-                    _chapter!.title,
+                    _chapter!.title ?? '',
                     style: GoogleFonts.poiretOne(
                       fontSize: textScaler.scale(26),
                       fontWeight: FontWeight.w800,
@@ -173,11 +173,6 @@ class _ChapterDetailViewState extends State<ChapterDetailView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if (_chapter!.subtitle != null)
-                                  Text(
-                                    _chapter!.subtitle!,
-                                    style: theme.textTheme.titleMedium?.copyWith(color: onSurface),
-                                  ),
                                 if (_chapter!.summary != null) ...[
                                   const SizedBox(height: 8),
                                   Column(

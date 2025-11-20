@@ -105,7 +105,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => MoreScreen());
       
       case chapterDetail:
-        final chapterId = settings.arguments as int;
+        final chapterId = settings.arguments as String;  // UUID for gospel_chapters
         return MaterialPageRoute(
           builder: (_) => ChapterDetailView(chapterId: chapterId),
         );
@@ -119,7 +119,7 @@ class AppRouter {
         );
       
       case verseList:
-        final chapterId = settings.arguments as int;
+        final chapterId = settings.arguments as String;  // UUID
         return MaterialPageRoute(
           builder: (_) => VerseListView(chapterId: chapterId),
         );
@@ -170,7 +170,7 @@ class AppRouter {
   }
 
   /// Navigation helper methods
-  static void goToChapterDetail(int chapterId) {
+  static void goToChapterDetail(String chapterId) {  // UUID
     NavigationService.instance.pushNamed(chapterDetail, arguments: chapterId);
   }
 
@@ -181,7 +181,7 @@ class AppRouter {
     );
   }
 
-  static void goToVerseList(int chapterId) {
+  static void goToVerseList(String chapterId) {  // UUID
     NavigationService.instance.pushNamed(verseList, arguments: chapterId);
   }
 

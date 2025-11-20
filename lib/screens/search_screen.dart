@@ -308,7 +308,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        scenario.category,
+                        scenario.category ?? 'Uncategorized',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.primary,
                         ),
