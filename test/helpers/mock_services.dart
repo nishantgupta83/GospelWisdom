@@ -9,6 +9,7 @@ import 'package:GospelWisdom/core/theme/app_theme.dart';
 import 'package:GospelWisdom/services/settings_service.dart';
 import 'package:GospelWisdom/services/supabase_auth_service.dart';
 import 'package:GospelWisdom/services/bookmark_service.dart';
+import 'package:GospelWisdom/services/chapter_audio_service.dart';
 import 'package:GospelWisdom/models/bookmark.dart';
 
 /// Mock ThemeProvider for testing
@@ -523,5 +524,83 @@ class MockBookmarkService extends Mock implements BookmarkService {
       return true;
     }
     return false;
+  }
+
+  @override
+  bool isBookmarked(BookmarkType type, int referenceId) {
+    return _bookmarks.any(
+      (b) => b.bookmarkType == type && b.referenceId == referenceId,
+    );
+  }
+
+  @override
+  Bookmark? getBookmark(BookmarkType type, int referenceId) {
+    try {
+      return _bookmarks.firstWhere(
+        (b) => b.bookmarkType == type && b.referenceId == referenceId,
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> removeBookmark(String id) async {
+    return await deleteBookmark(id);
+  }
+}
+
+/// Mock ChapterAudioService for testing
+class MockChapterAudioService extends ChangeNotifier implements ChapterAudioService {
+  bool _isPlaying = false;
+  bool _isLoading = false;
+  String? _currentChapterId;
+
+  @override
+  bool get isPlaying => _isPlaying;
+
+  @override
+  bool get isLoading => _isLoading;
+
+  @override
+  String? get currentChapterId => _currentChapterId;
+
+  void setMockState({
+    bool? isPlaying,
+    bool? isLoading,
+    String? currentChapterId,
+  }) {
+    if (isPlaying != null) _isPlaying = isPlaying;
+    if (isLoading != null) _isLoading = isLoading;
+    if (currentChapterId != null) _currentChapterId = currentChapterId;
+    notifyListeners();
+  }
+
+  Future<void> playChapter(String chapterId) async {
+    _currentChapterId = chapterId;
+    _isLoading = true;
+    notifyListeners();
+
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    _isLoading = false;
+    _isPlaying = true;
+    notifyListeners();
+  }
+
+  Future<void> pause() async {
+    _isPlaying = false;
+    notifyListeners();
+  }
+
+  Future<void> resume() async {
+    _isPlaying = true;
+    notifyListeners();
+  }
+
+  Future<void> stop() async {
+    _isPlaying = false;
+    _currentChapterId = null;
+    notifyListeners();
   }
 }
