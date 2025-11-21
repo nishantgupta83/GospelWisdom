@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../models/chapter_summary.dart';
 import '../services/chapter_audio_service.dart';
 import '../services/bookmark_service.dart';
+import '../services/haptic_feedback_service.dart';
 import '../models/bookmark.dart';
 import '../l10n/app_localizations.dart';
 
@@ -37,7 +38,7 @@ class EnhancedChapterCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            HapticFeedback.lightImpact();
+            HapticFeedbackService.light();
             onTap();
           },
           customBorder: RoundedRectangleBorder(
@@ -160,33 +161,39 @@ class EnhancedChapterCard extends StatelessWidget {
   }
 
   Widget _buildChapterBadge(ThemeData theme) {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            theme.colorScheme.primary,
-            theme.colorScheme.primaryContainer,
+    return Transform.rotate(
+      angle: 0.785398, // 45 degrees in radians for diamond
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8), // Rounded corners
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              theme.colorScheme.primary,
+              theme.colorScheme.primaryContainer,
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: theme.colorScheme.primary.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
           ],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: theme.colorScheme.primary.withOpacity(0.3),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          '${chapter.chapterNumber}',
-          style: theme.textTheme.titleMedium?.copyWith(
-            color: theme.colorScheme.onPrimary,
-            fontWeight: FontWeight.bold,
+        child: Transform.rotate(
+          angle: -0.785398, // Rotate text back to horizontal
+          child: Center(
+            child: Text(
+              '${chapter.chapterNumber}',
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.onPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ),
@@ -237,7 +244,7 @@ class EnhancedChapterCard extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: () {
-                HapticFeedback.mediumImpact();
+                HapticFeedbackService.light();
                 if (isPlaying) {
                   audioService.pause();
                 } else {
@@ -302,7 +309,7 @@ class EnhancedChapterCard extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: () async {
-                HapticFeedback.mediumImpact();
+                HapticFeedbackService.medium();
                 if (isFavorited) {
                   // Get the bookmark to delete it
                   final bookmark = bookmarkService.getBookmark(
