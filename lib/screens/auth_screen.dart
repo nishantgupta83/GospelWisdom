@@ -117,7 +117,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
         ),
         const SizedBox(height: 24),
         Text(
-          'Welcome to GitaWisdom',
+          'Welcome to Gospel',
           style: theme.textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.w600,
             color: isDark ? Colors.white : Colors.black87,

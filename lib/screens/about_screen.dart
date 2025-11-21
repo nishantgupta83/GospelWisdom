@@ -49,7 +49,7 @@ class AboutScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'ABOUT GITAWISDOM',
+                    'ABOUT GOSPEL',
                     style: GoogleFonts.poiretOne(
                       fontSize: 26,
                       fontWeight: FontWeight.w800,
@@ -75,7 +75,7 @@ class AboutScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Ancient wisdom for modern life',
+                    'Biblical wisdom for modern life',
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.7),

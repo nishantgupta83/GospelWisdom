@@ -72,7 +72,7 @@ class _MoreScreenState extends State<MoreScreen> {
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyyMMdd').format(now);
 
-    final subject = 'GitaWisdom || Feedback || $formattedDate';
+    final subject = 'Gospel || Feedback || $formattedDate';
     final body = 'Hi Team,\n\nWould like to provide feedback on,\n1: \n2: \n\nRegards';
 
     final uri = Uri(
@@ -110,7 +110,7 @@ class _MoreScreenState extends State<MoreScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Help us improve GitaWisdom! Share your thoughts, suggestions, or report issues.',
+                  'Help us improve Gospel! Share your thoughts, suggestions, or report issues.',
                   style: TextStyle(fontSize: 12),
                 ),
                 const SizedBox(height: 16),

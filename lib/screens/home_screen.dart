@@ -1148,7 +1148,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'Welcome to GitaWisdom',
+                  'Welcome to Gospel',
                   style: theme.textTheme.headlineSmall?.copyWith(
                     color: isDark ? Colors.white : theme.colorScheme.onSurface,
                     fontWeight: FontWeight.w700,
@@ -1157,9 +1157,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Your journey of ancient wisdom begins now',
+                  'Your journey of spiritual wisdom begins now',
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    color: isDark 
+                    color: isDark
                         ? Colors.white.withValues(alpha:0.7)
                         : theme.colorScheme.onSurface.withValues(alpha:0.7),
                   ),

@@ -346,7 +346,7 @@ class _ModernAuthScreenState extends State<ModernAuthScreen> with TickerProvider
         ),
         const SizedBox(height: 12),
         Text(
-          'Ancient wisdom for modern life',
+          'Biblical wisdom for modern life',
           style: theme.textTheme.bodyLarge?.copyWith(
             color: theme.colorScheme.onSurface.withValues(alpha:0.7),
             fontStyle: FontStyle.italic,
