@@ -41,32 +41,32 @@ class EnhancedChapterCard extends StatelessWidget {
             onTap();
           },
           customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24), // Squircle effect
+            borderRadius: BorderRadius.circular(4), // Sharp paper corners
           ),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  theme.colorScheme.surface,
-                  theme.colorScheme.surfaceContainerHighest,
-                ],
-              ),
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: theme.colorScheme.primary.withOpacity(0.12),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
+          child: ClipPath(
+            clipper: NotebookPageClipper(),
+            child: CustomPaint(
+              painter: NotebookPagePainter(isDarkMode: Theme.of(context).brightness == Brightness.dark),
+              child: Container(
+                decoration: BoxDecoration(
+                  // Cream paper color (warm white)
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF2A2520) // Dark parchment
+                      : const Color(0xFFFFFEF5), // Cream paper
+                  borderRadius: BorderRadius.circular(4),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 4,
+                      offset: const Offset(1, 2),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
+                padding: const EdgeInsets.fromLTRB(50, 16, 16, 16), // Extra left padding for margin/holes
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                 // Chapter badge
                 _buildChapterBadge(theme),
                 const SizedBox(height: 12),
@@ -146,6 +146,8 @@ class EnhancedChapterCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
+      ),
       ),
     );
   }
@@ -348,4 +350,130 @@ class EnhancedChapterCard extends StatelessWidget {
       },
     );
   }
+}
+
+/// Custom clipper for torn/ripped left edge effect
+class NotebookPageClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+
+    // Start from top-left, create jagged torn edge
+    path.moveTo(8, 0);
+
+    // Create random-looking torn edge points along left side
+    final points = [
+      Offset(6, size.height * 0.1),
+      Offset(10, size.height * 0.15),
+      Offset(5, size.height * 0.22),
+      Offset(12, size.height * 0.28),
+      Offset(7, size.height * 0.35),
+      Offset(11, size.height * 0.42),
+      Offset(6, size.height * 0.5),
+      Offset(10, size.height * 0.58),
+      Offset(8, size.height * 0.65),
+      Offset(12, size.height * 0.72),
+      Offset(7, size.height * 0.8),
+      Offset(9, size.height * 0.88),
+      Offset(6, size.height * 0.95),
+    ];
+
+    for (final point in points) {
+      path.lineTo(point.dx, point.dy);
+    }
+
+    // Bottom-left corner
+    path.lineTo(8, size.height);
+
+    // Straight edges for right, bottom, and top
+    path.lineTo(size.width, size.height); // Bottom edge
+    path.lineTo(size.width, 0); // Right edge
+    path.lineTo(8, 0); // Top edge
+
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+/// Custom painter for notebook lines, margin, and hole punches
+class NotebookPagePainter extends CustomPainter {
+  final bool isDarkMode;
+
+  NotebookPagePainter({required this.isDarkMode});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Colors based on theme
+    final lineColor = isDarkMode
+        ? const Color(0xFF4A4540).withOpacity(0.5) // Subtle brown lines for dark
+        : const Color(0xFFB8D4E8).withOpacity(0.6); // Light blue lines for light
+
+    final marginColor = isDarkMode
+        ? const Color(0xFF8B4545).withOpacity(0.4) // Dark red margin
+        : const Color(0xFFE8A5A5).withOpacity(0.5); // Pink-red margin
+
+    final holeColor = isDarkMode
+        ? const Color(0xFF1A1715) // Dark hole
+        : const Color(0xFFD0D0D0); // Light gray hole
+
+    final holeBorderColor = isDarkMode
+        ? const Color(0xFF3A3530)
+        : const Color(0xFFB0B0B0);
+
+    // Draw horizontal ruled lines (every 32px)
+    final linePaint = Paint()
+      ..color = lineColor
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+
+    for (double y = 50; y < size.height - 20; y += 32) {
+      canvas.drawLine(
+        Offset(20, y),
+        Offset(size.width - 16, y),
+        linePaint,
+      );
+    }
+
+    // Draw red margin line (vertical)
+    final marginPaint = Paint()
+      ..color = marginColor
+      ..strokeWidth = 2.0
+      ..style = PaintingStyle.stroke;
+
+    canvas.drawLine(
+      Offset(40, 20),
+      Offset(40, size.height - 20),
+      marginPaint,
+    );
+
+    // Draw 3 hole punches in margin area
+    final holePaint = Paint()
+      ..color = holeColor
+      ..style = PaintingStyle.fill;
+
+    final holeBorderPaint = Paint()
+      ..color = holeBorderColor
+      ..strokeWidth = 1.5
+      ..style = PaintingStyle.stroke;
+
+    final holePositions = [
+      size.height * 0.2,
+      size.height * 0.5,
+      size.height * 0.8,
+    ];
+
+    for (final y in holePositions) {
+      // Fill
+      canvas.drawCircle(Offset(22, y), 6, holePaint);
+      // Border
+      canvas.drawCircle(Offset(22, y), 6, holeBorderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(NotebookPagePainter oldDelegate) =>
+      isDarkMode != oldDelegate.isDarkMode;
 }
