@@ -269,55 +269,59 @@ class _VerseListViewState extends State<VerseListView> {
                     )
                   ] else ...[
                     for (var verse in _verses)
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(22),
-                            gradient: LinearGradient(
-                              colors: theme.brightness == Brightness.dark 
-                                ? [
-                                    theme.colorScheme.surface,
-                                    theme.colorScheme.primaryContainer.withValues(alpha:0.4),
-                                  ]
-                                : [
-                                    theme.colorScheme.surface,
-                                    theme.colorScheme.primaryContainer,
-                                  ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: theme.brightness == Brightness.dark
-                                  ? Colors.black.withValues(alpha:0.4)
-                                  : Colors.deepPurple.withValues(alpha:0.15),
-                                blurRadius: 12,
-                                spreadRadius: 2,
-                                offset: const Offset(0, 4),
-                              ),
-                              BoxShadow(
-                                color: theme.brightness == Brightness.dark
-                                  ? theme.colorScheme.primary.withValues(alpha:0.15)
-                                  : Colors.indigo.withValues(alpha:0.1),
-                                blurRadius: 8,
-                                spreadRadius: 1,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
+                      Semantics(
+                        label: 'Verse ${verse.verseId} of ${_verses.length}',
+                        hint: 'Double tap to read. Swipe right to share.',
+                        button: true,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                          child: Container(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(22),
-                              onTap: () => _trackVerseRead(verse),
-                              child: Card(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22),
+                              gradient: LinearGradient(
+                                colors: theme.brightness == Brightness.dark
+                                  ? [
+                                      theme.colorScheme.surface,
+                                      theme.colorScheme.primaryContainer.withValues(alpha:0.4),
+                                    ]
+                                  : [
+                                      theme.colorScheme.surface,
+                                      theme.colorScheme.primaryContainer,
+                                    ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: theme.brightness == Brightness.dark
+                                    ? Colors.black.withValues(alpha:0.4)
+                                    : Colors.deepPurple.withValues(alpha:0.15),
+                                  blurRadius: 12,
+                                  spreadRadius: 2,
+                                  offset: const Offset(0, 4),
                                 ),
-                                color: Colors.transparent,
-                                child: Padding(
+                                BoxShadow(
+                                  color: theme.brightness == Brightness.dark
+                                    ? theme.colorScheme.primary.withValues(alpha:0.15)
+                                    : Colors.indigo.withValues(alpha:0.1),
+                                  blurRadius: 8,
+                                  spreadRadius: 1,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(22),
+                                onTap: () => _trackVerseRead(verse),
+                                child: Card(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(22),
+                                  ),
+                                  color: Colors.transparent,
+                                  child: Padding(
                             padding: const EdgeInsets.all(20),
                             child: Column(
                               children: [
@@ -360,12 +364,16 @@ class _VerseListViewState extends State<VerseListView> {
                                     ),
                                     const Spacer(),
                                     // Share Button moved to top right
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(20),
-                                        onTap: () => _showShareDialog(verse),
-                                        child: Container(
+                                    Semantics(
+                                      label: 'Share verse ${verse.verseId}',
+                                      hint: 'Double tap to share this verse',
+                                      button: true,
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.circular(20),
+                                          onTap: () => _showShareDialog(verse),
+                                          child: Container(
                                           padding: const EdgeInsets.symmetric(
                                             horizontal: 13,
                                             vertical: 7,
@@ -396,6 +404,7 @@ class _VerseListViewState extends State<VerseListView> {
                                         ),
                                       ),
                                     ),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 16),
@@ -417,6 +426,7 @@ class _VerseListViewState extends State<VerseListView> {
                             ),
                           ),
                     ),
+                      ),
                   ],
 
                 const SizedBox(height: 16),
