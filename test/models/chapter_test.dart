@@ -2,411 +2,197 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:GospelWisdom/models/chapter.dart';
-import 'package:GospelWisdom/models/verse.dart';
+import '../helpers/test_helpers.dart';
 
 void main() {
   group('Chapter Model', () {
-    group('Chapter Creation and Serialization', () {
-      test('should create chapter with required fields', () {
-        final chapter = Chapter(
-          chapterId: 1,
-          title: 'Chapter of Dharma',
-          summary: 'Introduction to the nature of dharma',
-          verseCount: 47,
-        );
+    late Chapter testChapter;
 
-        expect(chapter.chapterId, equals(1));
-        expect(chapter.title, equals('Chapter of Dharma'));
-        expect(chapter.summary, equals('Introduction to the nature of dharma'));
-        expect(chapter.verseCount, equals(47));
+    setUp(() {
+      testChapter = TestHelpers.createTestChapter();
+    });
+
+    group('Constructor', () {
+      test('should create a Chapter with all required fields', () {
+        expect(testChapter.id, isNotEmpty);
+        expect(testChapter.gospelId, equals(1));
+        expect(testChapter.chapterNumber, equals(1));
+        expect(testChapter.title, equals('Test Chapter'));
       });
 
-      test('should handle null optional fields', () {
-        final chapter = Chapter(
-          chapterId: 2,
-          title: 'Chapter of Knowledge',
-          summary: 'Description of knowledge',
-        );
-
-        expect(chapter.chapterId, equals(2));
-        expect(chapter.title, isNotEmpty);
-        expect(chapter.subtitle, isNull);
-      });
-
-      test('should validate chapter number range (1-18)', () {
-        // Chapter numbers in Bhagavad Gita range from 1 to 18
-        for (int i = 1; i <= 18; i++) {
-          expect(i, greaterThanOrEqualTo(1));
-          expect(i, lessThanOrEqualTo(18));
-        }
-      });
-
-      test('should support optional subtitle', () {
-        final chapter = Chapter(
-          chapterId: 3,
-          title: 'Chapter of Bhakti',
-          subtitle: 'Yoga of Devotion',
-          summary: 'Devotion and love',
-        );
-
-        expect(chapter.subtitle, equals('Yoga of Devotion'));
+      test('should create a Chapter with optional fields', () {
+        expect(testChapter.summary, isNotNull);
+        expect(testChapter.theme, isNotNull);
+        expect(testChapter.keyTeachings, isNotNull);
+        expect(testChapter.keyVerses, isNotNull);
       });
     });
 
-    group('Chapter Content Integrity', () {
-      test('should maintain chapter data consistency', () {
-        final chapter = Chapter(
-          chapterId: 4,
-          title: 'Chapter of Renunciation',
-          summary: 'Renunciation and detachment',
-          verseCount: 42,
-        );
+    group('JSON Serialization', () {
+      test('should serialize Chapter to JSON correctly', () {
+        final json = testChapter.toJson();
 
-        // Data should not be modified
-        expect(chapter.chapterId, equals(4));
-        expect(chapter.title, equals('Chapter of Renunciation'));
-        expect(chapter.verseCount, equals(42));
+        expect(json['id'], equals(testChapter.id));
+        expect(json['gospel_id'], equals(testChapter.gospelId));
+        expect(json['chapter_number'], equals(testChapter.chapterNumber));
+        expect(json['title'], equals(testChapter.title));
+        expect(json['summary'], equals(testChapter.summary));
       });
 
-      test('should handle empty summary gracefully', () {
-        final chapter = Chapter(
-          chapterId: 5,
-          title: 'Chapter of Yoga',
-          summary: '',
-        );
+      test('should deserialize Chapter from JSON correctly', () {
+        final json = TestHelpers.createChapterJson();
+        final chapter = Chapter.fromJson(json);
 
-        expect(chapter.summary, equals(''));
-        expect(chapter.title, isNotEmpty);
+        expect(chapter.id, equals(json['id']));
+        expect(chapter.gospelId, equals(json['gospel_id']));
+        expect(chapter.chapterNumber, equals(json['chapter_number']));
+        expect(chapter.title, equals(json['title']));
       });
 
-      test('should support theme property', () {
-        final chapter = Chapter(
-          chapterId: 6,
-          title: 'Chapter',
-          summary: 'Summary',
-          theme: 'Selfless Action',
-          verseCount: 55,
-        );
-
-        expect(chapter.theme, equals('Selfless Action'));
-        expect(chapter.verseCount, equals(55));
-      });
-    });
-
-    group('Model Equality and Hashing', () {
-      test('identical chapters should be equal', () {
-        final chapter1 = Chapter(
-          chapterId: 7,
-          title: 'Test Chapter',
-          summary: 'Test',
-        );
-
-        final chapter2 = Chapter(
-          chapterId: 7,
-          title: 'Test Chapter',
-          summary: 'Test',
-        );
-
-        // Should have same properties
-        expect(chapter1.chapterId, equals(chapter2.chapterId));
-        expect(chapter1.title, equals(chapter2.title));
-      });
-
-      test('different chapters should be distinguishable', () {
-        final chapter1 = Chapter(
-          chapterId: 8,
-          title: 'Chapter A',
-          summary: 'A',
-        );
-
-        final chapter2 = Chapter(
-          chapterId: 9,
-          title: 'Chapter B',
-          summary: 'B',
-        );
-
-        expect(chapter1.chapterId, isNot(equals(chapter2.chapterId)));
-        expect(chapter1.title, isNot(equals(chapter2.title)));
-      });
-    });
-
-    group('Data Validation', () {
-      test('should accept valid UTF-8 text', () {
-        final chapter = Chapter(
-          chapterId: 10,
-          title: 'धर्म (Dharma)',
-          summary: 'कर्म (Karma) and योग (Yoga)',
-        );
-
-        expect(chapter.title, contains('धर्म'));
-        expect(chapter.summary, contains('कर्म'));
-      });
-
-      test('should handle special characters in text', () {
-        final chapter = Chapter(
-          chapterId: 11,
-          title: 'Chapter with "quotes" and \'apostrophes\'',
-          summary: 'Summary with (parentheses) and [brackets]',
-        );
-
-        expect(chapter.title, contains('"'));
-        expect(chapter.summary, contains('['));
-      });
-    });
-
-    group('Serialization', () {
-      test('should have fromJson factory', () {
-        expect(Chapter.fromJson, isA<Function>());
-      });
-
-      test('should have toJson method', () {
-        final chapter = Chapter(
-          chapterId: 12,
-          title: 'Test',
-          summary: 'Test',
-        );
-
-        expect(chapter.toJson, isA<Function>());
-      });
-
-      test('should correctly serialize to JSON', () {
-        final chapter = Chapter(
-          chapterId: 1,
-          title: 'Arjuna Vishada Yoga',
-          subtitle: 'The Yoga of Arjuna\'s Dejection',
-          summary: 'Introduction to the Gita',
-          verseCount: 47,
-          theme: 'Despondency',
-          keyTeachings: ['Duty', 'Righteousness'],
-        );
-
-        final json = chapter.toJson();
-
-        expect(json['ch_chapter_id'], equals(1));
-        expect(json['ch_title'], equals('Arjuna Vishada Yoga'));
-        expect(json['ch_subtitle'], equals('The Yoga of Arjuna\'s Dejection'));
-        expect(json['ch_summary'], equals('Introduction to the Gita'));
-        expect(json['ch_verse_count'], equals(47));
-        expect(json['ch_theme'], equals('Despondency'));
-        expect(json['ch_key_teachings'], equals(['Duty', 'Righteousness']));
-      });
-
-      test('should correctly deserialize from JSON', () {
+      test('should handle null optional fields in JSON', () {
         final json = {
-          'ch_chapter_id': 2,
-          'ch_title': 'Sankhya Yoga',
-          'ch_subtitle': 'The Yoga of Knowledge',
-          'ch_summary': 'The nature of the Self',
-          'ch_verse_count': 72,
-          'ch_theme': 'Knowledge',
-          'ch_key_teachings': ['Self-knowledge', 'Action'],
+          'id': 'test-id',
+          'gospel_id': 1,
+          'chapter_number': 1,
+          'title': null,
+          'summary': null,
+          'theme': null,
+          'key_teachings': null,
+          'key_verses': null,
+          'verse_count': null,
+          'events': null,
+          'cross_references': null,
+          'created_at': null,
         };
 
         final chapter = Chapter.fromJson(json);
 
-        expect(chapter.chapterId, equals(2));
-        expect(chapter.title, equals('Sankhya Yoga'));
-        expect(chapter.subtitle, equals('The Yoga of Knowledge'));
-        expect(chapter.summary, equals('The nature of the Self'));
-        expect(chapter.verseCount, equals(72));
-        expect(chapter.theme, equals('Knowledge'));
-        expect(chapter.keyTeachings, equals(['Self-knowledge', 'Action']));
-      });
-
-      test('should handle JSON roundtrip', () {
-        final original = Chapter(
-          chapterId: 3,
-          title: 'Karma Yoga',
-          subtitle: 'The Yoga of Action',
-          summary: 'Selfless service',
-          verseCount: 43,
-          theme: 'Action',
-          keyTeachings: ['Duty', 'Detachment'],
-        );
-
-        final json = original.toJson();
-        final restored = Chapter.fromJson(json);
-
-        expect(restored.chapterId, equals(original.chapterId));
-        expect(restored.title, equals(original.title));
-        expect(restored.subtitle, equals(original.subtitle));
-        expect(restored.summary, equals(original.summary));
-        expect(restored.verseCount, equals(original.verseCount));
-        expect(restored.theme, equals(original.theme));
-        expect(restored.keyTeachings, equals(original.keyTeachings));
-      });
-
-      test('should handle null fields in JSON serialization', () {
-        final chapter = Chapter(
-          chapterId: 4,
-          title: 'Jnana Yoga',
-        );
-
-        final json = chapter.toJson();
-
-        expect(json['ch_chapter_id'], equals(4));
-        expect(json['ch_title'], equals('Jnana Yoga'));
-        expect(json['ch_subtitle'], isNull);
-        expect(json['ch_summary'], isNull);
-        expect(json['ch_verse_count'], isNull);
-        expect(json['ch_theme'], isNull);
-        expect(json['ch_key_teachings'], isNull);
-      });
-
-      test('should handle null fields in JSON deserialization', () {
-        final json = {
-          'ch_chapter_id': 5,
-          'ch_title': 'Karma Sannyasa Yoga',
-        };
-
-        final chapter = Chapter.fromJson(json);
-
-        expect(chapter.chapterId, equals(5));
-        expect(chapter.title, equals('Karma Sannyasa Yoga'));
-        expect(chapter.subtitle, isNull);
+        expect(chapter.title, isNull);
         expect(chapter.summary, isNull);
-        expect(chapter.verseCount, isNull);
-        expect(chapter.theme, isNull);
         expect(chapter.keyTeachings, isNull);
       });
 
-      test('should handle empty keyTeachings list', () {
-        final json = {
-          'ch_chapter_id': 6,
-          'ch_title': 'Dhyana Yoga',
-          'ch_key_teachings': [],
-        };
-
+      test('should handle array fields in JSON', () {
+        final json = TestHelpers.createChapterJson();
         final chapter = Chapter.fromJson(json);
 
-        expect(chapter.keyTeachings, isEmpty);
+        expect(chapter.keyTeachings, isA<List<String>>());
+        expect(chapter.keyTeachings!.length, equals(2));
+        expect(chapter.keyVerses, isA<List<String>>());
+      });
+    });
+
+    group('Display Name', () {
+      test('should return correct display name for Matthew', () {
+        final matthew = TestHelpers.createTestChapter(gospelId: 1, chapterNumber: 5);
+        expect(matthew.displayName, equals('Matthew 5'));
+      });
+
+      test('should return correct display name for Mark', () {
+        final mark = TestHelpers.createTestChapter(gospelId: 2, chapterNumber: 3);
+        expect(mark.displayName, equals('Mark 3'));
+      });
+
+      test('should return correct display name for Luke', () {
+        final luke = TestHelpers.createTestChapter(gospelId: 3, chapterNumber: 10);
+        expect(luke.displayName, equals('Luke 10'));
+      });
+
+      test('should return correct display name for John', () {
+        final john = TestHelpers.createTestChapter(gospelId: 4, chapterNumber: 1);
+        expect(john.displayName, equals('John 1'));
+      });
+    });
+
+    group('toString Method', () {
+      test('should return formatted string with display name and verse count', () {
+        final result = testChapter.toString();
+        expect(result, contains('Matthew 1'));
+        expect(result, contains('verses: 10'));
       });
     });
 
     group('Multilingual Extensions', () {
-      test('should create from multilingual JSON', () {
-        final json = {
-          'ch_chapter_id': 7,
-          'ch_title': 'Jnana Vijnana Yoga',
-          'ch_subtitle': 'Yoga of Knowledge and Wisdom',
-          'ch_summary': 'Self-realization',
-          'ch_verse_count': 30,
-          'ch_theme': 'Wisdom',
-          'ch_key_teachings': ['Knowledge', 'Devotion'],
+      test('should create Chapter from translation JSON', () {
+        final translationJson = {
+          'title': 'Translated Title',
+          'summary': 'Translated Summary',
+          'theme': 'Translated Theme',
+          'key_teachings': ['Teaching A', 'Teaching B'],
         };
 
-        final chapter = ChapterMultilingualExtensions.fromMultilingualJson(json);
+        final chapter = ChapterMultilingualExtensions.fromTranslationJson(
+          'test-id',
+          1,
+          5,
+          translationJson,
+        );
 
-        expect(chapter.chapterId, equals(7));
-        expect(chapter.title, equals('Jnana Vijnana Yoga'));
+        expect(chapter.title, equals('Translated Title'));
+        expect(chapter.summary, equals('Translated Summary'));
+        expect(chapter.gospelId, equals(1));
+        expect(chapter.chapterNumber, equals(5));
       });
 
-      test('should convert to translation JSON', () {
-        final chapter = Chapter(
-          chapterId: 8,
-          title: 'Aksara Brahma Yoga',
-          subtitle: 'The Eternal Brahman',
-          summary: 'The imperishable',
-          theme: 'Immortality',
-          keyTeachings: ['Brahman', 'Liberation'],
+      test('should create copy with translation fields', () {
+        final updated = testChapter.withTranslation(
+          title: 'New Title',
+          summary: 'New Summary',
         );
 
-        final json = chapter.toTranslationJson('hi');
-
-        expect(json['chapter_id'], equals(8));
-        expect(json['lang_code'], equals('hi'));
-        expect(json['title'], equals('Aksara Brahma Yoga'));
-        expect(json['subtitle'], equals('The Eternal Brahman'));
+        expect(updated.title, equals('New Title'));
+        expect(updated.summary, equals('New Summary'));
+        expect(updated.gospelId, equals(testChapter.gospelId));
+        expect(updated.chapterNumber, equals(testChapter.chapterNumber));
       });
 
-      test('should create from translation JSON', () {
-        final json = {
-          'chapter_id': 9,
-          'title': 'Raja Vidya Yoga',
-          'subtitle': 'Royal Knowledge',
-          'summary': 'The sovereign secret',
-          'theme': 'Devotion',
-          'key_teachings': ['Bhakti', 'Grace'],
-        };
+      test('should check if chapter has translation data', () {
+        expect(testChapter.hasTranslationData, isTrue);
 
-        final chapter = ChapterMultilingualExtensions.fromTranslationJson(json);
-
-        expect(chapter.chapterId, equals(9));
-        expect(chapter.title, equals('Raja Vidya Yoga'));
-        expect(chapter.verseCount, isNull); // Not in translation table
-      });
-
-      test('should check hasTranslationData correctly', () {
-        final complete = Chapter(
-          chapterId: 10,
-          title: 'Vibhuti Yoga',
-          subtitle: 'Divine Manifestations',
-          summary: 'The glories of the Divine',
+        final emptyChapter = Chapter(
+          id: 'test-id',
+          gospelId: 1,
+          chapterNumber: 1,
         );
-
-        final incomplete = Chapter(
-          chapterId: 11,
-          title: 'Visvarupa Darshana Yoga',
-        );
-
-        expect(complete.hasTranslationData, isTrue);
-        expect(incomplete.hasTranslationData, isFalse);
-      });
-
-      test('should create copy with translation', () {
-        final original = Chapter(
-          chapterId: 12,
-          title: 'Bhakti Yoga',
-          verseCount: 20,
-        );
-
-        final translated = original.withTranslation(
-          title: 'योग भक्ति',
-          subtitle: 'भक्ति का मार्ग',
-          summary: 'भगवान की भक्ति',
-        );
-
-        expect(translated.chapterId, equals(12));
-        expect(translated.title, equals('योग भक्ति'));
-        expect(translated.subtitle, equals('भक्ति का मार्ग'));
-        expect(translated.verseCount, equals(20)); // Preserved
+        expect(emptyChapter.hasTranslationData, isFalse);
       });
     });
 
     group('Edge Cases', () {
-      test('should handle very long title', () {
-        final longTitle = 'A' * 1000;
-        final chapter = Chapter(
-          chapterId: 13,
-          title: longTitle,
-          summary: 'Test',
+      test('should handle minimum valid chapter', () {
+        final minChapter = Chapter(
+          id: 'min-id',
+          gospelId: 1,
+          chapterNumber: 1,
         );
 
-        expect(chapter.title.length, equals(1000));
+        expect(minChapter.id, equals('min-id'));
+        expect(minChapter.title, isNull);
+        expect(minChapter.summary, isNull);
       });
 
-      test('should handle very long summary', () {
-        final longSummary = 'B' * 5000;
-        final chapter = Chapter(
-          chapterId: 14,
-          title: 'Test',
-          summary: longSummary,
-        );
+      test('should handle maximum chapter numbers', () {
+        final matthew28 = TestHelpers.createTestChapter(gospelId: 1, chapterNumber: 28);
+        expect(matthew28.chapterNumber, equals(28));
 
-        expect(chapter.summary!.length, equals(5000));
+        final mark16 = TestHelpers.createTestChapter(gospelId: 2, chapterNumber: 16);
+        expect(mark16.chapterNumber, equals(16));
       });
 
-      test('should handle multiple keyTeachings', () {
-        final teachings = List.generate(50, (i) => 'Teaching $i');
+      test('should handle empty arrays', () {
         final chapter = Chapter(
-          chapterId: 15,
-          title: 'Test',
-          keyTeachings: teachings,
+          id: 'test-id',
+          gospelId: 1,
+          chapterNumber: 1,
+          keyTeachings: [],
+          keyVerses: [],
+          events: [],
+          crossReferences: [],
         );
 
-        expect(chapter.keyTeachings!.length, equals(50));
+        expect(chapter.keyTeachings, isEmpty);
+        expect(chapter.keyVerses, isEmpty);
       });
     });
   });
 }
-

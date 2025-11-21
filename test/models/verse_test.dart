@@ -2,298 +2,240 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:GospelWisdom/models/verse.dart';
+import '../helpers/test_helpers.dart';
 
 void main() {
   group('Verse Model', () {
-    group('Constructors', () {
-      test('should create with required fields', () {
-        final verse = Verse(
-          verseId: 1,
-          description: 'Dharmakshetre kurukshetre',
-        );
+    late Verse testVerse;
 
-        expect(verse.verseId, equals(1));
-        expect(verse.description, equals('Dharmakshetre kurukshetre'));
-        expect(verse.chapterId, isNull);
+    setUp(() {
+      testVerse = TestHelpers.createTestVerse();
+    });
+
+    group('Constructor', () {
+      test('should create a Verse with all required fields', () {
+        expect(testVerse.id, isNotEmpty);
+        expect(testVerse.gospelId, equals(1));
+        expect(testVerse.chapterId, isNotEmpty);
+        expect(testVerse.verseNumber, equals(1));
+        expect(testVerse.text, isNotEmpty);
+        expect(testVerse.reference, equals('John 1:1'));
       });
 
-      test('should create with optional chapterId', () {
-        final verse = Verse(
-          verseId: 47,
-          description: 'Your right is to work only',
-          chapterId: 2,
-        );
+      test('should default to NIV translation', () {
+        expect(testVerse.translationCode, equals('NIV'));
+      });
 
-        expect(verse.verseId, equals(47));
-        expect(verse.chapterId, equals(2));
+      test('should create a Verse with optional fields', () {
+        expect(testVerse.context, isNotNull);
+        expect(testVerse.crossReferences, isNotNull);
+        expect(testVerse.keywords, isNotNull);
+        expect(testVerse.themes, isNotNull);
       });
     });
 
     group('JSON Serialization', () {
-      test('should serialize to JSON correctly', () {
-        final verse = Verse(
-          verseId: 10,
-          description: 'Verse text',
-          chapterId: 3,
-        );
+      test('should serialize Verse to JSON correctly', () {
+        final json = testVerse.toJson();
 
-        final json = verse.toJson();
-
-        expect(json['gv_verses_id'], equals(10));
-        expect(json['gv_verses'], equals('Verse text'));
-        expect(json['gv_chapter_id'], equals(3));
+        expect(json['id'], equals(testVerse.id));
+        expect(json['gospel_id'], equals(testVerse.gospelId));
+        expect(json['chapter_id'], equals(testVerse.chapterId));
+        expect(json['verse_number'], equals(testVerse.verseNumber));
+        expect(json['text'], equals(testVerse.text));
+        expect(json['reference'], equals(testVerse.reference));
+        expect(json['translation_code'], equals('NIV'));
       });
 
-      test('should deserialize from JSON correctly', () {
+      test('should deserialize Verse from JSON correctly', () {
+        final json = TestHelpers.createVerseJson();
+        final verse = Verse.fromJson(json);
+
+        expect(verse.id, equals(json['id']));
+        expect(verse.gospelId, equals(json['gospel_id']));
+        expect(verse.chapterId, equals(json['chapter_id']));
+        expect(verse.verseNumber, equals(json['verse_number']));
+        expect(verse.text, equals(json['text']));
+      });
+
+      test('should handle null optional fields in JSON', () {
         final json = {
-          'gv_verses_id': 5,
-          'gv_verses': 'Test verse',
-          'gv_chapter_id': 1,
+          'id': 'test-id',
+          'gospel_id': 1,
+          'chapter_id': 'chapter-id',
+          'verse_number': 1,
+          'text': 'Test text',
+          'reference': 'John 1:1',
+          'translation_code': null,
+          'context': null,
+          'cross_references': null,
+          'keywords': null,
+          'themes': null,
+          'created_at': null,
         };
 
         final verse = Verse.fromJson(json);
 
-        expect(verse.verseId, equals(5));
-        expect(verse.description, equals('Test verse'));
-        expect(verse.chapterId, equals(1));
+        expect(verse.translationCode, equals('NIV')); // Default
+        expect(verse.context, isNull);
+        expect(verse.crossReferences, isNull);
       });
 
-      test('should handle JSON roundtrip', () {
-        final original = Verse(
-          verseId: 20,
-          description: 'Original verse text',
-          chapterId: 4,
-        );
-
-        final json = original.toJson();
-        final restored = Verse.fromJson(json);
-
-        expect(restored.verseId, equals(original.verseId));
-        expect(restored.description, equals(original.description));
-        expect(restored.chapterId, equals(original.chapterId));
-      });
-
-      test('should handle null chapterId in serialization', () {
-        final verse = Verse(
-          verseId: 1,
-          description: 'Test',
-        );
-
-        final json = verse.toJson();
-
-        expect(json['gv_verses_id'], equals(1));
-        expect(json['gv_verses'], equals('Test'));
-        expect(json.containsKey('gv_chapter_id'), isFalse);
-      });
-
-      test('should handle null chapterId in deserialization', () {
-        final json = {
-          'gv_verses_id': 1,
-          'gv_verses': 'Test',
-        };
-
+      test('should handle array fields in JSON', () {
+        final json = TestHelpers.createVerseJson();
         final verse = Verse.fromJson(json);
 
-        expect(verse.verseId, equals(1));
-        expect(verse.chapterId, isNull);
+        expect(verse.crossReferences, isA<List<String>>());
+        expect(verse.keywords, isA<List<String>>());
+        expect(verse.themes, isA<List<String>>());
+      });
+    });
+
+    group('Preview Property', () {
+      test('should return full text if less than 100 characters', () {
+        final shortVerse = TestHelpers.createTestVerse(
+          text: 'Short verse text',
+        );
+        expect(shortVerse.preview, equals('Short verse text'));
+      });
+
+      test('should truncate text if more than 100 characters', () {
+        final longText = 'A' * 150;
+        final longVerse = TestHelpers.createTestVerse(text: longText);
+
+        expect(longVerse.preview.length, equals(100));
+        expect(longVerse.preview, endsWith('...'));
+      });
+    });
+
+    group('isValid Property', () {
+      test('should return true for valid verse', () {
+        expect(testVerse.isValid, isTrue);
+      });
+
+      test('should return false if verse number is 0', () {
+        final invalidVerse = TestHelpers.createTestVerse(verseNumber: 0);
+        expect(invalidVerse.isValid, isFalse);
+      });
+
+      test('should return false if verse number is negative', () {
+        final invalidVerse = TestHelpers.createTestVerse(verseNumber: -1);
+        expect(invalidVerse.isValid, isFalse);
+      });
+
+      test('should return false if text is empty', () {
+        final invalidVerse = TestHelpers.createTestVerse(text: '');
+        expect(invalidVerse.isValid, isFalse);
+      });
+    });
+
+    group('toString Method', () {
+      test('should return formatted string with reference and preview', () {
+        final result = testVerse.toString();
+        expect(result, contains('John 1:1'));
+        expect(result, contains('In the beginning'));
+      });
+
+      test('should truncate long text in toString', () {
+        final longText = 'A' * 200;
+        final longVerse = TestHelpers.createTestVerse(text: longText);
+        final result = longVerse.toString();
+
+        expect(result.length, lessThan(longText.length));
+      });
+    });
+
+    group('Backward Compatibility', () {
+      test('should support verseId property', () {
+        expect(testVerse.verseId, equals(testVerse.verseNumber));
+      });
+
+      test('should support description property', () {
+        expect(testVerse.description, equals(testVerse.text));
       });
     });
 
     group('Multilingual Extensions', () {
-      test('should create from multilingual JSON', () {
-        final json = {
-          'gv_verses_id': 47,
-          'gv_verses': 'कर्मण्येवाधिकारस्ते',
-          'gv_chapter_id': 2,
+      test('should create Verse from translation JSON', () {
+        final translationJson = {
+          'text': 'Translated verse text',
+          'translation_code': 'ESV',
+          'context': 'Translated context',
         };
 
-        final verse = VerseMultilingualExtensions.fromMultilingualJson(json);
+        final verse = VerseMultilingualExtensions.fromTranslationJson(
+          'test-id',
+          1,
+          'chapter-id',
+          1,
+          'John 1:1',
+          translationJson,
+        );
 
-        expect(verse.verseId, equals(47));
-        expect(verse.description, contains('कर्मण्येवाधिकारस्ते'));
-        expect(verse.chapterId, equals(2));
+        expect(verse.text, equals('Translated verse text'));
+        expect(verse.translationCode, equals('ESV'));
+        expect(verse.context, equals('Translated context'));
       });
 
-      test('should convert to translation JSON', () {
-        final verse = Verse(
-          verseId: 30,
-          description: 'Original verse',
-          chapterId: 5,
+      test('should create copy with translation fields', () {
+        final updated = testVerse.withTranslation(
+          text: 'New text',
+          translationCode: 'KJV',
         );
 
-        final json = verse.toTranslationJson(
-          'hi',
-          translation: 'Hindi translation',
-          commentary: 'Commentary text',
-        );
-
-        expect(json['verse_id'], equals(30));
-        expect(json['chapter_id'], equals(5));
-        expect(json['lang_code'], equals('hi'));
-        expect(json['description'], equals('Original verse'));
-        expect(json['translation'], equals('Hindi translation'));
-        expect(json['commentary'], equals('Commentary text'));
+        expect(updated.text, equals('New text'));
+        expect(updated.translationCode, equals('KJV'));
+        expect(updated.verseNumber, equals(testVerse.verseNumber));
       });
 
-      test('should create from translation JSON', () {
-        final json = {
-          'verse_id': 15,
-          'description': 'Translated verse',
-          'chapter_id': 6,
-        };
+      test('should check if verse has translation data', () {
+        expect(testVerse.hasTranslationData, isTrue);
 
-        final verse = VerseMultilingualExtensions.fromTranslationJson(json);
-
-        expect(verse.verseId, equals(15));
-        expect(verse.description, equals('Translated verse'));
-        expect(verse.chapterId, equals(6));
-      });
-
-      test('should check hasTranslationData', () {
-        final withData = Verse(
-          verseId: 1,
-          description: 'Valid verse',
-          chapterId: 1,
+        final emptyVerse = Verse(
+          id: 'test-id',
+          gospelId: 1,
+          chapterId: 'chapter-id',
+          verseNumber: 1,
+          text: '',
+          reference: '',
         );
-
-        final empty = Verse(
-          verseId: 2,
-          description: '',
-          chapterId: 2,
-        );
-
-        expect(withData.hasTranslationData, isTrue);
-        expect(empty.hasTranslationData, isFalse);
-      });
-
-      test('should create copy with translation', () {
-        final original = Verse(
-          verseId: 10,
-          description: 'English',
-          chapterId: 3,
-        );
-
-        final translated = original.withTranslation(
-          description: 'हिन्दी',
-        );
-
-        expect(translated.verseId, equals(10));
-        expect(translated.description, equals('हिन्दी'));
-        expect(translated.chapterId, equals(3));
-      });
-    });
-
-    group('Helper Methods', () {
-      test('should return correct reference format', () {
-        final verse = Verse(
-          verseId: 47,
-          description: 'Test',
-          chapterId: 2,
-        );
-
-        expect(verse.reference, equals('2.47'));
-      });
-
-      test('should return verse ID when no chapter', () {
-        final verse = Verse(
-          verseId: 10,
-          description: 'Test',
-        );
-
-        expect(verse.reference, equals('10'));
-      });
-
-      test('should validate verse correctly', () {
-        final valid = Verse(
-          verseId: 1,
-          description: 'Valid',
-          chapterId: 1,
-        );
-
-        final invalidId = Verse(
-          verseId: 0,
-          description: 'Invalid',
-          chapterId: 1,
-        );
-
-        final emptyDesc = Verse(
-          verseId: 1,
-          description: '',
-          chapterId: 1,
-        );
-
-        expect(valid.isValid, isTrue);
-        expect(invalidId.isValid, isFalse);
-        expect(emptyDesc.isValid, isFalse);
-      });
-
-      test('should return preview for long verses', () {
-        final longVerse = Verse(
-          verseId: 1,
-          description: 'A' * 200,
-          chapterId: 1,
-        );
-
-        final preview = longVerse.preview;
-
-        expect(preview.length, equals(100));
-        expect(preview.endsWith('...'), isTrue);
-      });
-
-      test('should return full text for short verses', () {
-        final shortVerse = Verse(
-          verseId: 1,
-          description: 'Short verse',
-          chapterId: 1,
-        );
-
-        expect(shortVerse.preview, equals('Short verse'));
+        expect(emptyVerse.hasTranslationData, isFalse);
       });
     });
 
     group('Edge Cases', () {
-      test('should handle very long description', () {
-        final longText = 'B' * 10000;
-        final verse = Verse(
-          verseId: 1,
-          description: longText,
-          chapterId: 1,
-        );
+      test('should handle very long verse text', () {
+        final longText = 'A' * 1000;
+        final longVerse = TestHelpers.createTestVerse(text: longText);
 
-        expect(verse.description.length, equals(10000));
+        expect(longVerse.text.length, equals(1000));
+        expect(longVerse.preview.length, equals(100));
       });
 
-      test('should handle special characters', () {
-        final verse = Verse(
-          verseId: 1,
-          description: 'Special "quotes" and \'apostrophes\' test',
-          chapterId: 1,
+      test('should handle special characters in text', () {
+        final specialVerse = TestHelpers.createTestVerse(
+          text: 'Text with "quotes" and \'apostrophes\' and \n newlines',
         );
 
-        expect(verse.description, contains('"'));
-        expect(verse.description, contains('\''));
+        expect(specialVerse.text, contains('"'));
+        expect(specialVerse.text, contains('\''));
       });
 
-      test('should handle Unicode properly', () {
-        final verse = Verse(
-          verseId: 47,
-          description: 'कर्मण्येवाधिकारस्ते मा फलेषु कदाचन',
-          chapterId: 2,
-        );
+      test('should handle different translation codes', () {
+        final translations = ['NIV', 'KJV', 'ESV', 'NKJV', 'NLT'];
 
-        expect(verse.description, contains('कर्मण्येवाधिकारस्ते'));
-      });
-
-      test('should handle all valid chapter IDs', () {
-        for (int chapterId = 1; chapterId <= 18; chapterId++) {
+        for (final code in translations) {
           final verse = Verse(
-            verseId: 1,
-            description: 'Test',
-            chapterId: chapterId,
+            id: 'test-id',
+            gospelId: 1,
+            chapterId: 'chapter-id',
+            verseNumber: 1,
+            text: 'Test',
+            reference: 'John 1:1',
+            translationCode: code,
           );
 
-          expect(verse.chapterId, equals(chapterId));
-          expect(verse.reference, equals('$chapterId.1'));
+          expect(verse.translationCode, equals(code));
         }
       });
     });

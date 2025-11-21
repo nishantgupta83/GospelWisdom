@@ -109,7 +109,7 @@ class MockThemeProvider extends ChangeNotifier implements ThemeProvider {
 class MockSettingsService extends ChangeNotifier implements SettingsService {
   bool _isDarkMode = false;
   String _language = 'en';
-  String _fontSize = 'medium';
+  String _fontSize = 'small';
   bool _musicEnabled = true;
   bool _textShadowEnabled = false;
   double _backgroundOpacity = 1.0;
@@ -446,8 +446,10 @@ class MockHiveBox extends Mock implements Box {
   }
 
   @override
-  Future<void> clear() async {
+  Future<int> clear() async {
+    final count = _data.length;
     _data.clear();
+    return count;
   }
 
   @override
