@@ -784,5 +784,51 @@
   "exploreScripture": "Explore Scripture, Word for Word",
   "@exploreScripture": {
     "description": "Tagline for Gospel books screen"
+  },
+
+  "sleepTimer": "Sleep Timer",
+  "@sleepTimer": {
+    "description": "Sleep timer feature title"
+  },
+
+  "playbackSpeed": "Playback Speed",
+  "@playbackSpeed": {
+    "description": "Playback speed control title"
+  },
+
+  "minutes": "min",
+  "@minutes": {
+    "description": "Minutes abbreviation"
+  },
+
+  "selectDuration": "Select duration",
+  "@selectDuration": {
+    "description": "Instruction for sleep timer duration selection"
+  },
+
+  "endOfChapter": "End of Chapter",
+  "@endOfChapter": {
+    "description": "Sleep timer option to pause at end of chapter"
+  },
+
+  "currentSpeed": "Current speed",
+  "@currentSpeed": {
+    "description": "Current playback speed label"
+  },
+
+  "sleepTimerSet": "Sleep timer set for {duration}",
+  "@sleepTimerSet": {
+    "description": "Confirmation message when sleep timer is set",
+    "placeholders": {
+      "duration": {
+        "type": "String",
+        "example": "15 min"
+      }
+    }
+  },
+
+  "sleepTimerSetToEndOfChapter": "Sleep timer set to end of chapter",
+  "@sleepTimerSetToEndOfChapter": {
+    "description": "Confirmation message for end-of-chapter sleep timer"
   }
 }

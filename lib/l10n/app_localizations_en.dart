@@ -467,4 +467,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exploreScripture => 'Explore Scripture, Word for Word';
+
+  @override
+  String get sleepTimer => 'Sleep Timer';
+
+  @override
+  String get playbackSpeed => 'Playback Speed';
+
+  @override
+  String get minutes => 'min';
+
+  @override
+  String get selectDuration => 'Select duration';
+
+  @override
+  String get endOfChapter => 'End of Chapter';
+
+  @override
+  String get currentSpeed => 'Current speed';
+
+  @override
+  String sleepTimerSet(String duration) {
+    return 'Sleep timer set for $duration';
+  }
+
+  @override
+  String get sleepTimerSetToEndOfChapter => 'Sleep timer set to end of chapter';
 }

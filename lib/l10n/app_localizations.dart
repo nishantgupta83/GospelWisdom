@@ -957,6 +957,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Explore Scripture, Word for Word'**
   String get exploreScripture;
+
+  /// Sleep timer feature title
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep Timer'**
+  String get sleepTimer;
+
+  /// Playback speed control title
+  ///
+  /// In en, this message translates to:
+  /// **'Playback Speed'**
+  String get playbackSpeed;
+
+  /// Minutes abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get minutes;
+
+  /// Instruction for sleep timer duration selection
+  ///
+  /// In en, this message translates to:
+  /// **'Select duration'**
+  String get selectDuration;
+
+  /// Sleep timer option to pause at end of chapter
+  ///
+  /// In en, this message translates to:
+  /// **'End of Chapter'**
+  String get endOfChapter;
+
+  /// Current playback speed label
+  ///
+  /// In en, this message translates to:
+  /// **'Current speed'**
+  String get currentSpeed;
+
+  /// Confirmation message when sleep timer is set
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep timer set for {duration}'**
+  String sleepTimerSet(String duration);
+
+  /// Confirmation message for end-of-chapter sleep timer
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep timer set to end of chapter'**
+  String get sleepTimerSetToEndOfChapter;
 }
 
 class _AppLocalizationsDelegate
