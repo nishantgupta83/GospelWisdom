@@ -17,27 +17,30 @@ class ChapterSummaryAdapter extends TypeAdapter<ChapterSummary> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ChapterSummary(
-      chapterId: fields[0] as int,
-      title: fields[1] as String,
-      subtitle: fields[2] as String?,
-      scenarioCount: fields[3] as int,
-      verseCount: fields[4] as int,
+      id: fields[0] as String,
+      gospelId: fields[1] as int,
+      chapterNumber: fields[2] as int,
+      title: fields[3] as String,
+      scenarioCount: fields[4] as int,
+      verseCount: fields[5] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, ChapterSummary obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.chapterId)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.title)
+      ..write(obj.gospelId)
       ..writeByte(2)
-      ..write(obj.subtitle)
+      ..write(obj.chapterNumber)
       ..writeByte(3)
-      ..write(obj.scenarioCount)
+      ..write(obj.title)
       ..writeByte(4)
+      ..write(obj.scenarioCount)
+      ..writeByte(5)
       ..write(obj.verseCount);
   }
 

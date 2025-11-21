@@ -51,8 +51,13 @@ class DailyVerseService {
   /// Generate new verse set for today
   Future<List<Verse>> _generateVersesForToday() async {
     try {
+      // Daily verse disabled during Gospel migration - chapters now use UUIDs
+      final chapterIds = <int>[];  // Empty for now
+      final futures = <Future<Verse>>[];  // Empty for now
+      /*
       final chapterIds = List.generate(verseCount, (_) => math.Random().nextInt(18) + 1);
       final futures = chapterIds.map((id) => _supabaseService.fetchRandomVerseByChapter(id)).toList();
+      */
       final verses = await Future.wait(futures);
       final verseSet = DailyVerseSet.forToday(verses: verses, chapterIds: chapterIds);
       await _cacheVerseSet(verseSet);

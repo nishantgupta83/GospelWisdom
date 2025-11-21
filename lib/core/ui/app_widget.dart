@@ -90,7 +90,7 @@ class AppWidget extends StatelessWidget {
 
               // Theme configuration - uses current theme style (Light, Dark, Paper, Sage)
               theme: themeProvider.currentTheme,
-              themeMode: ThemeMode.light, // Always use light mode since theme is determined by themeStyle
+              themeMode: themeProvider.themeMode, // Dynamic theme mode based on dark mode setting
 
               // Custom builder with background and text scaling
               builder: (context, child) {

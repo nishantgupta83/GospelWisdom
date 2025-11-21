@@ -107,11 +107,15 @@ class CacheRefreshService {
     try {
       debugPrint('📖 Fetching verses for all chapters...');
 
-      // Fetch verses for all 18 chapters in parallel
+      // Verse refresh disabled - Gospel chapters use UUIDs, need to fetch chapters first
+      // TODO: Update to fetch all gospel chapters, then their verses
+      final versesFutures = <Future<List>>[];
+      /*
       final versesFutures = List.generate(
         18,
         (i) => supabaseService.fetchVersesByChapter(i + 1),
       );
+      */
 
       final results = await Future.wait(
         versesFutures,

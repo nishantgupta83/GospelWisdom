@@ -8,6 +8,7 @@ import 'dart:math';
 import 'package:hive/hive.dart';
 
 import '../models/journal_entry.dart';
+import '../models/gospel.dart';
 import '../models/chapter.dart';
 import '../models/chapter_summary.dart';
 import '../models/scenario.dart';
@@ -44,12 +45,78 @@ class EnhancedSupabaseService {
   Future<bool> testConnection() async {
     try {
       debugPrint('🧪 Testing Supabase connection...');
-      final response = await client.from('chapters').select('ch_chapter_id').limit(1);
-      debugPrint('✅ Supabase connection successful! Found ${response.length} chapters');
+      final response = await client.from('gospels').select('gospel_id').limit(1);
+      debugPrint('✅ Supabase connection successful! Found ${response.length} gospels');
       return true;
     } catch (e) {
       debugPrint('❌ Supabase connection failed: $e');
       return false;
+    }
+  }
+
+  // ===================================================================
+  // GOSPELS - Fetch the 4 Gospel books
+  // ===================================================================
+
+  /// Fetch all Gospels (Matthew, Mark, Luke, John)
+  Future<List<Gospel>> fetchGospels() async {
+    try {
+      debugPrint('📖 Fetching Gospels from Supabase...');
+
+      final response = await client
+          .from('gospels')
+          .select('''
+            gospel_id,
+            name,
+            author,
+            traditional_author,
+            estimated_date,
+            theme,
+            purpose,
+            audience,
+            chapter_count,
+            verse_count,
+            key_themes,
+            distinctive_features,
+            created_at
+          ''')
+          .order('gospel_id');
+
+      if (response == null || response.isEmpty) {
+        debugPrint('⚠️ No gospels found in database');
+        return [];
+      }
+
+      final gospels = (response as List)
+          .map((json) => Gospel.fromJson(json as Map<String, dynamic>))
+          .toList();
+
+      debugPrint('✅ Fetched ${gospels.length} Gospels');
+      return gospels;
+
+    } catch (e) {
+      debugPrint('❌ Error fetching gospels: $e');
+      return [];
+    }
+  }
+
+  /// Fetch a single Gospel by ID
+  Future<Gospel?> fetchGospelById(int gospelId) async {
+    try {
+      final response = await client
+          .from('gospels')
+          .select()
+          .eq('gospel_id', gospelId)
+          .single();
+
+      if (response != null) {
+        return Gospel.fromJson(response as Map<String, dynamic>);
+      }
+
+      return null;
+    } catch (e) {
+      debugPrint('❌ Error fetching gospel $gospelId: $e');
+      return null;
     }
   }
 
@@ -360,11 +427,12 @@ class EnhancedSupabaseService {
 
       debugPrint('🔄 Fetching fresh chapter summaries for permanent cache');
 
-      // Direct query from chapters table - reliable and simple
+      // Query gospel_chapters table with new schema
       final chaptersResponse = await client
-          .from('chapters')
-          .select('ch_chapter_id, ch_title, ch_subtitle, ch_verse_count')
-          .order('ch_chapter_id', ascending: true);
+          .from('gospel_chapters')
+          .select('id, gospel_id, chapter_number, title, verse_count')
+          .order('gospel_id', ascending: true)
+          .order('chapter_number', ascending: true);
 
       debugPrint('📊 Found ${chaptersResponse.length} chapters from Supabase');
 
@@ -372,25 +440,26 @@ class EnhancedSupabaseService {
 
       for (final chapter in chaptersResponse) {
         try {
-          // Get real-time scenario count from scenarios table
+          // Get real-time scenario count from gospel_scenarios table
           final scenarioCountResponse = await client
-              .from('scenarios')
-              .select('scenario_id')
-              .eq('sc_chapter', chapter['ch_chapter_id'])
+              .from('gospel_scenarios')
+              .select('id')
+              .eq('chapter_id', chapter['id'])
               .count();
 
           final summary = ChapterSummary(
-            chapterId: chapter['ch_chapter_id'] as int,
-            title: chapter['ch_title'] as String,
-            subtitle: chapter['ch_subtitle'] as String?,
-            verseCount: (chapter['ch_verse_count'] as int?) ?? 0,
+            id: chapter['id'] as String,
+            gospelId: chapter['gospel_id'] as int,
+            chapterNumber: chapter['chapter_number'] as int,
+            title: (chapter['title'] as String?) ?? '',
+            verseCount: (chapter['verse_count'] as int?) ?? 0,
             scenarioCount: scenarioCountResponse.count,
           );
 
           summaries.add(summary);
-          debugPrint('✅ Chapter ${summary.chapterId}: ${summary.scenarioCount} scenarios');
+          debugPrint('✅ ${summary.displayName}: ${summary.scenarioCount} scenarios');
         } catch (e) {
-          debugPrint('⚠️ Error loading scenarios for chapter ${chapter['ch_chapter_id']}: $e');
+          debugPrint('⚠️ Error loading scenarios for chapter ${chapter['id']}: $e');
           // Continue with other chapters
         }
       }
@@ -398,7 +467,7 @@ class EnhancedSupabaseService {
       // Permanently cache the results
       await cacheBox.clear();
       for (int i = 0; i < summaries.length; i++) {
-        await cacheBox.put(summaries[i].chapterId, summaries[i]);
+        await cacheBox.put(summaries[i].id, summaries[i]);  // Use UUID as key
       }
 
       debugPrint('✅ Successfully loaded and cached ${summaries.length} chapter summaries');
@@ -427,66 +496,67 @@ class EnhancedSupabaseService {
     }
   }
 
-  /// Fetch a single chapter with multilingual support and fallback
-  Future<Chapter?> fetchChapterById(int chapterId, [String? langCode]) async {
+  /// Fetch a single chapter by UUID with multilingual support
+  Future<Chapter?> fetchChapterById(String chapterId, [String? langCode]) async {
     /* MULTILANG_TODO: final language = langCode ?? _currentLanguage; */
     final language = 'en'; // MVP: English-only
-    
+
     try {
-      // Direct query approach - more reliable than RPC
+      // Query gospel_chapters table with new schema
       final response = await client
-          .from('chapters')
+          .from('gospel_chapters')
           .select('''
-            ch_chapter_id,
-            ch_title,
-            ch_subtitle,
-            ch_summary,
-            ch_verse_count,
-            ch_theme,
-            ch_key_teachings,
+            id,
+            gospel_id,
+            chapter_number,
+            title,
+            summary,
+            theme,
+            key_teachings,
+            key_verses,
+            verse_count,
+            events,
+            cross_references,
             created_at
           ''')
-          .eq('ch_chapter_id', chapterId)
+          .eq('id', chapterId)
           .single();
-      
+
       if (response != null) {
         // Try to get translation for this chapter
         if (language != 'en') {
           try {
             final translationResponse = await client
-                .from('chapter_translations')
+                .from('gospel_chapter_translations')
                 .select('*')
                 .eq('chapter_id', chapterId)
                 .eq('lang_code', language)
                 .maybeSingle();
-            
+
             if (translationResponse != null) {
               // Apply translations
               final data = Map<String, dynamic>.from(response);
-              if (translationResponse['title'] != null) data['ch_title'] = translationResponse['title'];
-              if (translationResponse['subtitle'] != null) data['ch_subtitle'] = translationResponse['subtitle'];
-              if (translationResponse['summary'] != null) data['ch_summary'] = translationResponse['summary'];
-              if (translationResponse['theme'] != null) data['ch_theme'] = translationResponse['theme'];
-              if (translationResponse['key_teachings'] != null) data['ch_key_teachings'] = translationResponse['key_teachings'];
-              
+              if (translationResponse['title'] != null) data['title'] = translationResponse['title'];
+              if (translationResponse['summary'] != null) data['summary'] = translationResponse['summary'];
+              if (translationResponse['theme'] != null) data['theme'] = translationResponse['theme'];
+              if (translationResponse['key_teachings'] != null) data['key_teachings'] = translationResponse['key_teachings'];
+
               return Chapter.fromJson(data);
             }
           } catch (translationError) {
             debugPrint('⚠️ Translation not found for chapter $chapterId in $language, using English');
           }
         }
-        
+
         // Use English version (original data)
         return Chapter.fromJson(response);
       }
-      
+
       return null;
-      
+
     } catch (e) {
       debugPrint('❌ Error fetching chapter $chapterId for $language: $e');
-      
-      // Fallback to original method
-      return _fallbackFetchChapterById(chapterId);
+      return null;
     }
   }
 
@@ -508,14 +578,14 @@ class EnhancedSupabaseService {
         // Return cached chapters if available (instant)
         if (chaptersBox.isNotEmpty) {
           final cachedChapters = chaptersBox.values.toList();
-          if (cachedChapters.length == 18) {
+          if (cachedChapters.length == 89) {  // 89 Gospel chapters
             debugPrint('✅ Loaded ${cachedChapters.length} chapters from cache (instant)');
 
             // Refresh cache in background (don't block UI)
             Future.microtask(() async {
               try {
                 final freshChapters = await _fetchChaptersFromNetwork(language);
-                if (freshChapters.length == 18 && chaptersBox != null) {
+                if (freshChapters.length == 89 && chaptersBox != null) {
                   await _updateChaptersCache(chaptersBox!, freshChapters);
                 }
               } catch (e) {
@@ -536,7 +606,7 @@ class EnhancedSupabaseService {
       final chapters = await _fetchChaptersFromNetwork(language);
 
       // Save to cache for next time
-      if (chapters.length == 18 && chaptersBox != null) {
+      if (chapters.isNotEmpty && chaptersBox != null) {
         await _updateChaptersCache(chaptersBox, chapters);
       }
 
@@ -548,30 +618,45 @@ class EnhancedSupabaseService {
     }
   }
 
-  /// Fetch chapters from network using parallel requests (fast)
+  /// Fetch all Gospel chapters from network using batch query (efficient)
   Future<List<Chapter>> _fetchChaptersFromNetwork(String language) async {
-    // Fetch all 18 chapters in parallel (18x faster than sequential)
-    final futures = List.generate(
-      18,
-      (i) => fetchChapterById(i + 1, language),
-    );
+    try {
+      // Batch query for all 89 chapters (much faster than 89 individual queries)
+      final response = await client
+          .from('gospel_chapters')
+          .select('''
+            id,
+            gospel_id,
+            chapter_number,
+            title,
+            summary,
+            theme,
+            key_teachings,
+            key_verses,
+            verse_count,
+            events,
+            cross_references,
+            created_at
+          ''')
+          .order('gospel_id', ascending: true)
+          .order('chapter_number', ascending: true);
 
-    final results = await Future.wait(
-      futures,
-      eagerError: false, // Don't fail all if one fails
-    ).timeout(
-      const Duration(seconds: 30), // Prevent hanging
-      onTimeout: () {
-        debugPrint('⏰ Chapter fetch timeout after 30 seconds');
-        return List<Chapter?>.filled(18, null);
-      },
-    );
+      if (response == null || response.isEmpty) {
+        debugPrint('⚠️ No chapters found in database');
+        return [];
+      }
 
-    // Filter out nulls and return valid chapters
-    final chapters = results.whereType<Chapter>().toList();
-    debugPrint('✅ Fetched ${chapters.length}/18 chapters from network');
+      final chapters = (response as List)
+          .map((json) => Chapter.fromJson(json as Map<String, dynamic>))
+          .toList();
 
-    return chapters;
+      debugPrint('✅ Fetched ${chapters.length} chapters from network');
+      return chapters;
+
+    } catch (e) {
+      debugPrint('❌ Error fetching chapters from network: $e');
+      return [];
+    }
   }
 
   /// Update chapters cache atomically
@@ -579,7 +664,7 @@ class EnhancedSupabaseService {
     try {
       await box.clear();
       for (final chapter in chapters) {
-        await box.put(chapter.chapterId, chapter);
+        await box.put(chapter.id, chapter);  // Use UUID as key
       }
       debugPrint('💾 Cached ${chapters.length} chapters');
     } catch (e) {
@@ -680,52 +765,25 @@ class EnhancedSupabaseService {
   }
   */
 
-  /// MVP: Simplified English-only scenario fetching (FIXES COUNT ISSUE)
-  Future<List<Scenario>> fetchScenariosByChapter(int chapterId, [String? langCode]) async {
+  /// MVP: Simplified English-only scenario fetching for gospel_scenarios
+  Future<List<Scenario>> fetchScenariosByChapter(String chapterId, [String? langCode]) async {
     /* MULTILANG_TODO: final language = langCode ?? _currentLanguage; */
     try {
       debugPrint('🎯 Fetching scenarios for chapter $chapterId (English-only)');
-      
-      // Simple direct query to scenarios table - no translation complexity
+
+      // Query gospel_scenarios table with chapter_id (UUID)
       final response = await client
-          .from('scenarios')
-          .select('''
-            scenario_id,
-            sc_title,
-            sc_description,
-            sc_category,
-            sc_chapter,
-            sc_heart_response,
-            sc_duty_response,
-            sc_gita_wisdom,
-            sc_action_steps,
-            created_at
-          ''')
-          .eq('sc_chapter', chapterId)
+          .from('gospel_scenarios')
+          .select('*')
+          .eq('chapter_id', chapterId)
           .order('created_at', ascending: false);
-      
+
       debugPrint('📊 Found ${response.length} scenarios for chapter $chapterId');
-      
+
       if (response.isEmpty) return [];
-      
-      // Direct conversion without translation logic - much more reliable
-      final List<Scenario> scenarios = response.map((item) {
-        return Scenario(
-          title: item['sc_title'] as String? ?? '',
-          description: item['sc_description'] as String? ?? '',
-          category: item['sc_category'] as String? ?? '',
-          chapter: item['sc_chapter'] as int? ?? chapterId,
-          heartResponse: item['sc_heart_response'] as String? ?? '',
-          dutyResponse: item['sc_duty_response'] as String? ?? '',
-          gospelWisdom: item['sc_gita_wisdom'] as String? ?? '',
-          actionSteps: (item['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
-          createdAt: DateTime.parse(item['created_at'] as String),
-        );
-      }).toList();
-      
-      debugPrint('✅ Successfully converted ${scenarios.length} scenarios');
-      return scenarios;
-      
+
+      return response.map((item) => Scenario.fromJson(item)).toList();
+
     } catch (e) {
       debugPrint('❌ Error fetching scenarios for chapter $chapterId: $e');
       return _fallbackFetchScenariosByChapter(chapterId);
@@ -733,39 +791,19 @@ class EnhancedSupabaseService {
   }
 
   /// Fallback method for fetching scenarios by chapter (basic implementation)
-  Future<List<Scenario>> _fallbackFetchScenariosByChapter(int chapterId) async {
+  Future<List<Scenario>> _fallbackFetchScenariosByChapter(String chapterId) async {
     try {
       debugPrint('🔧 Using fallback method for chapter $chapterId scenarios');
-      
-      // Simple fallback query without translation complexity
+
+      // Simple fallback query to gospel_scenarios table
       final response = await client
-          .from('scenarios')
-          .select('''
-            sc_title,
-            sc_description,
-            sc_category,
-            sc_chapter,
-            sc_heart_response,
-            sc_duty_response,
-            sc_gita_wisdom,
-            sc_action_steps,
-            created_at
-          ''')
-          .eq('sc_chapter', chapterId)
+          .from('gospel_scenarios')
+          .select('*')
+          .eq('chapter_id', chapterId)
           .limit(100); // Reasonable limit for fallback
-      
-      return response.map((item) => Scenario(
-        title: item['sc_title'] as String? ?? '',
-        description: item['sc_description'] as String? ?? '',
-        category: item['sc_category'] as String? ?? '',
-        chapter: item['sc_chapter'] as int? ?? chapterId,
-        heartResponse: item['sc_heart_response'] as String? ?? '',
-        dutyResponse: item['sc_duty_response'] as String? ?? '',
-        gospelWisdom: item['sc_gita_wisdom'] as String? ?? '',
-        actionSteps: (item['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
-        createdAt: DateTime.parse(item['created_at'] as String),
-      )).toList();
-      
+
+      return response.map((item) => Scenario.fromJson(item)).toList();
+
     } catch (e) {
       debugPrint('❌ Fallback method also failed: $e');
       return [];
@@ -775,75 +813,22 @@ class EnhancedSupabaseService {
   /// Fetch a single scenario with full details and multilingual support
   Future<Scenario?> fetchScenarioById(int scenarioId, [String? langCode]) async {
     /* MULTILANG_TODO: final language = langCode ?? _currentLanguage; */
-    final language = 'en'; // MVP: English-only
-    
     try {
-      // Direct query to get complete scenario data
+      debugPrint('🎯 Fetching scenario $scenarioId from gospel_scenarios');
+
+      // Query gospel_scenarios table
       final response = await client
-          .from('scenarios')
-          .select('''
-            scenario_id,
-            sc_title,
-            sc_description,
-            sc_category,
-            sc_chapter,
-            sc_heart_response,
-            sc_duty_response,
-            sc_gita_wisdom,
-            sc_action_steps,
-            created_at
-          ''')
-          .eq('scenario_id', scenarioId)
-          .single();
-      
-      if (response != null) {
-        Map<String, dynamic> scenarioData = Map<String, dynamic>.from(response);
-        
-        // Try to get translations if not English
-        if (language != 'en') {
-          try {
-            final translationResponse = await client
-                .from('scenario_translations')
-                .select('*')
-                .eq('scenario_id', scenarioId)
-                .eq('lang_code', language)
-                .maybeSingle();
-            
-            if (translationResponse != null) {
-              // Apply translations
-              if (translationResponse['title'] != null) scenarioData['sc_title'] = translationResponse['title'];
-              if (translationResponse['description'] != null) scenarioData['sc_description'] = translationResponse['description'];
-              if (translationResponse['category'] != null) scenarioData['sc_category'] = translationResponse['category'];
-              if (translationResponse['heart_response'] != null) scenarioData['sc_heart_response'] = translationResponse['heart_response'];
-              if (translationResponse['duty_response'] != null) scenarioData['sc_duty_response'] = translationResponse['duty_response'];
-              if (translationResponse['gita_wisdom'] != null) scenarioData['sc_gita_wisdom'] = translationResponse['gita_wisdom'];
-              if (translationResponse['action_steps'] != null) scenarioData['sc_action_steps'] = translationResponse['action_steps'];
-            }
-          } catch (translationError) {
-            debugPrint('⚠️ Translation not found for scenario $scenarioId in $language, using English');
-          }
-        }
-        
-        // Create scenario with all data
-        return Scenario(
-          title: scenarioData['sc_title'] as String? ?? '',
-          description: scenarioData['sc_description'] as String? ?? '',
-          category: scenarioData['sc_category'] as String? ?? '',
-          chapter: scenarioData['sc_chapter'] as int? ?? 1,
-          heartResponse: scenarioData['sc_heart_response'] as String? ?? '',
-          dutyResponse: scenarioData['sc_duty_response'] as String? ?? '',
-          gospelWisdom: scenarioData['sc_gita_wisdom'] as String? ?? '',
-          actionSteps: (scenarioData['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
-          createdAt: DateTime.parse(scenarioData['created_at'] as String),
-        );
-      }
-      
-      return null;
-      
+          .from('gospel_scenarios')
+          .select('*')
+          .eq('id', scenarioId)
+          .maybeSingle();
+
+      if (response == null) return null;
+
+      return Scenario.fromJson(response);
+
     } catch (e) {
-      debugPrint('❌ Error fetching scenario $scenarioId for $language: $e');
-      
-      // Fallback to original method
+      debugPrint('❌ Error fetching scenario $scenarioId: $e');
       return _fallbackFetchScenarioById(scenarioId);
     }
   }
@@ -852,37 +837,17 @@ class EnhancedSupabaseService {
   Future<Scenario?> _fallbackFetchScenarioById(int scenarioId) async {
     try {
       debugPrint('🔧 Using fallback method for scenario $scenarioId');
-      
+
       final response = await client
-          .from('scenarios')
-          .select('''
-            sc_title,
-            sc_description,
-            sc_category,
-            sc_chapter,
-            sc_heart_response,
-            sc_duty_response,
-            sc_gita_wisdom,
-            sc_action_steps,
-            created_at
-          ''')
-          .eq('scenario_id', scenarioId)
+          .from('gospel_scenarios')
+          .select('*')
+          .eq('id', scenarioId)
           .maybeSingle();
-      
+
       if (response == null) return null;
-      
-      return Scenario(
-        title: response['sc_title'] as String? ?? '',
-        description: response['sc_description'] as String? ?? '',
-        category: response['sc_category'] as String? ?? '',
-        chapter: response['sc_chapter'] as int? ?? 1,
-        heartResponse: response['sc_heart_response'] as String? ?? '',
-        dutyResponse: response['sc_duty_response'] as String? ?? '',
-        gospelWisdom: response['sc_gita_wisdom'] as String? ?? '',
-        actionSteps: (response['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
-        createdAt: DateTime.parse(response['created_at'] as String),
-      );
-      
+
+      return Scenario.fromJson(response);
+
     } catch (e) {
       debugPrint('❌ Fallback scenario fetch failed: $e');
       return null;
@@ -893,64 +858,29 @@ class EnhancedSupabaseService {
   Future<List<Scenario>> searchScenarios(String query, [String? langCode]) async {
     /* MULTILANG_TODO: final language = langCode ?? _currentLanguage; */
     final language = 'en'; // MVP: English-only
-    
+
     if (query.trim().isEmpty) {
       return fetchScenarios(langCode: language);
     }
-    
+
     try {
-      // Search in translation tables with full-text search
+      // Search in gospel_scenarios table with full-text search
       final response = await client
-          .from('scenario_translations')
-          .select('''
-            scenario_id,
-            title,
-            description,
-            category,
-            heart_response,
-            duty_response,
-            gita_wisdom,
-            verse,
-            verse_number,
-            tags,
-            action_steps
-          ''')
-          .eq('lang_code', language)
-          .or('title.ilike.%${_sanitizeSearchQuery(query)}%,description.ilike.%${_sanitizeSearchQuery(query)}%')
-          .order('scenario_id', ascending: false);
-      
-      final data = response as List;
-      
-      // Convert to Scenario objects (need to fetch additional data)
-      final List<Scenario> scenarios = [];
-      for (final item in data) {
-        // For now, create basic scenario - could be enhanced with joins
-        scenarios.add(Scenario(
-          title: item['title'] as String,
-          description: item['description'] as String,
-          category: item['category'] as String? ?? 'General',
-          chapter: 1, // Would need to be fetched from scenarios table
-          heartResponse: item['heart_response'] as String? ?? '',
-          dutyResponse: item['duty_response'] as String? ?? '',
-          gospelWisdom: item['gita_wisdom'] as String? ?? '',
-          verse: item['verse'] as String?,
-          verseNumber: item['verse_number'] as String?,
-          tags: (item['tags'] as List<dynamic>?)?.cast<String>(),
-          actionSteps: (item['action_steps'] as List<dynamic>?)?.cast<String>(),
-          createdAt: DateTime.now(), // Would need to be fetched from scenarios table
-        ));
-      }
-      
-      return scenarios;
-      
+          .from('gospel_scenarios')
+          .select('*')
+          .or('title.ilike.%${_sanitizeSearchQuery(query)}%,description.ilike.%${_sanitizeSearchQuery(query)}%,gospel_wisdom.ilike.%${_sanitizeSearchQuery(query)}%')
+          .order('created_at', ascending: false);
+
+      return response.map((item) => Scenario.fromJson(item)).toList();
+
     } catch (e) {
       debugPrint('❌ Error searching scenarios for "$query" in $language: $e');
-      
+
       // Fallback to English search or original method
       if (language != 'en') {
         return searchScenarios(query, 'en');
       }
-      
+
       return _fallbackSearchScenarios(query);
     }
   }
@@ -963,60 +893,44 @@ class EnhancedSupabaseService {
   }) async {
     /* MULTILANG_TODO: final language = langCode ?? _currentLanguage; */
     final language = 'en'; // MVP: English-only
-    
+
     try {
-      // Get full scenario data from scenarios table
+      // Get full scenario data from gospel_scenarios table
       final response = await client
-          .from('scenarios')
+          .from('gospel_scenarios')
           .select('''
-            scenario_id,
-            sc_title,
-            sc_description,
-            sc_category,
-            sc_chapter,
-            sc_heart_response,
-            sc_duty_response,
-            sc_gita_wisdom,
-            sc_action_steps,
-            created_at
+            id,
+            title,
+            description,
+            category,
+            gospel_id,
+            chapter_id,
+            verse_id,
+            verse_reference,
+            heart_response,
+            gospel_response,
+            gospel_wisdom,
+            action_steps,
+            tags,
+            difficulty_level,
+            created_at,
+            updated_at
           ''')
           .order('created_at', ascending: false)
           .range(offset, offset + limit - 1)
           .limit(limit);
-      
-      if (response.isEmpty) return [];
-      
-      final List<Scenario> scenarios = [];
-      
-      for (final item in response) {
-        // English-only optimization: No translation queries needed
-        // This eliminates N+1 query problem (previously 1,226 individual queries)
-        final scenarioData = item;
 
-        final scenario = Scenario(
-          title: scenarioData['sc_title'] as String? ?? '',
-          description: scenarioData['sc_description'] as String? ?? '',
-          category: scenarioData['sc_category'] as String? ?? '',
-          chapter: scenarioData['sc_chapter'] as int? ?? 1,
-          heartResponse: scenarioData['sc_heart_response'] as String? ?? '',
-          dutyResponse: scenarioData['sc_duty_response'] as String? ?? '',
-          gospelWisdom: scenarioData['sc_gita_wisdom'] as String? ?? '',
-          actionSteps: (scenarioData['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
-          createdAt: DateTime.parse(scenarioData['created_at'] as String),
-        );
-        
-        scenarios.add(scenario);
-      }
-      
-      return scenarios;
-      
+      if (response.isEmpty) return [];
+
+      return response.map((item) => Scenario.fromJson(item)).toList();
+
     } catch (e) {
       debugPrint('❌ Error fetching paginated scenarios for $language: $e');
-      
+
       if (language != 'en') {
         return fetchScenarios(limit: limit, offset: offset, langCode: 'en');
       }
-      
+
       return _fallbackFetchScenarios(limit: limit, offset: offset);
     }
   }
@@ -1025,35 +939,15 @@ class EnhancedSupabaseService {
   Future<List<Scenario>> _fallbackFetchScenarios({int limit = 2000, int offset = 0}) async {
     try {
       debugPrint('🔧 Using fallback method for scenarios (limit: $limit, offset: $offset)');
-      
+
       final response = await client
-          .from('scenarios')
-          .select('''
-            sc_title,
-            sc_description,
-            sc_category,
-            sc_chapter,
-            sc_heart_response,
-            sc_duty_response,
-            sc_gita_wisdom,
-            sc_action_steps,
-            created_at
-          ''')
+          .from('gospel_scenarios')
+          .select('*')
           .order('created_at', ascending: false)
           .range(offset, offset + limit - 1);
-      
-      return response.map((item) => Scenario(
-        title: item['sc_title'] as String? ?? '',
-        description: item['sc_description'] as String? ?? '',
-        category: item['sc_category'] as String? ?? '',
-        chapter: item['sc_chapter'] as int? ?? 1,
-        heartResponse: item['sc_heart_response'] as String? ?? '',
-        dutyResponse: item['sc_duty_response'] as String? ?? '',
-        gospelWisdom: item['sc_gita_wisdom'] as String? ?? '',
-        actionSteps: (item['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
-        createdAt: DateTime.parse(item['created_at'] as String),
-      )).toList();
-      
+
+      return response.map((item) => Scenario.fromJson(item)).toList();
+
     } catch (e) {
       debugPrint('❌ Fallback scenarios fetch failed: $e');
       return [];
@@ -1064,17 +958,17 @@ class EnhancedSupabaseService {
   Future<int> getScenarioCount() async {
     try {
       debugPrint('📊 Getting scenario count from server...');
-      
+
       // Use count() method to get total count
       final response = await client
-          .from('scenarios')
-          .select('scenario_id')
+          .from('gospel_scenarios')
+          .select('id')
           .count(CountOption.exact);
-      
+
       final count = response.count ?? 0;
       debugPrint('✅ Server has $count total scenarios');
       return count;
-      
+
     } catch (e) {
       debugPrint('❌ Error getting scenario count: $e');
       return 0;
@@ -1086,8 +980,8 @@ class EnhancedSupabaseService {
   /// ========================================================================
 
   /// Fetch verses with Hive caching (static content - users don't need real-time updates)
-  /// Verses are permanent Gita content, so cache them indefinitely
-  Future<List<Verse>> fetchVersesByChapter(int chapterId, [String? langCode]) async {
+  /// Verses are permanent Gospel content, so cache them indefinitely
+  Future<List<Verse>> fetchVersesByChapter(String chapterId, [String? langCode]) async {
     final language = 'en'; // MVP: English-only
 
     try {
@@ -1103,19 +997,10 @@ class EnhancedSupabaseService {
       // Check cache first - instant load for static content
       if (versesBox.containsKey(cacheKey)) {
         final cached = versesBox.get(cacheKey) as Map<dynamic, dynamic>?;
-        if (cached != null && cached['verses'] is List) {
-          final verses = (cached['verses'] as List)
-              .whereType<Map<dynamic, dynamic>>()
-              .map((itemMap) {
-            return Verse(
-              verseId: (itemMap['gv_verses_id'] as num?)?.toInt() ?? 0,
-              chapterId: (itemMap['gv_chapter_id'] as num?)?.toInt() ?? chapterId,
-              description: itemMap['gv_verses'] as String? ?? '',
-            );
-          }).toList();
-
-          debugPrint('📖 Loaded ${verses.length} verses for chapter $chapterId from cache (instant)');
-          return verses;
+        // Old cache disabled - new Verse schema incompatible
+        // TODO: Update cache to use new gospel_verses schema
+        if (false && cached != null && cached['verses'] is List) {
+          debugPrint('📖 Skipping old verse cache (schema mismatch)');
         }
       }
 
@@ -1159,28 +1044,33 @@ class EnhancedSupabaseService {
   }
 
   /// Fetch verses from network (helper for batch loading)
-  Future<List<Verse>> _fetchVersesFromNetwork(int chapterId, String language) async {
+  Future<List<Verse>> _fetchVersesFromNetwork(String chapterId, String language) async {
     try {
       debugPrint('🔄 Fetching verses from network for chapter $chapterId (language: $language)');
 
-      // Single query per chapter (not per verse) = minimal API calls
+      // Query gospel_verses table with new schema
       final response = await client
-          .from('gita_verses')
+          .from('gospel_verses')
           .select('''
-            gv_verses_id,
-            gv_chapter_id,
-            gv_verses
+            id,
+            gospel_id,
+            chapter_id,
+            verse_number,
+            text,
+            reference,
+            translation_code,
+            context,
+            cross_references,
+            keywords,
+            themes,
+            created_at
           ''')
-          .eq('gv_chapter_id', chapterId)
-          .order('gv_verses_id', ascending: true);
+          .eq('chapter_id', chapterId)
+          .order('verse_number', ascending: true);
 
       debugPrint('✅ Fetched ${response.length} verses from network for chapter $chapterId');
 
-      return response.map((item) => Verse(
-        verseId: item['gv_verses_id'] as int? ?? 0,
-        chapterId: item['gv_chapter_id'] as int? ?? chapterId,
-        description: item['gv_verses'] as String? ?? '',
-      )).toList();
+      return response.map((item) => Verse.fromJson(item as Map<String, dynamic>)).toList();
 
     } catch (e) {
       debugPrint('❌ CRITICAL ERROR fetching verses from network for chapter $chapterId');
@@ -1191,10 +1081,10 @@ class EnhancedSupabaseService {
   }
 
   /// Fetch random verse with multilingual support
-  Future<Verse> fetchRandomVerseByChapter(int chapterId, [String? langCode]) async {
+  Future<Verse> fetchRandomVerseByChapter(String chapterId, [String? langCode]) async {
     /* MULTILANG_TODO: final language = langCode ?? _currentLanguage; */
     final language = 'en'; // MVP: English-only
-    
+
     try {
       final verses = await fetchVersesByChapter(chapterId, language);
       if (verses.isEmpty) {
@@ -1284,35 +1174,15 @@ class EnhancedSupabaseService {
   Future<List<Scenario>> _fallbackSearchScenarios(String query) async {
     try {
       debugPrint('🔧 Using fallback search for query: $query');
-      
+
       final response = await client
-          .from('scenarios')
-          .select('''
-            sc_title,
-            sc_description,
-            sc_category,
-            sc_chapter,
-            sc_heart_response,
-            sc_duty_response,
-            sc_gita_wisdom,
-            sc_action_steps,
-            created_at
-          ''')
-          .or('sc_title.ilike.%${_sanitizeSearchQuery(query)}%,sc_description.ilike.%${_sanitizeSearchQuery(query)}%')
+          .from('gospel_scenarios')
+          .select('*')
+          .or('title.ilike.%${_sanitizeSearchQuery(query)}%,description.ilike.%${_sanitizeSearchQuery(query)}%')
           .order('created_at', ascending: false);
-      
-      return response.map((item) => Scenario(
-        title: item['sc_title'] as String? ?? '',
-        description: item['sc_description'] as String? ?? '',
-        category: item['sc_category'] as String? ?? '',
-        chapter: item['sc_chapter'] as int? ?? 1,
-        heartResponse: item['sc_heart_response'] as String? ?? '',
-        dutyResponse: item['sc_duty_response'] as String? ?? '',
-        gospelWisdom: item['sc_gita_wisdom'] as String? ?? '',
-        actionSteps: (item['sc_action_steps'] as List<dynamic>?)?.cast<String>(),
-        createdAt: DateTime.parse(item['created_at'] as String),
-      )).toList();
-      
+
+      return response.map((item) => Scenario.fromJson(item)).toList();
+
     } catch (e) {
       debugPrint('❌ Fallback search failed: $e');
       return [];
@@ -1320,26 +1190,11 @@ class EnhancedSupabaseService {
   }
 
   /// Fallback method for fetching verses by chapter
-  Future<List<Verse>> _fallbackFetchVersesByChapter(int chapterId) async {
+  Future<List<Verse>> _fallbackFetchVersesByChapter(String chapterId) async {
     try {
-      debugPrint('🔧 Using fallback method for verses in chapter $chapterId');
-      
-      final response = await client
-          .from('gita_verses')
-          .select('''
-            gv_verses_id,
-            gv_chapter_id,
-            gv_verses
-          ''')
-          .eq('gv_chapter_id', chapterId)
-          .order('gv_verses_id', ascending: true);
-      
-      return response.map((item) => Verse(
-        verseId: item['gv_verses_id'] as int? ?? 0,
-        chapterId: item['gv_chapter_id'] as int? ?? chapterId,
-        description: item['gv_verses'] as String? ?? '',
-      )).toList();
-      
+      debugPrint('🔧 Using fallback for verses - redirecting to main fetch method');
+      // Use the updated _fetchVersesFromNetwork which queries gospel_verses
+      return await _fetchVersesFromNetwork(chapterId, 'en');
     } catch (e) {
       debugPrint('❌ Fallback verses fetch failed: $e');
       return [];
@@ -1365,7 +1220,7 @@ class EnhancedSupabaseService {
   }
 
   /// Count scenarios for a chapter (using current language)
-  Future<int> fetchScenarioCount(int chapterId) async {
+  Future<int> fetchScenarioCount(String chapterId) async {
     try {
       final scenarios = await fetchScenariosByChapter(chapterId);
       return scenarios.length;

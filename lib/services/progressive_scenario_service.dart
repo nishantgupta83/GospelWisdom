@@ -110,10 +110,10 @@ class ProgressiveScenarioService {
     return scenarios.where((scenario) {
       return scenario.title.toLowerCase().contains(lowerQuery) ||
              scenario.description.toLowerCase().contains(lowerQuery) ||
-             scenario.category.toLowerCase().contains(lowerQuery) ||
-             (scenario.heartResponse?.toLowerCase().contains(lowerQuery) ?? false) ||
-             (scenario.dutyResponse?.toLowerCase().contains(lowerQuery) ?? false) ||
-             (scenario.gospelWisdom?.toLowerCase().contains(lowerQuery) ?? false);
+             (scenario.category?.toLowerCase() ?? '').contains(lowerQuery) ||
+             (scenario.heartResponse?.toLowerCase() ?? '').contains(lowerQuery) ||
+             (scenario.dutyResponse.toLowerCase()).contains(lowerQuery) ||
+             (scenario.gospelWisdom?.toLowerCase() ?? '').contains(lowerQuery);
     }).toList();
   }
 

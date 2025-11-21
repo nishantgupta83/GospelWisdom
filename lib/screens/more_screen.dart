@@ -250,18 +250,17 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
             child: Column(
               children: [
-                _buildSafeConsumer<SettingsService>(
-                  builder: (context, settingsService, child) {
+                Consumer<ThemeProvider>(
+                  builder: (context, themeProvider, child) {
                     return SwitchListTile(
                       title: const Text('Dark Mode'),
-                      value: settingsService.isDarkMode,
+                      value: themeProvider.isDark,
                       onChanged: (v) {
-                        settingsService.isDarkMode = v;
+                        themeProvider.toggleDarkMode();
                         debugPrint('🌓 Dark mode changed to: $v');
                       },
                     );
                   },
-                  fallback: _buildLoadingListTile('Dark Mode', 'Loading theme settings...'),
                 ),
                 const Divider(height: 1),
                 Consumer<ThemeProvider>(

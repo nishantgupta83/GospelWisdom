@@ -4,52 +4,60 @@ import 'package:hive/hive.dart';
 
 part 'chapter_summary.g.dart';
 
+/// Summary view of Gospel chapters for list displays
+/// Contains minimal data for performance
 @HiveType(typeId: 3)
 class ChapterSummary extends HiveObject {
   @HiveField(0)
-  final int chapterId;     // cs_chapter_id
-  
+  final String id;  // UUID from gospel_chapters.id
+
   @HiveField(1)
-  final String title;      // cs_title
-  
+  final int gospelId;  // 1-4 (Matthew, Mark, Luke, John)
+
   @HiveField(2)
-  final String? subtitle;  // cs_subtitle
-  
+  final int chapterNumber;  // Chapter number within Gospel
+
   @HiveField(3)
-  final int scenarioCount; // cs_scenario_count
-  
+  final String title;  // Chapter title
+
   @HiveField(4)
-  final int verseCount;    // cs_verse_count
+  final int scenarioCount;  // Count of scenarios for this chapter
+
+  @HiveField(5)
+  final int verseCount;  // Count of verses in chapter
 
   ChapterSummary({
-    required this.chapterId,
+    required this.id,
+    required this.gospelId,
+    required this.chapterNumber,
     required this.title,
-    this.subtitle,
     required this.scenarioCount,
     required this.verseCount,
   });
 
+  /// Display name: "Matthew 5", "John 3", etc.
+  String get displayName {
+    final gospelNames = {1: 'Matthew', 2: 'Mark', 3: 'Luke', 4: 'John'};
+    return '${gospelNames[gospelId]} $chapterNumber';
+  }
+
   factory ChapterSummary.fromJson(Map<String, dynamic> json) {
     return ChapterSummary(
-      chapterId: json['cs_chapter_id'] is int
-          ? json['cs_chapter_id'] as int
-          : int.parse(json['cs_chapter_id'].toString()),
-      title: json['cs_title'] as String,
-      subtitle: json['cs_subtitle'] as String?,
-      scenarioCount: json['cs_scenario_count'] is int
-          ? json['cs_scenario_count'] as int
-          : int.parse(json['cs_scenario_count'].toString()),
-      verseCount: json['cs_verse_count'] is int
-          ? json['cs_verse_count'] as int
-          : int.parse(json['cs_verse_count'].toString()),
+      id: json['id'] as String,
+      gospelId: json['gospel_id'] as int,
+      chapterNumber: json['chapter_number'] as int,
+      title: json['title'] as String? ?? '',
+      scenarioCount: json['scenario_count'] as int? ?? 0,
+      verseCount: json['verse_count'] as int? ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'cs_chapter_id': chapterId,
-        'cs_title': title,
-        'cs_subtitle': subtitle,
-        'cs_scenario_count': scenarioCount,
-        'cs_verse_count': verseCount,
+        'id': id,
+        'gospel_id': gospelId,
+        'chapter_number': chapterNumber,
+        'title': title,
+        'scenario_count': scenarioCount,
+        'verse_count': verseCount,
       };
 }

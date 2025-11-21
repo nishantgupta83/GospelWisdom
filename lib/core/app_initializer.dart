@@ -26,6 +26,7 @@ import 'ios_audio_session_manager.dart';
 import 'ios_metal_optimizer.dart';
 import 'app_config.dart' as LegacyConfig;
 import '../models/journal_entry.dart';
+import '../models/gospel.dart';
 import '../models/scenario.dart';
 import '../models/chapter.dart';
 import '../models/verse.dart';
@@ -132,6 +133,9 @@ class AppInitializer {
         if (!Hive.isAdapterRegistered(9)) {
           Hive.registerAdapter(BookmarkAdapter()); // typeId: 9
         }
+        if (!Hive.isAdapterRegistered(10)) {
+          Hive.registerAdapter(GospelAdapter()); // typeId: 10
+        }
 
         debugPrint('✅ Hive adapters registered successfully - user data preserved');
       } catch (e) {
@@ -203,6 +207,10 @@ class AppInitializer {
       final supabaseService = ServiceLocator.instance.enhancedSupabaseService;
 
       // Load all 18 chapters verses in parallel to minimize load time
+      // Preload disabled for now - Gospel chapters use UUIDs, not integers
+      // TODO: Update preloading to fetch all gospel chapters first, then their verses
+      final versesFutures = <Future<List<Verse>>>[];
+      /*
       final versesFutures = List.generate(
         18,
         (i) => supabaseService.fetchVersesByChapter(i + 1).catchError((e) {
@@ -210,6 +218,7 @@ class AppInitializer {
           return <Verse>[]; // Continue even if one fails
         }),
       );
+      */
 
       final results = await Future.wait(versesFutures);
       final totalVerses = results.fold<int>(0, (sum, verses) => sum + verses.length);

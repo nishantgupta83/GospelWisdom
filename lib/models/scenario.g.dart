@@ -17,49 +17,61 @@ class ScenarioAdapter extends TypeAdapter<Scenario> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Scenario(
-      title: fields[0] as String,
-      description: fields[1] as String,
-      category: fields[2] as String,
-      chapter: fields[3] as int,
-      heartResponse: fields[4] as String,
-      dutyResponse: fields[5] as String,
-      gospelWisdom: fields[6] as String,
-      verse: fields[7] as String?,
-      verseNumber: fields[8] as String?,
-      tags: (fields[9] as List?)?.cast<String>(),
-      actionSteps: (fields[10] as List?)?.cast<String>(),
-      createdAt: fields[11] as DateTime,
+      id: fields[0] as int,
+      title: fields[1] as String,
+      description: fields[2] as String,
+      category: fields[3] as String?,
+      gospelId: fields[4] as int?,
+      chapterId: fields[5] as String?,
+      verseId: fields[6] as String?,
+      verseReference: fields[7] as String?,
+      heartResponse: fields[8] as String?,
+      gospelResponse: fields[9] as String?,
+      gospelWisdom: fields[10] as String?,
+      actionSteps: (fields[11] as List?)?.cast<String>(),
+      tags: (fields[12] as List?)?.cast<String>(),
+      difficultyLevel: fields[13] as String?,
+      createdAt: fields[14] as DateTime?,
+      updatedAt: fields[15] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Scenario obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(16)
       ..writeByte(0)
-      ..write(obj.title)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.description)
+      ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.category)
+      ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.chapter)
+      ..write(obj.category)
       ..writeByte(4)
-      ..write(obj.heartResponse)
+      ..write(obj.gospelId)
       ..writeByte(5)
-      ..write(obj.dutyResponse)
+      ..write(obj.chapterId)
       ..writeByte(6)
-      ..write(obj.gospelWisdom)
+      ..write(obj.verseId)
       ..writeByte(7)
-      ..write(obj.verse)
+      ..write(obj.verseReference)
       ..writeByte(8)
-      ..write(obj.verseNumber)
+      ..write(obj.heartResponse)
       ..writeByte(9)
-      ..write(obj.tags)
+      ..write(obj.gospelResponse)
       ..writeByte(10)
-      ..write(obj.actionSteps)
+      ..write(obj.gospelWisdom)
       ..writeByte(11)
-      ..write(obj.createdAt);
+      ..write(obj.actionSteps)
+      ..writeByte(12)
+      ..write(obj.tags)
+      ..writeByte(13)
+      ..write(obj.difficultyLevel)
+      ..writeByte(14)
+      ..write(obj.createdAt)
+      ..writeByte(15)
+      ..write(obj.updatedAt);
   }
 
   @override

@@ -304,9 +304,9 @@ class BookmarkService extends ChangeNotifier {
   Future<bool> bookmarkChapter(Chapter chapter) async {
     return addBookmark(
       bookmarkType: BookmarkType.chapter,
-      referenceId: chapter.chapterId,
-      chapterId: chapter.chapterId,
-      title: chapter.title,
+      referenceId: chapter.id.hashCode,  // Use UUID hash as referenceId
+      chapterId: chapter.gospelId,  // Use gospelId for now (1-4)
+      title: chapter.title ?? chapter.displayName,
       contentPreview: chapter.summary?.substring(0, 100),
     );
   }

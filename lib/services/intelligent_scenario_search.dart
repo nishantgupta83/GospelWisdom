@@ -234,9 +234,10 @@ class IntelligentScenarioSearch {
         final matchedTerms = <String>[];
 
         // Category matching
-        if (scenario.category.toLowerCase().contains(queryLower)) {
+        final category = scenario.category ?? '';
+        if (category.toLowerCase().contains(queryLower)) {
           score += 2.0;
-          matchedTerms.add(scenario.category);
+          matchedTerms.add(category);
         }
 
         // Title partial matching
@@ -278,7 +279,7 @@ class IntelligentScenarioSearch {
   }
 
   String _getScenarioId(Scenario scenario) {
-    return '${scenario.chapter}_${scenario.title}_${scenario.createdAt.millisecondsSinceEpoch}';
+    return '${scenario.chapter}_${scenario.title}_${scenario.createdAtSafe.millisecondsSinceEpoch}';
   }
 
   Future<void> refreshMonthly() async {

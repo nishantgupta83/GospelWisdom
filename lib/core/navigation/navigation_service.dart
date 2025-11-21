@@ -22,12 +22,12 @@ class NavigationService {
 
   // Navigation callbacks - set by RootScaffold
   void Function(int)? _onTabChanged;
-  void Function(int)? _onGoToScenariosWithChapter;
+  void Function(String)? _onGoToScenariosWithChapter;  // UUID
 
   /// Initialize navigation service with callbacks
   void initialize({
     required void Function(int) onTabChanged,
-    required void Function(int) onGoToScenariosWithChapter,
+    required void Function(String) onGoToScenariosWithChapter,  // UUID
   }) {
     _onTabChanged = onTabChanged;
     _onGoToScenariosWithChapter = onGoToScenariosWithChapter;
@@ -47,7 +47,7 @@ class NavigationService {
 
   /// Navigate to scenarios screen with chapter filter
   /// Replaces NavigationHelper.goToScenariosWithChapter
-  void goToScenariosWithChapter(int chapterId) {
+  void goToScenariosWithChapter(String chapterId) {  // UUID
     try {
       _onGoToScenariosWithChapter?.call(chapterId);
       debugPrint('🧭 Navigated to scenarios with chapter filter: $chapterId');

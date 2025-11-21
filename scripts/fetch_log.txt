@@ -1,0 +1,124 @@
+📖 Gospel Verses Incremental Fetcher
+================================================================================
+Fetching all Gospels...
+
+📕 Fetching Matthew
+   Chapters: 28
+================================================================================
+  ⏳ Fetching Matthew 1... ✅ 25 verses
+  ⏳ Fetching Matthew 2... ✅ 23 verses
+  ⏳ Fetching Matthew 3... ✅ 17 verses
+  ⏳ Fetching Matthew 4... ✅ 25 verses
+  ⏳ Fetching Matthew 5... ✅ 48 verses
+  ⏳ Fetching Matthew 6... ✅ 34 verses
+  ⏳ Fetching Matthew 7... ✅ 29 verses
+  ⏳ Fetching Matthew 8... ✅ 34 verses
+  ⏳ Fetching Matthew 9... ✅ 38 verses
+  ⏳ Fetching Matthew 10... ✅ 42 verses
+  ⏳ Fetching Matthew 11... ✅ 30 verses
+  ⏳ Fetching Matthew 12... ✅ 50 verses
+  ⏳ Fetching Matthew 13... ✅ 58 verses
+  ⏳ Fetching Matthew 14... ✅ 36 verses
+  ⏳ Fetching Matthew 15... ✅ 39 verses
+  ⏳ Fetching Matthew 16... ✅ 28 verses
+  ⏳ Fetching Matthew 17... ✅ 27 verses
+  ⏳ Fetching Matthew 18... ✅ 35 verses
+  ⏳ Fetching Matthew 19... ✅ 30 verses
+  ⏳ Fetching Matthew 20... ✅ 34 verses
+  ⏳ Fetching Matthew 21... ✅ 46 verses
+  ⏳ Fetching Matthew 22... ✅ 46 verses
+  ⏳ Fetching Matthew 23... ✅ 39 verses
+  ⏳ Fetching Matthew 24... ✅ 51 verses
+  ⏳ Fetching Matthew 25... ✅ 46 verses
+  ⏳ Fetching Matthew 26... ✅ 75 verses
+  ⏳ Fetching Matthew 27... ✅ 66 verses
+  ⏳ Fetching Matthew 28... ✅ 20 verses
+
+✅ SQL saved to: /Users/nishantgupta/Documents/nishant_projects/GospelWisdom/supabase/migrations/verses/2025_11_20_matthew_verses.sql
+
+
+📕 Fetching Mark
+   Chapters: 16
+================================================================================
+  ⏳ Fetching Mark 1... ✅ 45 verses
+  ⏳ Fetching Mark 2... ✅ 28 verses
+  ⏳ Fetching Mark 3... ✅ 35 verses
+  ⏳ Fetching Mark 4... ✅ 41 verses
+  ⏳ Fetching Mark 5... ✅ 43 verses
+  ⏳ Fetching Mark 6... ✅ 56 verses
+  ⏳ Fetching Mark 7... ✅ 37 verses
+  ⏳ Fetching Mark 8... ✅ 38 verses
+  ⏳ Fetching Mark 9... ✅ 50 verses
+  ⏳ Fetching Mark 10... ✅ 52 verses
+  ⏳ Fetching Mark 11... ✅ 33 verses
+  ⏳ Fetching Mark 12... ✅ 44 verses
+  ⏳ Fetching Mark 13... ✅ 37 verses
+  ⏳ Fetching Mark 14... ✅ 72 verses
+  ⏳ Fetching Mark 15... ✅ 47 verses
+  ⏳ Fetching Mark 16... ✅ 20 verses
+
+✅ SQL saved to: /Users/nishantgupta/Documents/nishant_projects/GospelWisdom/supabase/migrations/verses/2025_11_20_mark_verses.sql
+
+
+📕 Fetching Luke
+   Chapters: 24
+================================================================================
+  ⏳ Fetching Luke 1... ✅ 80 verses
+  ⏳ Fetching Luke 2... ✅ 52 verses
+  ⏳ Fetching Luke 3... ✅ 38 verses
+  ⏳ Fetching Luke 4... ✅ 44 verses
+  ⏳ Fetching Luke 5... ✅ 39 verses
+  ⏳ Fetching Luke 6... ✅ 49 verses
+  ⏳ Fetching Luke 7... ✅ 50 verses
+  ⏳ Fetching Luke 8... ✅ 56 verses
+  ⏳ Fetching Luke 9... ✅ 62 verses
+  ⏳ Fetching Luke 10... ✅ 42 verses
+  ⏳ Fetching Luke 11... ✅ 54 verses
+  ⏳ Fetching Luke 12... ✅ 59 verses
+  ⏳ Fetching Luke 13... ✅ 35 verses
+  ⏳ Fetching Luke 14... ✅ 35 verses
+  ⏳ Fetching Luke 15... ✅ 32 verses
+  ⏳ Fetching Luke 16... ✅ 31 verses
+  ⏳ Fetching Luke 17... ✅ 37 verses
+  ⏳ Fetching Luke 18... ✅ 43 verses
+  ⏳ Fetching Luke 19... ✅ 48 verses
+  ⏳ Fetching Luke 20... ✅ 47 verses
+  ⏳ Fetching Luke 21... ✅ 38 verses
+  ⏳ Fetching Luke 22... ✅ 71 verses
+  ⏳ Fetching Luke 23... ✅ 56 verses
+  ⏳ Fetching Luke 24... ✅ 53 verses
+
+✅ SQL saved to: /Users/nishantgupta/Documents/nishant_projects/GospelWisdom/supabase/migrations/verses/2025_11_20_luke_verses.sql
+
+
+📕 Fetching John
+   Chapters: 21
+================================================================================
+  ⏳ Fetching John 1... ✅ 51 verses
+  ⏳ Fetching John 2... ✅ 25 verses
+  ✅ John 3 (already fetched)
+  ⏳ Fetching John 4... ✅ 54 verses
+  ⏳ Fetching John 5... ✅ 47 verses
+  ⏳ Fetching John 6... ✅ 71 verses
+  ⏳ Fetching John 7... ✅ 53 verses
+  ⏳ Fetching John 8... ✅ 59 verses
+  ⏳ Fetching John 9... ✅ 41 verses
+  ⏳ Fetching John 10... ✅ 42 verses
+  ⏳ Fetching John 11... ✅ 57 verses
+  ⏳ Fetching John 12... ✅ 50 verses
+  ⏳ Fetching John 13... ✅ 38 verses
+  ⏳ Fetching John 14... ✅ 31 verses
+  ⏳ Fetching John 15... ✅ 27 verses
+  ⏳ Fetching John 16... ✅ 33 verses
+  ⏳ Fetching John 17... ✅ 26 verses
+  ⏳ Fetching John 18... ✅ 40 verses
+  ⏳ Fetching John 19... ✅ 42 verses
+  ⏳ Fetching John 20... ✅ 31 verses
+  ⏳ Fetching John 21... ✅ 25 verses
+
+✅ SQL saved to: /Users/nishantgupta/Documents/nishant_projects/GospelWisdom/supabase/migrations/verses/2025_11_20_john_verses.sql
+
+
+📊 Progress Summary:
+   ✅ Completed: 89/89 chapters
+   ❌ Failed: 0 chapters

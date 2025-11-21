@@ -138,7 +138,7 @@ class KeywordSearchService {
   }
 
   String _getScenarioId(Scenario scenario) {
-    return '${scenario.chapter}_${scenario.title}_${scenario.createdAt.millisecondsSinceEpoch}';
+    return '${scenario.chapter}_${scenario.title}_${scenario.createdAtSafe.millisecondsSinceEpoch}';
   }
 
   String _extractSearchableText(Scenario scenario) {

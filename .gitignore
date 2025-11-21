@@ -153,3 +153,5 @@ logs/
 *_bak
 *.json
 KEYSTORE_CREDENTIALS_BACKUP.txt
+.env.local
+SUPABASE_CREDENTIALS.txt

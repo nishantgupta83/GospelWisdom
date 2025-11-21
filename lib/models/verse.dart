@@ -1,56 +1,126 @@
-
 // lib/models/verse.dart
 
 import 'package:hive/hive.dart';
 
 part 'verse.g.dart';
 
-/// ---------------------------------------------
-/// MODEL: Verse
-/// ---------------------------------------------
-/// Represents a single verse from the Bhagavad Gita.
-/// Stored in the `gita_verses` table with the following columns:
-///   • gv_verse_id (int): The verse number within the chapter.
-///   • gv_description (String): The full text of the verse.
-///
-/// Provides JSON serialization for seamless Supabase integration.
-
+/// Verse model representing a single Bible verse
+/// Maps to the 'gospel_verses' table in Supabase
+/// NEW SCHEMA: gospel_verses (~3,800 verses across 89 chapters)
 @HiveType(typeId: 4)
 class Verse extends HiveObject {
-  /// The verse number within its chapter.
   @HiveField(0)
-  final int verseId;
+  final String id;  // UUID from gospel_verses.id
 
-  /// The text content of the verse.
   @HiveField(1)
-  final String description;
+  final int gospelId;  // 1-4 (Matthew, Mark, Luke, John)
 
-  /// The chapter ID this verse belongs to.
   @HiveField(2)
-  final int? chapterId;
+  final String chapterId;  // UUID reference to gospel_chapters
 
-  /// Constructs a [Verse] instance.
+  @HiveField(3)
+  final int verseNumber;  // Verse number within chapter
+
+  @HiveField(4)
+  final String text;  // The actual verse text
+
+  @HiveField(5)
+  final String reference;  // "John 3:16", "Matthew 5:3", etc.
+
+  @HiveField(6)
+  final String translationCode;  // "NIV", "KJV", "ESV", etc.
+
+  @HiveField(7)
+  final String? context;  // Background context
+
+  @HiveField(8)
+  final List<String>? crossReferences;  // Related verses
+
+  @HiveField(9)
+  final List<String>? keywords;  // Searchable keywords
+
+  @HiveField(10)
+  final List<String>? themes;  // Thematic tags
+
+  @HiveField(11)
+  final DateTime? createdAt;
+
   Verse({
-    required this.verseId,
-    required this.description,
-    this.chapterId,
+    required this.id,
+    required this.gospelId,
+    required this.chapterId,
+    required this.verseNumber,
+    required this.text,
+    required this.reference,
+    this.translationCode = 'NIV',
+    this.context,
+    this.crossReferences,
+    this.keywords,
+    this.themes,
+    this.createdAt,
   });
 
-  /// Creates a [Verse] from a JSON map returned by Supabase.
+  /// Create Verse from Supabase JSON (gospel_verses table)
   factory Verse.fromJson(Map<String, dynamic> json) {
     return Verse(
-      verseId: json['gv_verses_id'] as int,
-      description: json['gv_verses'] as String,
-      chapterId: json['gv_chapter_id'] as int?,
+      id: json['id'] as String,
+      gospelId: json['gospel_id'] as int,
+      chapterId: json['chapter_id'] as String,
+      verseNumber: json['verse_number'] as int,
+      text: json['text'] as String,
+      reference: json['reference'] as String,
+      translationCode: json['translation_code'] as String? ?? 'NIV',
+      context: json['context'] as String?,
+      crossReferences: json['cross_references'] != null
+          ? List<String>.from(json['cross_references'] as List)
+          : null,
+      keywords: json['keywords'] != null
+          ? List<String>.from(json['keywords'] as List)
+          : null,
+      themes: json['themes'] != null
+          ? List<String>.from(json['themes'] as List)
+          : null,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
+          : null,
     );
   }
 
-  /// Converts this [Verse] to a JSON map suitable for Supabase.
-  Map<String, dynamic> toJson() => {
-        'gv_verses_id': verseId,
-        'gv_verses': description,
-        if (chapterId != null) 'gv_chapter_id': chapterId,
-      };
+  /// Convert Verse to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'gospel_id': gospelId,
+      'chapter_id': chapterId,
+      'verse_number': verseNumber,
+      'text': text,
+      'reference': reference,
+      'translation_code': translationCode,
+      'context': context,
+      'cross_references': crossReferences,
+      'keywords': keywords,
+      'themes': themes,
+      'created_at': createdAt?.toIso8601String(),
+    };
+  }
+
+  /// Returns a shortened version for previews
+  String get preview {
+    if (text.length <= 100) return text;
+    return '${text.substring(0, 97)}...';
+  }
+
+  /// Returns true if this is a valid verse
+  bool get isValid => verseNumber > 0 && text.isNotEmpty;
+
+  @override
+  String toString() {
+    return 'Verse($reference: ${text.substring(0, text.length > 50 ? 50 : text.length)}...)';
+  }
+
+  // Backward compatibility properties for old code
+  int get verseId => verseNumber;
+  String get description => text;
 }
 
 /// ---------------------------------------------
@@ -58,69 +128,49 @@ class Verse extends HiveObject {
 /// ---------------------------------------------
 
 extension VerseMultilingualExtensions on Verse {
-  /// Creates a Verse from multilingual RPC function response with fallback
-  static Verse fromMultilingualJson(Map<String, dynamic> json) {
+  /// Creates a Verse from gospel_verse_translations table
+  static Verse fromTranslationJson(
+    String id,
+    int gospelId,
+    String chapterId,
+    int verseNumber,
+    String reference,
+    Map<String, dynamic> translationJson,
+  ) {
     return Verse(
-      verseId: json['gv_verses_id'] as int,
-      description: json['gv_verses'] as String,
-      chapterId: json['gv_chapter_id'] as int?,
+      id: id,
+      gospelId: gospelId,
+      chapterId: chapterId,
+      verseNumber: verseNumber,
+      text: translationJson['text'] as String,
+      reference: reference,
+      translationCode: translationJson['translation_code'] as String? ?? 'NIV',
+      context: translationJson['context'] as String?,
     );
   }
-
-  /// Converts to JSON for multilingual translation tables
-  Map<String, dynamic> toTranslationJson(String langCode, {
-    String? translation,
-    String? commentary,
-  }) {
-    return {
-      'verse_id': verseId,
-      'chapter_id': chapterId,
-      'lang_code': langCode,
-      'description': description,
-      'translation': translation,
-      'commentary': commentary,
-    };
-  }
-
-  /// Creates Verse from verse_translations table response
-  static Verse fromTranslationJson(Map<String, dynamic> json) {
-    return Verse(
-      verseId: json['verse_id'] as int,
-      description: json['description'] as String,
-      chapterId: json['chapter_id'] as int,
-    );
-  }
-
-  /// Returns true if this verse has translation data
-  bool get hasTranslationData => description.isNotEmpty;
 
   /// Creates a copy with updated translation fields
   Verse withTranslation({
-    String? description,
-    String? translation,
-    String? commentary,
+    String? text,
+    String? translationCode,
+    String? context,
   }) {
     return Verse(
-      verseId: verseId,
-      description: description ?? this.description,
+      id: id,
+      gospelId: gospelId,
       chapterId: chapterId,
+      verseNumber: verseNumber,
+      text: text ?? this.text,
+      reference: reference,
+      translationCode: translationCode ?? this.translationCode,
+      context: context ?? this.context,
+      crossReferences: crossReferences,
+      keywords: keywords,
+      themes: themes,
+      createdAt: createdAt,
     );
   }
 
-  /// Returns verse reference in the format "Chapter.Verse"
-  String get reference {
-    if (chapterId != null) {
-      return '$chapterId.$verseId';
-    }
-    return verseId.toString();
-  }
-
-  /// Returns true if this is a valid verse (has required fields)
-  bool get isValid => verseId > 0 && description.isNotEmpty;
-
-  /// Returns a shortened version of the verse for previews
-  String get preview {
-    if (description.length <= 100) return description;
-    return '${description.substring(0, 97)}...';
-  }
+  /// Returns true if this verse has complete translation data
+  bool get hasTranslationData => text.isNotEmpty && reference.isNotEmpty;
 }

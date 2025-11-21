@@ -348,7 +348,7 @@ class IntelligentCachingService with WidgetsBindingObserver {
     return scenarios.where((scenario) {
       return scenario.title.toLowerCase().contains(lowerQuery) ||
              scenario.description.toLowerCase().contains(lowerQuery) ||
-             scenario.category.toLowerCase().contains(lowerQuery);
+             (scenario.category?.toLowerCase() ?? '').contains(lowerQuery);
     }).toList();
   }
 

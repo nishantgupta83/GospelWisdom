@@ -8,11 +8,12 @@ import 'dart:ui' as _i10;
 
 import 'package:flutter/foundation.dart' as _i6;
 import 'package:flutter/material.dart' as _i5;
-import 'package:GospelWisdom/core/theme/theme_provider.dart' as _i17;
-import 'package:GospelWisdom/models/chapter.dart' as _i14;
-import 'package:GospelWisdom/models/chapter_summary.dart' as _i13;
-import 'package:GospelWisdom/models/journal_entry.dart' as _i16;
-import 'package:GospelWisdom/models/scenario.dart' as _i15;
+import 'package:GospelWisdom/core/theme/theme_provider.dart' as _i18;
+import 'package:GospelWisdom/models/chapter.dart' as _i15;
+import 'package:GospelWisdom/models/chapter_summary.dart' as _i14;
+import 'package:GospelWisdom/models/gospel.dart' as _i13;
+import 'package:GospelWisdom/models/journal_entry.dart' as _i17;
+import 'package:GospelWisdom/models/scenario.dart' as _i16;
 import 'package:GospelWisdom/models/verse.dart' as _i4;
 import 'package:GospelWisdom/services/enhanced_supabase_service.dart' as _i12;
 import 'package:GospelWisdom/services/settings_service.dart' as _i11;
@@ -554,6 +555,25 @@ class MockEnhancedSupabaseService extends _i1.Mock
       ) as _i9.Future<bool>);
 
   @override
+  _i9.Future<List<_i13.Gospel>> fetchGospels() => (super.noSuchMethod(
+        Invocation.method(
+          #fetchGospels,
+          [],
+        ),
+        returnValue: _i9.Future<List<_i13.Gospel>>.value(<_i13.Gospel>[]),
+      ) as _i9.Future<List<_i13.Gospel>>);
+
+  @override
+  _i9.Future<_i13.Gospel?> fetchGospelById(int? gospelId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchGospelById,
+          [gospelId],
+        ),
+        returnValue: _i9.Future<_i13.Gospel?>.value(),
+      ) as _i9.Future<_i13.Gospel?>);
+
+  @override
   _i9.Future<void> initializeLanguages() => (super.noSuchMethod(
         Invocation.method(
           #initializeLanguages,
@@ -574,20 +594,20 @@ class MockEnhancedSupabaseService extends _i1.Mock
       ) as _i9.Future<void>);
 
   @override
-  _i9.Future<List<_i13.ChapterSummary>> fetchChapterSummaries(
+  _i9.Future<List<_i14.ChapterSummary>> fetchChapterSummaries(
           [String? langCode]) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchChapterSummaries,
           [langCode],
         ),
-        returnValue: _i9.Future<List<_i13.ChapterSummary>>.value(
-            <_i13.ChapterSummary>[]),
-      ) as _i9.Future<List<_i13.ChapterSummary>>);
+        returnValue: _i9.Future<List<_i14.ChapterSummary>>.value(
+            <_i14.ChapterSummary>[]),
+      ) as _i9.Future<List<_i14.ChapterSummary>>);
 
   @override
-  _i9.Future<_i14.Chapter?> fetchChapterById(
-    int? chapterId, [
+  _i9.Future<_i15.Chapter?> fetchChapterById(
+    String? chapterId, [
     String? langCode,
   ]) =>
       (super.noSuchMethod(
@@ -598,22 +618,22 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i9.Future<_i14.Chapter?>.value(),
-      ) as _i9.Future<_i14.Chapter?>);
+        returnValue: _i9.Future<_i15.Chapter?>.value(),
+      ) as _i9.Future<_i15.Chapter?>);
 
   @override
-  _i9.Future<List<_i14.Chapter>> fetchAllChapters([String? langCode]) =>
+  _i9.Future<List<_i15.Chapter>> fetchAllChapters([String? langCode]) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchAllChapters,
           [langCode],
         ),
-        returnValue: _i9.Future<List<_i14.Chapter>>.value(<_i14.Chapter>[]),
-      ) as _i9.Future<List<_i14.Chapter>>);
+        returnValue: _i9.Future<List<_i15.Chapter>>.value(<_i15.Chapter>[]),
+      ) as _i9.Future<List<_i15.Chapter>>);
 
   @override
-  _i9.Future<List<_i15.Scenario>> fetchScenariosByChapter(
-    int? chapterId, [
+  _i9.Future<List<_i16.Scenario>> fetchScenariosByChapter(
+    String? chapterId, [
     String? langCode,
   ]) =>
       (super.noSuchMethod(
@@ -624,11 +644,11 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i9.Future<List<_i15.Scenario>>.value(<_i15.Scenario>[]),
-      ) as _i9.Future<List<_i15.Scenario>>);
+        returnValue: _i9.Future<List<_i16.Scenario>>.value(<_i16.Scenario>[]),
+      ) as _i9.Future<List<_i16.Scenario>>);
 
   @override
-  _i9.Future<_i15.Scenario?> fetchScenarioById(
+  _i9.Future<_i16.Scenario?> fetchScenarioById(
     int? scenarioId, [
     String? langCode,
   ]) =>
@@ -640,11 +660,11 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i9.Future<_i15.Scenario?>.value(),
-      ) as _i9.Future<_i15.Scenario?>);
+        returnValue: _i9.Future<_i16.Scenario?>.value(),
+      ) as _i9.Future<_i16.Scenario?>);
 
   @override
-  _i9.Future<List<_i15.Scenario>> searchScenarios(
+  _i9.Future<List<_i16.Scenario>> searchScenarios(
     String? query, [
     String? langCode,
   ]) =>
@@ -656,11 +676,11 @@ class MockEnhancedSupabaseService extends _i1.Mock
             langCode,
           ],
         ),
-        returnValue: _i9.Future<List<_i15.Scenario>>.value(<_i15.Scenario>[]),
-      ) as _i9.Future<List<_i15.Scenario>>);
+        returnValue: _i9.Future<List<_i16.Scenario>>.value(<_i16.Scenario>[]),
+      ) as _i9.Future<List<_i16.Scenario>>);
 
   @override
-  _i9.Future<List<_i15.Scenario>> fetchScenarios({
+  _i9.Future<List<_i16.Scenario>> fetchScenarios({
     int? limit = 2000,
     int? offset = 0,
     String? langCode,
@@ -675,8 +695,8 @@ class MockEnhancedSupabaseService extends _i1.Mock
             #langCode: langCode,
           },
         ),
-        returnValue: _i9.Future<List<_i15.Scenario>>.value(<_i15.Scenario>[]),
-      ) as _i9.Future<List<_i15.Scenario>>);
+        returnValue: _i9.Future<List<_i16.Scenario>>.value(<_i16.Scenario>[]),
+      ) as _i9.Future<List<_i16.Scenario>>);
 
   @override
   _i9.Future<int> getScenarioCount() => (super.noSuchMethod(
@@ -689,7 +709,7 @@ class MockEnhancedSupabaseService extends _i1.Mock
 
   @override
   _i9.Future<List<_i4.Verse>> fetchVersesByChapter(
-    int? chapterId, [
+    String? chapterId, [
     String? langCode,
   ]) =>
       (super.noSuchMethod(
@@ -705,7 +725,7 @@ class MockEnhancedSupabaseService extends _i1.Mock
 
   @override
   _i9.Future<_i4.Verse> fetchRandomVerseByChapter(
-    int? chapterId, [
+    String? chapterId, [
     String? langCode,
   ]) =>
       (super.noSuchMethod(
@@ -729,16 +749,16 @@ class MockEnhancedSupabaseService extends _i1.Mock
       ) as _i9.Future<_i4.Verse>);
 
   @override
-  _i9.Future<_i15.Scenario?> fetchRandomScenario() => (super.noSuchMethod(
+  _i9.Future<_i16.Scenario?> fetchRandomScenario() => (super.noSuchMethod(
         Invocation.method(
           #fetchRandomScenario,
           [],
         ),
-        returnValue: _i9.Future<_i15.Scenario?>.value(),
-      ) as _i9.Future<_i15.Scenario?>);
+        returnValue: _i9.Future<_i16.Scenario?>.value(),
+      ) as _i9.Future<_i16.Scenario?>);
 
   @override
-  _i9.Future<int> fetchScenarioCount(int? chapterId) => (super.noSuchMethod(
+  _i9.Future<int> fetchScenarioCount(String? chapterId) => (super.noSuchMethod(
         Invocation.method(
           #fetchScenarioCount,
           [chapterId],
@@ -747,7 +767,7 @@ class MockEnhancedSupabaseService extends _i1.Mock
       ) as _i9.Future<int>);
 
   @override
-  _i9.Future<void> insertJournalEntry(_i16.JournalEntry? entry) =>
+  _i9.Future<void> insertJournalEntry(_i17.JournalEntry? entry) =>
       (super.noSuchMethod(
         Invocation.method(
           #insertJournalEntry,
@@ -768,15 +788,15 @@ class MockEnhancedSupabaseService extends _i1.Mock
       ) as _i9.Future<void>);
 
   @override
-  _i9.Future<List<_i16.JournalEntry>> fetchJournalEntries() =>
+  _i9.Future<List<_i17.JournalEntry>> fetchJournalEntries() =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchJournalEntries,
           [],
         ),
         returnValue:
-            _i9.Future<List<_i16.JournalEntry>>.value(<_i16.JournalEntry>[]),
-      ) as _i9.Future<List<_i16.JournalEntry>>);
+            _i9.Future<List<_i17.JournalEntry>>.value(<_i17.JournalEntry>[]),
+      ) as _i9.Future<List<_i17.JournalEntry>>);
 
   @override
   _i9.Future<void> insertFavorite(String? scenarioTitle) => (super.noSuchMethod(
@@ -870,7 +890,7 @@ class MockEnhancedSupabaseService extends _i1.Mock
 /// A class which mocks [ThemeProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockThemeProvider extends _i1.Mock implements _i17.ThemeProvider {
+class MockThemeProvider extends _i1.Mock implements _i18.ThemeProvider {
   MockThemeProvider() {
     _i1.throwOnMissingStub(this);
   }
