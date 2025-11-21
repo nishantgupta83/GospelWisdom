@@ -555,6 +555,12 @@ class MockChapterAudioService extends ChangeNotifier implements ChapterAudioServ
   bool _isPlaying = false;
   bool _isLoading = false;
   String? _currentChapterId;
+  Duration _position = Duration.zero;
+  Duration _duration = Duration.zero;
+  double _playbackSpeed = 1.0;
+  bool _autoAdvanceEnabled = true;
+  bool _hasSleepTimer = false;
+  Duration? _sleepTimerRemaining;
 
   @override
   bool get isPlaying => _isPlaying;
@@ -565,14 +571,42 @@ class MockChapterAudioService extends ChangeNotifier implements ChapterAudioServ
   @override
   String? get currentChapterId => _currentChapterId;
 
+  @override
+  Duration get position => _position;
+
+  @override
+  Duration get duration => _duration;
+
+  @override
+  double get playbackSpeed => _playbackSpeed;
+
+  @override
+  bool get autoAdvanceEnabled => _autoAdvanceEnabled;
+
+  @override
+  bool get hasSleepTimer => _hasSleepTimer;
+
+  @override
+  Duration? get sleepTimerRemaining => _sleepTimerRemaining;
+
   void setMockState({
     bool? isPlaying,
     bool? isLoading,
     String? currentChapterId,
+    Duration? position,
+    Duration? duration,
+    double? playbackSpeed,
+    bool? hasSleepTimer,
+    Duration? sleepTimerRemaining,
   }) {
     if (isPlaying != null) _isPlaying = isPlaying;
     if (isLoading != null) _isLoading = isLoading;
     if (currentChapterId != null) _currentChapterId = currentChapterId;
+    if (position != null) _position = position;
+    if (duration != null) _duration = duration;
+    if (playbackSpeed != null) _playbackSpeed = playbackSpeed;
+    if (hasSleepTimer != null) _hasSleepTimer = hasSleepTimer;
+    if (sleepTimerRemaining != null) _sleepTimerRemaining = sleepTimerRemaining;
     notifyListeners();
   }
 
@@ -601,6 +635,43 @@ class MockChapterAudioService extends ChangeNotifier implements ChapterAudioServ
   Future<void> stop() async {
     _isPlaying = false;
     _currentChapterId = null;
+    notifyListeners();
+  }
+
+  Future<void> seek(Duration position) async {
+    _position = position;
+    notifyListeners();
+  }
+
+  Future<void> setSpeed(double speed) async {
+    _playbackSpeed = speed;
+    notifyListeners();
+  }
+
+  void setAutoAdvance(bool enabled) {
+    _autoAdvanceEnabled = enabled;
+    notifyListeners();
+  }
+
+  Future<void> skipForward() async {
+    _position += const Duration(seconds: 30);
+    notifyListeners();
+  }
+
+  Future<void> skipBackward() async {
+    _position -= const Duration(seconds: 30);
+    notifyListeners();
+  }
+
+  void setSleepTimer(Duration duration, {bool endOfChapter = false}) {
+    _hasSleepTimer = true;
+    _sleepTimerRemaining = duration;
+    notifyListeners();
+  }
+
+  void cancelSleepTimer() {
+    _hasSleepTimer = false;
+    _sleepTimerRemaining = null;
     notifyListeners();
   }
 }

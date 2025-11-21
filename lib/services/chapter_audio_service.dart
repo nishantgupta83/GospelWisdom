@@ -1,5 +1,6 @@
 // lib/services/chapter_audio_service.dart
 
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'background_music_service.dart';
@@ -24,6 +25,11 @@ class ChapterAudioService extends ChangeNotifier {
   double _playbackSpeed = 1.0;
   bool _autoAdvanceEnabled = true;
 
+  // Sleep timer state
+  Timer? _sleepTimer;
+  Duration? _sleepTimerDuration;
+  DateTime? _sleepTimerStartTime;
+
   // Getters
   bool get isPlaying => _isPlaying;
   bool get isLoading => _isLoading;
@@ -32,6 +38,15 @@ class ChapterAudioService extends ChangeNotifier {
   Duration get duration => _duration;
   double get playbackSpeed => _playbackSpeed;
   bool get autoAdvanceEnabled => _autoAdvanceEnabled;
+
+  // Sleep timer getters
+  bool get hasSleepTimer => _sleepTimer != null && _sleepTimer!.isActive;
+  Duration? get sleepTimerRemaining {
+    if (_sleepTimerDuration == null || _sleepTimerStartTime == null) return null;
+    final elapsed = DateTime.now().difference(_sleepTimerStartTime!);
+    final remaining = _sleepTimerDuration! - elapsed;
+    return remaining.isNegative ? Duration.zero : remaining;
+  }
 
   ChapterAudioService() {
     _setupListeners();
@@ -168,8 +183,54 @@ class ChapterAudioService extends ChangeNotifier {
     );
   }
 
+  /// Set sleep timer (5, 10, 15, 30, 60 minutes or end of chapter)
+  void setSleepTimer(Duration duration, {bool endOfChapter = false}) {
+    cancelSleepTimer();
+
+    if (endOfChapter) {
+      // Calculate time until end of current chapter
+      final remaining = _duration - _position;
+      if (remaining > Duration.zero) {
+        _sleepTimerDuration = remaining;
+        _sleepTimerStartTime = DateTime.now();
+        _sleepTimer = Timer(remaining, _onSleepTimerComplete);
+        debugPrint('Sleep timer set to end of chapter (${remaining.inMinutes} min ${remaining.inSeconds % 60} sec)');
+      }
+    } else {
+      _sleepTimerDuration = duration;
+      _sleepTimerStartTime = DateTime.now();
+      _sleepTimer = Timer(duration, _onSleepTimerComplete);
+      debugPrint('Sleep timer set for ${duration.inMinutes} minutes');
+    }
+
+    notifyListeners();
+  }
+
+  /// Cancel active sleep timer
+  void cancelSleepTimer() {
+    if (_sleepTimer != null) {
+      _sleepTimer!.cancel();
+      _sleepTimer = null;
+      _sleepTimerDuration = null;
+      _sleepTimerStartTime = null;
+      debugPrint('Sleep timer cancelled');
+      notifyListeners();
+    }
+  }
+
+  /// Called when sleep timer completes
+  Future<void> _onSleepTimerComplete() async {
+    debugPrint('Sleep timer completed - pausing playback');
+    await pause();
+    _sleepTimer = null;
+    _sleepTimerDuration = null;
+    _sleepTimerStartTime = null;
+    notifyListeners();
+  }
+
   @override
   void dispose() {
+    _sleepTimer?.cancel();
     _player.dispose();
     super.dispose();
   }
