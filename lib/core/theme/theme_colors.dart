@@ -14,69 +14,69 @@ class ThemeColors {
   ThemeColors._();
 
   // ═══════════════════════════════════════════════════════════════════
-  // LIGHT THEME (Modern, Clean)
+  // LIGHT THEME (Ocean/Blue - Calm, Serene)
   // ═══════════════════════════════════════════════════════════════════
-  static const lightPrimary = Color(0xFF6750A4);           // Purple
+  static const lightPrimary = Color(0xFF1976D2);           // Deep ocean blue
   static const lightOnPrimary = Color(0xFFFFFFFF);         // White
-  static const lightPrimaryContainer = Color(0xFFE9DDFF);  // Light purple
-  static const lightOnPrimaryContainer = Color(0xFF22005D);
+  static const lightPrimaryContainer = Color(0xFFBBDEFB);  // Light sky blue
+  static const lightOnPrimaryContainer = Color(0xFF0D47A1);
 
-  static const lightSecondary = Color(0xFF625B71);
+  static const lightSecondary = Color(0xFF0288D1);         // Bright blue
   static const lightOnSecondary = Color(0xFFFFFFFF);
-  static const lightSecondaryContainer = Color(0xFFE8DEF8);
-  static const lightOnSecondaryContainer = Color(0xFF1E192B);
+  static const lightSecondaryContainer = Color(0xFFB3E5FC);
+  static const lightOnSecondaryContainer = Color(0xFF01579B);
 
-  static const lightTertiary = Color(0xFF7E5260);
+  static const lightTertiary = Color(0xFF00ACC1);          // Cyan
   static const lightOnTertiary = Color(0xFFFFFFFF);
-  static const lightTertiaryContainer = Color(0xFFFFD9E3);
-  static const lightOnTertiaryContainer = Color(0xFF31101D);
+  static const lightTertiaryContainer = Color(0xFFB2EBF2);
+  static const lightOnTertiaryContainer = Color(0xFF006064);
 
   static const lightError = Color(0xFFBA1A1A);
   static const lightOnError = Color(0xFFFFFFFF);
   static const lightErrorContainer = Color(0xFFFFDAD6);
   static const lightOnErrorContainer = Color(0xFF410002);
 
-  static const lightBackground = Color(0xFFFFFBFF);
-  static const lightOnBackground = Color(0xFF1C1B1E);
-  static const lightSurface = Color(0xFFFFFBFF);
-  static const lightOnSurface = Color(0xFF1C1B1E);
-  static const lightSurfaceVariant = Color(0xFFE7E0EB);
-  static const lightOnSurfaceVariant = Color(0xFF49454E);
+  static const lightBackground = Color(0xFFF8FCFF);        // Very light blue tint
+  static const lightOnBackground = Color(0xFF0D1B2A);      // Deep navy text
+  static const lightSurface = Color(0xFFF1F8FF);           // Soft blue white
+  static const lightOnSurface = Color(0xFF0D1B2A);
+  static const lightSurfaceVariant = Color(0xFFE3F2FD);    // Light blue
+  static const lightOnSurfaceVariant = Color(0xFF1565C0);
 
-  static const lightOutline = Color(0xFF7A757F);
+  static const lightOutline = Color(0xFF5E92B8);
   static const lightShadow = Color(0xFF000000);
 
   // ═══════════════════════════════════════════════════════════════════
-  // DARK THEME (Deep Navy, Steel Blues)
+  // DARK THEME (Midnight Blue - High Contrast, Readable)
   // ═══════════════════════════════════════════════════════════════════
-  static const darkPrimary = Color(0xFFCFBCFF);            // Light purple
-  static const darkOnPrimary = Color(0xFF381E72);          // Deep purple
-  static const darkPrimaryContainer = Color(0xFF4F378A);   // Purple
-  static const darkOnPrimaryContainer = Color(0xFFE9DDFF);
+  static const darkPrimary = Color(0xFF82B1FF);            // Bright sky blue
+  static const darkOnPrimary = Color(0xFF0D47A1);          // Deep blue
+  static const darkPrimaryContainer = Color(0xFF1565C0);   // Medium blue
+  static const darkOnPrimaryContainer = Color(0xFFE3F2FD);
 
-  static const darkSecondary = Color(0xFFCBC2DB);
-  static const darkOnSecondary = Color(0xFF332D41);
-  static const darkSecondaryContainer = Color(0xFF4A4458);
-  static const darkOnSecondaryContainer = Color(0xFFE8DEF8);
+  static const darkSecondary = Color(0xFF64B5F6);          // Light blue
+  static const darkOnSecondary = Color(0xFF01579B);
+  static const darkSecondaryContainer = Color(0xFF0277BD);
+  static const darkOnSecondaryContainer = Color(0xFFB3E5FC);
 
-  static const darkTertiary = Color(0xFFEFB8C8);
-  static const darkOnTertiary = Color(0xFF4A2532);
-  static const darkTertiaryContainer = Color(0xFF633B48);
-  static const darkOnTertiaryContainer = Color(0xFFFFD9E3);
+  static const darkTertiary = Color(0xFF4DD0E1);           // Cyan
+  static const darkOnTertiary = Color(0xFF006064);
+  static const darkTertiaryContainer = Color(0xFF00838F);
+  static const darkOnTertiaryContainer = Color(0xFFB2EBF2);
 
   static const darkError = Color(0xFFFFB4AB);
   static const darkOnError = Color(0xFF690005);
   static const darkErrorContainer = Color(0xFF93000A);
   static const darkOnErrorContainer = Color(0xFFFFDAD6);
 
-  static const darkBackground = Color(0xFF1C1B1E);
-  static const darkOnBackground = Color(0xFFE6E1E6);
-  static const darkSurface = Color(0xFF1C1B1E);
-  static const darkOnSurface = Color(0xFFE6E1E6);
-  static const darkSurfaceVariant = Color(0xFF49454E);
-  static const darkOnSurfaceVariant = Color(0xFFCAC4CF);
+  static const darkBackground = Color(0xFF0A1929);         // Deep midnight blue
+  static const darkOnBackground = Color(0xFFE3F2FD);       // Very light blue (high contrast)
+  static const darkSurface = Color(0xFF0D1B2A);            // Dark blue surface
+  static const darkOnSurface = Color(0xFFE3F2FD);          // High contrast text
+  static const darkSurfaceVariant = Color(0xFF1A2332);     // Slightly lighter surface
+  static const darkOnSurfaceVariant = Color(0xFFBBDEFB);   // Light blue variant
 
-  static const darkOutline = Color(0xFF948F99);
+  static const darkOutline = Color(0xFF5E92B8);
   static const darkShadow = Color(0xFF000000);
 
   // ═══════════════════════════════════════════════════════════════════

@@ -25,10 +25,11 @@ class AppConfig {
   static const EdgeInsets cardMargin = EdgeInsets.symmetric(vertical: 8);
   static const EdgeInsets navBarMargin = EdgeInsets.only(bottom: 10);
   
-  // Text Scale Configuration
-  static const double smallTextScale = 0.90;
+  // Text Scale Configuration (4 sizes for slider)
+  static const double smallTextScale = 0.85;
   static const double mediumTextScale = 1.0;
-  static const double largeTextScale = 1.05;
+  static const double largeTextScale = 1.15;
+  static const double extraLargeTextScale = 1.30;
   
   // Shadow Configuration
   static const double iOSHeaderShadowBlur = 3.0;
@@ -92,6 +93,8 @@ class AppConfig {
         return smallTextScale;
       case 'large':
         return largeTextScale;
+      case 'extra-large':
+        return extraLargeTextScale;
       case 'medium':
       default:
         return mediumTextScale;

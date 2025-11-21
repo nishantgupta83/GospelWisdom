@@ -325,22 +325,78 @@ class _MoreScreenState extends State<MoreScreen> {
                 const Divider(height: 1),
                 Consumer<SettingsService>(
                   builder: (context, settingsService, child) {
-                    return ListTile(
-                      title: const Text('Font Size'),
-                      trailing: DropdownButton<String>(
-                        value: settingsService.fontSize,
-                        items: const [
-                          DropdownMenuItem(value: 'small', child: Text('Small')),
-                          DropdownMenuItem(value: 'medium', child: Text('Medium')),
-                          DropdownMenuItem(value: 'large', child: Text('Large')),
-                        ],
-                        onChanged: (v) {
-                          if (v != null) {
-                            settingsService.fontSize = v;
-                            debugPrint('📝 Font size changed to: $v');
-                          }
-                        },
-                      ),
+                    // Map font size string to slider value (0-3)
+                    int _fontSizeToSliderValue(String fontSize) {
+                      switch (fontSize) {
+                        case 'small': return 0;
+                        case 'medium': return 1;
+                        case 'large': return 2;
+                        case 'extra-large': return 3;
+                        default: return 1; // Default to medium
+                      }
+                    }
+
+                    // Map slider value to font size string
+                    String _sliderValueToFontSize(int value) {
+                      switch (value) {
+                        case 0: return 'small';
+                        case 1: return 'medium';
+                        case 2: return 'large';
+                        case 3: return 'extra-large';
+                        default: return 'medium';
+                      }
+                    }
+
+                    // Get label for current size
+                    String _getFontSizeLabel(String fontSize) {
+                      switch (fontSize) {
+                        case 'small': return 'Small';
+                        case 'medium': return 'Medium';
+                        case 'large': return 'Large';
+                        case 'extra-large': return 'Extra Large';
+                        default: return 'Medium';
+                      }
+                    }
+
+                    final currentSliderValue = _fontSizeToSliderValue(settingsService.fontSize).toDouble();
+
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          title: const Text('Font Size'),
+                          trailing: Text(
+                            _getFontSizeLabel(settingsService.fontSize),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Row(
+                            children: [
+                              const Text('A', style: TextStyle(fontSize: 12)),
+                              Expanded(
+                                child: Slider(
+                                  value: currentSliderValue,
+                                  min: 0,
+                                  max: 3,
+                                  divisions: 3,
+                                  label: _getFontSizeLabel(settingsService.fontSize),
+                                  onChanged: (value) {
+                                    final newFontSize = _sliderValueToFontSize(value.round());
+                                    settingsService.fontSize = newFontSize;
+                                    debugPrint('📝 Font size changed to: $newFontSize');
+                                  },
+                                ),
+                              ),
+                              const Text('A', style: TextStyle(fontSize: 20)),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
