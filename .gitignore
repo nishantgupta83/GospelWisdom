@@ -1,157 +1,276 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+# ═══════════════════════════════════════════════════════════════════════════════
+# GospelWisdom - Multi-Platform App Repository
+# ═══════════════════════════════════════════════════════════════════════════════
+# Structure:
+#   - flutter_core/   → Headless Flutter module (business logic)
+#   - ios_app/        → Native SwiftUI app
+#   - android_app/    → Native Jetpack Compose app
+#   - lib/            → Legacy Flutter UI (being migrated)
+# ═══════════════════════════════════════════════════════════════════════════════
 
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
+# ═══════════════════════════════════════════════════════════════════════════════
+# FLUTTER / DART
+# ═══════════════════════════════════════════════════════════════════════════════
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Flutter build outputs
+build/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
+**/doc/api/
+**/ios/Flutter/.last_build_id
 
-# Symbolication related
+# Generated files
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+lib/generated/
+flutter_core/lib/generated/
+
+# Symbolication & obfuscation
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
+# ═══════════════════════════════════════════════════════════════════════════════
+# FLUTTER_CORE MODULE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+flutter_core/.dart_tool/
+flutter_core/build/
+flutter_core/.packages
+flutter_core/.flutter-plugins
+flutter_core/.flutter-plugins-dependencies
+flutter_core/.android/
+flutter_core/.ios/
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# IOS APP (SwiftUI)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Xcode build outputs
+ios_app/build/
+ios_app/DerivedData/
+ios_app/*.xcworkspace
+!ios_app/*.xcworkspace/contents.xcworkspacedata
+ios_app/*.xcodeproj/xcuserdata/
+ios_app/*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# CocoaPods / Swift Package Manager
+ios_app/Pods/
+ios_app/.symlinks/
+ios_app/Podfile.lock
+ios_app/.build/
+
+# Fastlane
+ios_app/fastlane/report.xml
+ios_app/fastlane/Preview.html
+ios_app/fastlane/screenshots/
+ios_app/fastlane/test_output/
+
+# Archives & IPAs
+ios_app/*.ipa
+ios_app/*.dSYM.zip
+ios_app/*.xcarchive
+
+# Flutter module integration
+ios_app/Flutter/
+ios_app/.ios/
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ANDROID APP (Jetpack Compose)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Gradle
+android_app/.gradle/
+android_app/build/
+android_app/app/build/
+android_app/captures/
+android_app/local.properties
+
+# Android Studio
+android_app/*.iml
+android_app/.idea/
+android_app/.externalNativeBuild/
+android_app/.cxx/
+
+# Signing
+android_app/*.jks
+android_app/*.keystore
+android_app/keystore.properties
+android_app/app/keystore.properties
+
+# APK/AAB outputs
+android_app/app/release/
+android_app/app/debug/
+android_app/*.apk
+android_app/*.aab
+
+# Flutter module integration
+android_app/Flutter/
+android_app/.android/
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LEGACY FLUTTER APP (lib/)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Android
 /android/app/debug
 /android/app/profile
 /android/app/release
+android/key.properties
+android/*.jks
+android/*.keystore
+
+# iOS
+ios/Runner/Config/
+ios/Pods/
+ios/Podfile.lock
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECURITY - CREDENTIALS & SECRETS
+# ═══════════════════════════════════════════════════════════════════════════════
 
 # Environment files
-.env*
+.env
+.env.*
 !.env.example
 
-# Build configurations
-android/key.properties
-ios/Runner/Config/
+# API keys & secrets
+**/api_keys.dart
+**/secrets.dart
+**/config/secrets.*
+auth_config.*
+*.auth
+.secrets
+secrets.*
 
-# Flutter/Dart build files
-build/
-.dart_tool/
-
-# SECURITY: Android Signing & Keystore Files
+# Signing certificates & keys
 *.jks
 *.keystore
 *.p12
 *.pem
 *.crt
 *.cer
+*.mobileprovision
+*.certSigningRequest
 keystore.properties
-android/keystore.properties
-android/app/keystore.properties
 **/keystore.properties
 
-# SECURITY: iOS Signing & Certificates
-*.mobileprovision
-*.p12
-*.certSigningRequest
-ios/Runner/Config/
-ios/Certificates/
-ios/Provisioning/
-ios/*.mobileprovision
-ios/*.p12
-
-# SECURITY: Environment & Secret Files
-.env
-.env.*
-!.env.example
-.secrets
-secrets.*
-config.json
-.firebase/
-firebase.json
+# Firebase / Google Services
 google-services.json
 GoogleService-Info.plist
+firebase.json
+.firebase/
 
-# SECURITY: API Keys & Authentication
-**/api_keys.dart
-**/secrets.dart
-**/config/secrets.*
-auth_config.*
-*.auth
+# Credential backups
+KEYSTORE_CREDENTIALS_BACKUP.txt
+SUPABASE_CREDENTIALS.txt
+*_credentials.txt
+*_secrets.txt
 
-# SECURITY: macOS System Files (.DS_Store comprehensive coverage)
+# ═══════════════════════════════════════════════════════════════════════════════
+# IDE & EDITORS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code (keep launch configs)
+# .vscode/
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OPERATING SYSTEMS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# macOS
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
+.AppleDouble
+.LSOverride
 
-# SECURITY: Windows System Files
+# Windows
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 
-# SECURITY: Linux System Files
-*~
+# Linux
 .fuse_hidden*
 .directory
 .Trash-*
+.nfs*
 
-# SECURITY: Git & Version Control Artifacts
-.git/
-*.orig
-*.rej
-*.bak
-*.swp
-*.tmp
+# ═══════════════════════════════════════════════════════════════════════════════
+# MISCELLANEOUS
+# ═══════════════════════════════════════════════════════════════════════════════
 
-# SECURITY: Database & Cache Files
-*.db
-*.sqlite
-*.sqlite3
-*.cache
-.cache/
-
-# SECURITY: Archive Files (potential source of exposed data)
-*.zip
-*.tar
-*.tar.gz
-*.rar
-*.7z
-!assets/archive/  # Allow intentional asset archives
-
-# SECURITY: Log Files (may contain sensitive data)
+# Logs
 *.log
 logs/
 *.log.*
 
-# SECURITY: Backup Files
+# Temporary files
+*.tmp
+*.temp
+*.bak
 *.backup
-*.bk
-*_backup
-*_bak
-*.json
-KEYSTORE_CREDENTIALS_BACKUP.txt
-.env.local
-SUPABASE_CREDENTIALS.txt
+*.orig
+*.rej
+
+# Archives (except intentional assets)
+# *.zip
+# *.tar.gz
+
+# Database files (local development)
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Build artifacts
+migrate_working_dir/
+.buildlog/
+.history
+
+# Documentation builds (keep source)
+**/doc/api/
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# EXCEPTIONS - Files to INCLUDE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Keep example environment file
+!.env.example
+
+# Keep Xcode project structure
+!ios_app/*.xcodeproj/project.pbxproj
+!ios_app/*.xcworkspace/contents.xcworkspacedata
+
+# Keep Android Gradle wrapper
+!android_app/gradle/wrapper/gradle-wrapper.jar
+!android_app/gradlew
+!android_app/gradlew.bat
+
+# Keep legitimate JSON config files
+!pubspec.lock
+!analysis_options.yaml
