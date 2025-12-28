@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- android_app/app/src/main/res/values/colors.xml -->
+<resources>
+    <!-- Primary Colors (Ocean Blue) -->
+    <color name="primary">#FF1976D2</color>
+    <color name="primary_container">#FFBBDEFB</color>
+    <color name="on_primary">#FFFFFFFF</color>
+    <color name="on_primary_container">#FF0D47A1</color>
+
+    <!-- Secondary Colors -->
+    <color name="secondary">#FF0288D1</color>
+    <color name="secondary_container">#FFB3E5FC</color>
+    <color name="on_secondary">#FFFFFFFF</color>
+    <color name="on_secondary_container">#FF01579B</color>
+
+    <!-- Tertiary Colors -->
+    <color name="tertiary">#FF00ACC1</color>
+    <color name="tertiary_container">#FFB2EBF2</color>
+    <color name="on_tertiary">#FFFFFFFF</color>
+    <color name="on_tertiary_container">#FF006064</color>
+
+    <!-- Background/Surface -->
+    <color name="background">#FFF8FCFF</color>
+    <color name="surface">#FFF1F8FF</color>
+    <color name="on_background">#FF0D1B2A</color>
+    <color name="on_surface">#FF0D1B2A</color>
+
+    <!-- Splash -->
+    <color name="splash_background">#FFF8FCFF</color>
+</resources>

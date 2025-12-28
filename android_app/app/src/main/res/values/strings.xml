@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- android_app/app/src/main/res/values/strings.xml -->
+<resources>
+    <string name="app_name">Gospel Wisdom</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_chapters">Chapters</string>
+    <string name="nav_dilemmas">Dilemmas</string>
+    <string name="nav_journal">Journal</string>
+    <string name="nav_more">More</string>
+
+    <!-- Home Screen -->
+    <string name="daily_verse_title">Verse of the Day</string>
+    <string name="explore_title">Explore</string>
+
+    <!-- Chapters Screen -->
+    <string name="gospel_books">Gospel Books</string>
+    <string name="chapters_count">%d chapters</string>
+    <string name="show_all_chapters">Show all %d chapters</string>
+
+    <!-- Journal Screen -->
+    <string name="reflections">Reflections</string>
+    <string name="no_reflections">No Reflections Yet</string>
+    <string name="add_reflection_hint">Tap the + button to create your first reflection</string>
+    <string name="new_reflection">New Reflection</string>
+    <string name="your_reflection">Your reflection</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="rating">Rating</string>
+
+    <!-- Settings Screen -->
+    <string name="more">More</string>
+    <string name="appearance">APPEARANCE</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="content">CONTENT</string>
+    <string name="search">Search</string>
+    <string name="search_subtitle">Find life situations and wisdom</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="resources">RESOURCES</string>
+    <string name="about">About</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="extras">EXTRAS</string>
+    <string name="share_app">Share This App</string>
+    <string name="app_version">App Version</string>
+
+    <!-- Scenarios Screen -->
+    <string name="life_dilemmas">Life Dilemmas</string>
+    <string name="search_dilemmas">Search dilemmas…</string>
+</resources>

@@ -1,0 +1,8 @@
+# android_app/local.properties.template
+# Copy this file to local.properties and update paths
+
+# Android SDK location (update for your machine)
+sdk.dir=/Users/YOUR_USERNAME/Library/Android/sdk
+
+# Flutter SDK location (for Add-to-App integration)
+flutter.sdk=/Users/YOUR_USERNAME/development/flutter

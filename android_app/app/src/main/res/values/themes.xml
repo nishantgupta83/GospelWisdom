@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- android_app/app/src/main/res/values/themes.xml -->
+<resources>
+    <!-- Base Theme (Light) -->
+    <style name="Theme.GospelWisdom" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.GospelWisdom.Splash" parent="Theme.GospelWisdom">
+        <item name="android:windowBackground">@color/splash_background</item>
+    </style>
+</resources>
