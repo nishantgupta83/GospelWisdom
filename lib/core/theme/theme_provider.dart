@@ -9,10 +9,22 @@ import 'app_theme.dart';
 
 /// Theme styles available in the app
 enum ThemeStyle {
-  light,   // Modern light theme (default)
-  dark,    // Modern dark theme
-  paper,   // Paper/journal theme with vintage aesthetic
-  sage,    // Pastel green (sage) theme
+  light,     // Blue theme (default) - calm ocean tones
+  dark,      // Dark theme - high contrast navy
+  lavender,  // Lavender/purple theme - elegant violet tones (was paper)
+  red,       // Red theme - warm crimson tones (was sage)
+}
+
+/// Helper to migrate old theme style names to new ones
+String _migrateThemeStyle(String styleString) {
+  switch (styleString) {
+    case 'paper':
+      return 'lavender';
+    case 'sage':
+      return 'red';
+    default:
+      return styleString;
+  }
 }
 
 /// Theme provider that manages app theme state and settings
@@ -69,11 +81,19 @@ class ThemeProvider extends ChangeNotifier {
       _backgroundOpacity = _settingsBox.get(SettingsService.opacityKey, defaultValue: AppConfig.defaultBackgroundOpacity) as double;
 
       // Load theme style (backward compatible - defaults to 'light')
-      final styleString = _settingsBox.get(SettingsService.themeStyleKey, defaultValue: 'light') as String;
+      // Migrate old theme names: paper→lavender, sage→red
+      final rawStyleString = _settingsBox.get(SettingsService.themeStyleKey, defaultValue: 'light') as String;
+      final styleString = _migrateThemeStyle(rawStyleString);
       _themeStyle = ThemeStyle.values.firstWhere(
         (e) => e.name == styleString,
         orElse: () => ThemeStyle.light,
       );
+
+      // Persist migrated value if it changed
+      if (styleString != rawStyleString) {
+        _settingsBox.put(SettingsService.themeStyleKey, styleString);
+        debugPrint('🎨 Migrated theme style: $rawStyleString → $styleString');
+      }
 
       debugPrint('🎨 Theme settings loaded: dark=$_isDark, font=$_fontPref, shadow=$_shadowEnabled, style=${_themeStyle.name}');
     } catch (e) {
@@ -104,7 +124,8 @@ class ThemeProvider extends ChangeNotifier {
       final newShadowEnabled = _settingsBox.get(SettingsService.shadowKey, defaultValue: AppConfig.defaultShadowEnabled) as bool;
       final newBackgroundOpacity = _settingsBox.get(SettingsService.opacityKey, defaultValue: AppConfig.defaultBackgroundOpacity) as double;
 
-      final styleString = _settingsBox.get(SettingsService.themeStyleKey, defaultValue: 'light') as String;
+      final rawStyleString = _settingsBox.get(SettingsService.themeStyleKey, defaultValue: 'light') as String;
+      final styleString = _migrateThemeStyle(rawStyleString);
       final newThemeStyle = ThemeStyle.values.firstWhere(
         (e) => e.name == styleString,
         orElse: () => ThemeStyle.light,

@@ -71,14 +71,14 @@ class AppTheme {
         return brightness == Brightness.light
             ? _buildLightColorScheme()
             : _buildDarkColorScheme();
-      case ThemeStyle.paper:
+      case ThemeStyle.lavender:
         return brightness == Brightness.light
-            ? _buildPaperLightColorScheme()
-            : _buildPaperDarkColorScheme();
-      case ThemeStyle.sage:
+            ? _buildLavenderLightColorScheme()
+            : _buildLavenderDarkColorScheme();
+      case ThemeStyle.red:
         return brightness == Brightness.light
-            ? _buildSageLightColorScheme()
-            : _buildSageDarkColorScheme();
+            ? _buildRedLightColorScheme()
+            : _buildRedDarkColorScheme();
     }
   }
 
@@ -140,119 +140,119 @@ class AppTheme {
     );
   }
 
-  /// Paper Theme - Light (Vintage Cream)
-  static ColorScheme _buildPaperLightColorScheme() {
+  /// Lavender Theme - Light (Elegant Purple/Violet)
+  static ColorScheme _buildLavenderLightColorScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
-      primary: ThemeColors.paperLightPrimary,
-      onPrimary: ThemeColors.paperLightOnPrimary,
-      primaryContainer: ThemeColors.paperLightPrimaryContainer,
-      onPrimaryContainer: ThemeColors.paperLightOnPrimaryContainer,
-      secondary: ThemeColors.paperLightSecondary,
-      onSecondary: ThemeColors.paperLightOnSecondary,
-      secondaryContainer: ThemeColors.paperLightSecondaryContainer,
-      onSecondaryContainer: ThemeColors.paperLightOnSecondaryContainer,
-      tertiary: ThemeColors.paperLightTertiary,
-      onTertiary: ThemeColors.paperLightOnTertiary,
-      tertiaryContainer: ThemeColors.paperLightTertiaryContainer,
-      onTertiaryContainer: ThemeColors.paperLightOnTertiaryContainer,
-      error: ThemeColors.paperLightError,
-      onError: ThemeColors.paperLightOnError,
-      errorContainer: ThemeColors.paperLightErrorContainer,
-      onErrorContainer: ThemeColors.paperLightOnErrorContainer,
-      surface: ThemeColors.paperLightSurface,
-      onSurface: ThemeColors.paperLightOnSurface,
-      surfaceContainerHighest: ThemeColors.paperLightSurfaceVariant,
-      onSurfaceVariant: ThemeColors.paperLightOnSurfaceVariant,
-      outline: ThemeColors.paperLightOutline,
-      shadow: ThemeColors.paperLightShadow,
+      primary: ThemeColors.lavenderLightPrimary,
+      onPrimary: ThemeColors.lavenderLightOnPrimary,
+      primaryContainer: ThemeColors.lavenderLightPrimaryContainer,
+      onPrimaryContainer: ThemeColors.lavenderLightOnPrimaryContainer,
+      secondary: ThemeColors.lavenderLightSecondary,
+      onSecondary: ThemeColors.lavenderLightOnSecondary,
+      secondaryContainer: ThemeColors.lavenderLightSecondaryContainer,
+      onSecondaryContainer: ThemeColors.lavenderLightOnSecondaryContainer,
+      tertiary: ThemeColors.lavenderLightTertiary,
+      onTertiary: ThemeColors.lavenderLightOnTertiary,
+      tertiaryContainer: ThemeColors.lavenderLightTertiaryContainer,
+      onTertiaryContainer: ThemeColors.lavenderLightOnTertiaryContainer,
+      error: ThemeColors.lavenderLightError,
+      onError: ThemeColors.lavenderLightOnError,
+      errorContainer: ThemeColors.lavenderLightErrorContainer,
+      onErrorContainer: ThemeColors.lavenderLightOnErrorContainer,
+      surface: ThemeColors.lavenderLightSurface,
+      onSurface: ThemeColors.lavenderLightOnSurface,
+      surfaceContainerHighest: ThemeColors.lavenderLightSurfaceVariant,
+      onSurfaceVariant: ThemeColors.lavenderLightOnSurfaceVariant,
+      outline: ThemeColors.lavenderLightOutline,
+      shadow: ThemeColors.lavenderLightShadow,
     );
   }
 
-  /// Paper Theme - Dark (Dark Parchment)
-  static ColorScheme _buildPaperDarkColorScheme() {
+  /// Lavender Theme - Dark (Deep Violet)
+  static ColorScheme _buildLavenderDarkColorScheme() {
     return const ColorScheme(
       brightness: Brightness.dark,
-      primary: ThemeColors.paperDarkPrimary,
-      onPrimary: ThemeColors.paperDarkOnPrimary,
-      primaryContainer: ThemeColors.paperDarkPrimaryContainer,
-      onPrimaryContainer: ThemeColors.paperDarkOnPrimaryContainer,
-      secondary: ThemeColors.paperDarkSecondary,
-      onSecondary: ThemeColors.paperDarkOnSecondary,
-      secondaryContainer: ThemeColors.paperDarkSecondaryContainer,
-      onSecondaryContainer: ThemeColors.paperDarkOnSecondaryContainer,
-      tertiary: ThemeColors.paperDarkTertiary,
-      onTertiary: ThemeColors.paperDarkOnTertiary,
-      tertiaryContainer: ThemeColors.paperDarkTertiaryContainer,
-      onTertiaryContainer: ThemeColors.paperDarkOnTertiaryContainer,
-      error: ThemeColors.paperDarkError,
-      onError: ThemeColors.paperDarkOnError,
-      errorContainer: ThemeColors.paperDarkErrorContainer,
-      onErrorContainer: ThemeColors.paperDarkOnErrorContainer,
-      surface: ThemeColors.paperDarkSurface,
-      onSurface: ThemeColors.paperDarkOnSurface,
-      surfaceContainerHighest: ThemeColors.paperDarkSurfaceVariant,
-      onSurfaceVariant: ThemeColors.paperDarkOnSurfaceVariant,
-      outline: ThemeColors.paperDarkOutline,
-      shadow: ThemeColors.paperDarkShadow,
+      primary: ThemeColors.lavenderDarkPrimary,
+      onPrimary: ThemeColors.lavenderDarkOnPrimary,
+      primaryContainer: ThemeColors.lavenderDarkPrimaryContainer,
+      onPrimaryContainer: ThemeColors.lavenderDarkOnPrimaryContainer,
+      secondary: ThemeColors.lavenderDarkSecondary,
+      onSecondary: ThemeColors.lavenderDarkOnSecondary,
+      secondaryContainer: ThemeColors.lavenderDarkSecondaryContainer,
+      onSecondaryContainer: ThemeColors.lavenderDarkOnSecondaryContainer,
+      tertiary: ThemeColors.lavenderDarkTertiary,
+      onTertiary: ThemeColors.lavenderDarkOnTertiary,
+      tertiaryContainer: ThemeColors.lavenderDarkTertiaryContainer,
+      onTertiaryContainer: ThemeColors.lavenderDarkOnTertiaryContainer,
+      error: ThemeColors.lavenderDarkError,
+      onError: ThemeColors.lavenderDarkOnError,
+      errorContainer: ThemeColors.lavenderDarkErrorContainer,
+      onErrorContainer: ThemeColors.lavenderDarkOnErrorContainer,
+      surface: ThemeColors.lavenderDarkSurface,
+      onSurface: ThemeColors.lavenderDarkOnSurface,
+      surfaceContainerHighest: ThemeColors.lavenderDarkSurfaceVariant,
+      onSurfaceVariant: ThemeColors.lavenderDarkOnSurfaceVariant,
+      outline: ThemeColors.lavenderDarkOutline,
+      shadow: ThemeColors.lavenderDarkShadow,
     );
   }
 
-  /// Sage Theme - Light (Earthy Sage Green)
-  static ColorScheme _buildSageLightColorScheme() {
+  /// Red Theme - Light (Warm Rose)
+  static ColorScheme _buildRedLightColorScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
-      primary: ThemeColors.sageLightPrimary,
-      onPrimary: ThemeColors.sageLightOnPrimary,
-      primaryContainer: ThemeColors.sageLightPrimaryContainer,
-      onPrimaryContainer: ThemeColors.sageLightOnPrimaryContainer,
-      secondary: ThemeColors.sageLightSecondary,
-      onSecondary: ThemeColors.sageLightOnSecondary,
-      secondaryContainer: ThemeColors.sageLightSecondaryContainer,
-      onSecondaryContainer: ThemeColors.sageLightOnSecondaryContainer,
-      tertiary: ThemeColors.sageLightTertiary,
-      onTertiary: ThemeColors.sageLightOnTertiary,
-      tertiaryContainer: ThemeColors.sageLightTertiaryContainer,
-      onTertiaryContainer: ThemeColors.sageLightOnTertiaryContainer,
-      error: ThemeColors.sageLightError,
-      onError: ThemeColors.sageLightOnError,
-      errorContainer: ThemeColors.sageLightErrorContainer,
-      onErrorContainer: ThemeColors.sageLightOnErrorContainer,
-      surface: ThemeColors.sageLightSurface,
-      onSurface: ThemeColors.sageLightOnSurface,
-      surfaceContainerHighest: ThemeColors.sageLightSurfaceVariant,
-      onSurfaceVariant: ThemeColors.sageLightOnSurfaceVariant,
-      outline: ThemeColors.sageLightOutline,
-      shadow: ThemeColors.sageLightShadow,
+      primary: ThemeColors.redLightPrimary,
+      onPrimary: ThemeColors.redLightOnPrimary,
+      primaryContainer: ThemeColors.redLightPrimaryContainer,
+      onPrimaryContainer: ThemeColors.redLightOnPrimaryContainer,
+      secondary: ThemeColors.redLightSecondary,
+      onSecondary: ThemeColors.redLightOnSecondary,
+      secondaryContainer: ThemeColors.redLightSecondaryContainer,
+      onSecondaryContainer: ThemeColors.redLightOnSecondaryContainer,
+      tertiary: ThemeColors.redLightTertiary,
+      onTertiary: ThemeColors.redLightOnTertiary,
+      tertiaryContainer: ThemeColors.redLightTertiaryContainer,
+      onTertiaryContainer: ThemeColors.redLightOnTertiaryContainer,
+      error: ThemeColors.redLightError,
+      onError: ThemeColors.redLightOnError,
+      errorContainer: ThemeColors.redLightErrorContainer,
+      onErrorContainer: ThemeColors.redLightOnErrorContainer,
+      surface: ThemeColors.redLightSurface,
+      onSurface: ThemeColors.redLightOnSurface,
+      surfaceContainerHighest: ThemeColors.redLightSurfaceVariant,
+      onSurfaceVariant: ThemeColors.redLightOnSurfaceVariant,
+      outline: ThemeColors.redLightOutline,
+      shadow: ThemeColors.redLightShadow,
     );
   }
 
-  /// Sage Theme - Dark (Deep Forest Green)
-  static ColorScheme _buildSageDarkColorScheme() {
+  /// Red Theme - Dark (Deep Crimson)
+  static ColorScheme _buildRedDarkColorScheme() {
     return const ColorScheme(
       brightness: Brightness.dark,
-      primary: ThemeColors.sageDarkPrimary,
-      onPrimary: ThemeColors.sageDarkOnPrimary,
-      primaryContainer: ThemeColors.sageDarkPrimaryContainer,
-      onPrimaryContainer: ThemeColors.sageDarkOnPrimaryContainer,
-      secondary: ThemeColors.sageDarkSecondary,
-      onSecondary: ThemeColors.sageDarkOnSecondary,
-      secondaryContainer: ThemeColors.sageDarkSecondaryContainer,
-      onSecondaryContainer: ThemeColors.sageDarkOnSecondaryContainer,
-      tertiary: ThemeColors.sageDarkTertiary,
-      onTertiary: ThemeColors.sageDarkOnTertiary,
-      tertiaryContainer: ThemeColors.sageDarkTertiaryContainer,
-      onTertiaryContainer: ThemeColors.sageDarkOnTertiaryContainer,
-      error: ThemeColors.sageDarkError,
-      onError: ThemeColors.sageDarkOnError,
-      errorContainer: ThemeColors.sageDarkErrorContainer,
-      onErrorContainer: ThemeColors.sageDarkOnErrorContainer,
-      surface: ThemeColors.sageDarkSurface,
-      onSurface: ThemeColors.sageDarkOnSurface,
-      surfaceContainerHighest: ThemeColors.sageDarkSurfaceVariant,
-      onSurfaceVariant: ThemeColors.sageDarkOnSurfaceVariant,
-      outline: ThemeColors.sageDarkOutline,
-      shadow: ThemeColors.sageDarkShadow,
+      primary: ThemeColors.redDarkPrimary,
+      onPrimary: ThemeColors.redDarkOnPrimary,
+      primaryContainer: ThemeColors.redDarkPrimaryContainer,
+      onPrimaryContainer: ThemeColors.redDarkOnPrimaryContainer,
+      secondary: ThemeColors.redDarkSecondary,
+      onSecondary: ThemeColors.redDarkOnSecondary,
+      secondaryContainer: ThemeColors.redDarkSecondaryContainer,
+      onSecondaryContainer: ThemeColors.redDarkOnSecondaryContainer,
+      tertiary: ThemeColors.redDarkTertiary,
+      onTertiary: ThemeColors.redDarkOnTertiary,
+      tertiaryContainer: ThemeColors.redDarkTertiaryContainer,
+      onTertiaryContainer: ThemeColors.redDarkOnTertiaryContainer,
+      error: ThemeColors.redDarkError,
+      onError: ThemeColors.redDarkOnError,
+      errorContainer: ThemeColors.redDarkErrorContainer,
+      onErrorContainer: ThemeColors.redDarkOnErrorContainer,
+      surface: ThemeColors.redDarkSurface,
+      onSurface: ThemeColors.redDarkOnSurface,
+      surfaceContainerHighest: ThemeColors.redDarkSurfaceVariant,
+      onSurfaceVariant: ThemeColors.redDarkOnSurfaceVariant,
+      outline: ThemeColors.redDarkOutline,
+      shadow: ThemeColors.redDarkShadow,
     );
   }
 

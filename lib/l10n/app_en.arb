@@ -159,14 +159,14 @@
     "description": "Dark theme option"
   },
 
-  "themeStylePaper": "Paper",
-  "@themeStylePaper": {
-    "description": "Paper/journal theme option with vintage aesthetic"
+  "themeStyleLavender": "Lavender",
+  "@themeStyleLavender": {
+    "description": "Lavender purple theme option with elegant violet tones"
   },
 
-  "themeStyleSage": "Sage",
-  "@themeStyleSage": {
-    "description": "Sage green theme option"
+  "themeStyleRed": "Red",
+  "@themeStyleRed": {
+    "description": "Red theme option with warm crimson tones"
   },
 
   "backgroundMusic": "Background Music",

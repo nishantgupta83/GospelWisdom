@@ -281,12 +281,12 @@ class _MoreScreenState extends State<MoreScreen> {
                             child: Text(localizations.themeStyleDark),
                           ),
                           DropdownMenuItem(
-                            value: ThemeStyle.paper,
-                            child: Text(localizations.themeStylePaper),
+                            value: ThemeStyle.lavender,
+                            child: Text(localizations.themeStyleLavender),
                           ),
                           DropdownMenuItem(
-                            value: ThemeStyle.sage,
-                            child: Text(localizations.themeStyleSage),
+                            value: ThemeStyle.red,
+                            child: Text(localizations.themeStyleRed),
                           ),
                         ],
                         onChanged: (ThemeStyle? newStyle) {

@@ -8,8 +8,8 @@ import 'theme_provider.dart';
 ///
 /// Font Philosophy:
 /// - Light/Dark: Poppins (modern, clean, readable)
-/// - Paper: Caveat (handwriting) + Merriweather (serif for body)
-/// - Sage: Lora (elegant serif with natural feel)
+/// - Lavender: Caveat (handwriting) + Merriweather (elegant serif for body)
+/// - Red: Lora (warm, classic serif feel)
 class TypographyConfig {
   // Prevent instantiation
   TypographyConfig._();
@@ -27,10 +27,10 @@ class TypographyConfig {
       case ThemeStyle.light:
       case ThemeStyle.dark:
         return _buildModernTextTheme(baseTextTheme);
-      case ThemeStyle.paper:
-        return _buildPaperTextTheme(baseTextTheme);
-      case ThemeStyle.sage:
-        return _buildSageTextTheme(baseTextTheme);
+      case ThemeStyle.lavender:
+        return _buildLavenderTextTheme(baseTextTheme);
+      case ThemeStyle.red:
+        return _buildRedTextTheme(baseTextTheme);
     }
   }
 
@@ -142,10 +142,10 @@ class TypographyConfig {
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // PAPER THEME - Caveat (handwriting) + Merriweather (serif)
+  // LAVENDER THEME - Caveat (handwriting) + Merriweather (serif)
   // ═══════════════════════════════════════════════════════════════════
-  static TextTheme _buildPaperTextTheme(TextTheme base) {
-    // Use Caveat for display/headline (handwriting feel)
+  static TextTheme _buildLavenderTextTheme(TextTheme base) {
+    // Use Caveat for display/headline (elegant handwriting feel)
     // Use Merriweather for body text (readable serif)
     return base.copyWith(
       // Display styles - Caveat (handwriting)
@@ -251,9 +251,9 @@ class TypographyConfig {
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // SAGE THEME - Lora (elegant serif with natural feel)
+  // RED THEME - Lora (warm, classic serif feel)
   // ═══════════════════════════════════════════════════════════════════
-  static TextTheme _buildSageTextTheme(TextTheme base) {
+  static TextTheme _buildRedTextTheme(TextTheme base) {
     return GoogleFonts.loraTextTheme(base).copyWith(
       // Display styles
       displayLarge: GoogleFonts.lora(
@@ -363,9 +363,9 @@ class TypographyConfig {
       case ThemeStyle.light:
       case ThemeStyle.dark:
         return 'Poppins';
-      case ThemeStyle.paper:
+      case ThemeStyle.lavender:
         return 'Caveat & Merriweather';
-      case ThemeStyle.sage:
+      case ThemeStyle.red:
         return 'Lora';
     }
   }

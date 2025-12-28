@@ -33,32 +33,32 @@ class AppBackground extends StatelessWidget {
     Color(0xFF415A77), // Steel blue
   ];
 
-  // Paper Theme Light - Cream to warm beige
-  static const _paperLightGradientColors = [
-    Color(0xFFFAF3E0), // Cream (matches paperLightBackground)
-    Color(0xFFF5E6D3), // Aged paper (matches paperLightSurface)
-    Color(0xFFE8D5B7), // Light tan
+  // Lavender Theme Light - Soft lavender to violet
+  static const _lavenderLightGradientColors = [
+    Color(0xFFFAF7FF), // Very light lavender (matches lavenderLightBackground)
+    Color(0xFFF3EAFF), // Soft lavender (matches lavenderLightSurface)
+    Color(0xFFE8DEFF), // Light violet
   ];
 
-  // Paper Theme Dark - Deep brown to sepia
-  static const _paperDarkGradientColors = [
-    Color(0xFF2C1810), // Deep brown (matches paperDarkBackground)
-    Color(0xFF3E2723), // Dark paper (matches paperDarkSurface)
-    Color(0xFF4E342E), // Warm brown
+  // Lavender Theme Dark - Deep violet to purple
+  static const _lavenderDarkGradientColors = [
+    Color(0xFF1A0A2E), // Deep violet (matches lavenderDarkBackground)
+    Color(0xFF2D1B4E), // Dark purple (matches lavenderDarkSurface)
+    Color(0xFF3D2665), // Rich purple
   ];
 
-  // Sage Theme Light - Soft green to sage
-  static const _sageLightGradientColors = [
-    Color(0xFFF1F8F4), // Soft green tint (matches sageLightBackground)
-    Color(0xFFE8F5E9), // Very light green (matches sageLightSurface)
-    Color(0xFFD4E7D7), // Light sage
+  // Red Theme Light - Warm white to rose
+  static const _redLightGradientColors = [
+    Color(0xFFFFF8F7), // Warm white (matches redLightBackground)
+    Color(0xFFFFEBEE), // Very light pink (matches redLightSurface)
+    Color(0xFFFFCDD2), // Light rose
   ];
 
-  // Sage Theme Dark - Forest to deep green
-  static const _sageDarkGradientColors = [
-    Color(0xFF1B3A1F), // Dark forest (matches sageDarkBackground)
-    Color(0xFF1B5E20), // Forest green (matches sageDarkSurface)
-    Color(0xFF2E7D32), // Deep green
+  // Red Theme Dark - Deep crimson to dark red
+  static const _redDarkGradientColors = [
+    Color(0xFF2E0A0A), // Deep crimson (matches redDarkBackground)
+    Color(0xFF421515), // Dark red (matches redDarkSurface)
+    Color(0xFF5D1F1F), // Rich crimson
   ];
 
   // ═══════════════════════════════════════════════════════════════════
@@ -73,21 +73,21 @@ class AppBackground extends StatelessWidget {
   static const _orbColorDarkPrimary = Color(0x1ACFBCFF); // Light purple with alpha ~0.1
   static const _orbColorDarkSecondary = Color(0x0DCBC2DB); // Muted light purple with alpha ~0.05
 
-  // Paper Light Orbs - Warm brown accents
-  static const _orbColorPaperLightPrimary = Color(0x1A8B6F47); // Warm brown with alpha ~0.1
-  static const _orbColorPaperLightSecondary = Color(0x0D6D4C41); // Dark brown with alpha ~0.05
+  // Lavender Light Orbs - Purple accents
+  static const _orbColorLavenderLightPrimary = Color(0x1A7C4DFF); // Deep violet with alpha ~0.1
+  static const _orbColorLavenderLightSecondary = Color(0x0D9575CD); // Muted purple with alpha ~0.05
 
-  // Paper Dark Orbs - Light brown accents
-  static const _orbColorPaperDarkPrimary = Color(0x1AD7A86E); // Light brown with alpha ~0.1
-  static const _orbColorPaperDarkSecondary = Color(0x0DBCAAA4); // Muted brown with alpha ~0.05
+  // Lavender Dark Orbs - Light purple accents
+  static const _orbColorLavenderDarkPrimary = Color(0x1AB388FF); // Light violet with alpha ~0.1
+  static const _orbColorLavenderDarkSecondary = Color(0x0DCE93D8); // Pink purple with alpha ~0.05
 
-  // Sage Light Orbs - Sage green accents
-  static const _orbColorSageLightPrimary = Color(0x1A6B8E6F); // Sage green with alpha ~0.1
-  static const _orbColorSageLightSecondary = Color(0x0D558B2F); // Dark green with alpha ~0.05
+  // Red Light Orbs - Warm red accents
+  static const _orbColorRedLightPrimary = Color(0x1AD32F2F); // Warm red with alpha ~0.1
+  static const _orbColorRedLightSecondary = Color(0x0DE57373); // Light coral with alpha ~0.05
 
-  // Sage Dark Orbs - Light sage accents
-  static const _orbColorSageDarkPrimary = Color(0x1AA5D6A7); // Light sage with alpha ~0.1
-  static const _orbColorSageDarkSecondary = Color(0x0D9CCC65); // Muted green with alpha ~0.05
+  // Red Dark Orbs - Light coral accents
+  static const _orbColorRedDarkPrimary = Color(0x1AEF9A9A); // Light coral with alpha ~0.1
+  static const _orbColorRedDarkSecondary = Color(0x0DFF8A80); // Bright coral with alpha ~0.05
 
   const AppBackground({
     Key? key,
@@ -109,10 +109,10 @@ class AppBackground extends StatelessWidget {
       case ThemeStyle.light:
       case ThemeStyle.dark:
         return isDark ? _darkGradientColors : _lightGradientColors;
-      case ThemeStyle.paper:
-        return isDark ? _paperDarkGradientColors : _paperLightGradientColors;
-      case ThemeStyle.sage:
-        return isDark ? _sageDarkGradientColors : _sageLightGradientColors;
+      case ThemeStyle.lavender:
+        return isDark ? _lavenderDarkGradientColors : _lavenderLightGradientColors;
+      case ThemeStyle.red:
+        return isDark ? _redDarkGradientColors : _redLightGradientColors;
     }
   }
 
@@ -125,14 +125,14 @@ class AppBackground extends StatelessWidget {
         return isDark
             ? [_orbColorDarkPrimary, _orbColorDarkSecondary]
             : [_orbColorLightPrimary, _orbColorLightSecondary];
-      case ThemeStyle.paper:
+      case ThemeStyle.lavender:
         return isDark
-            ? [_orbColorPaperDarkPrimary, _orbColorPaperDarkSecondary]
-            : [_orbColorPaperLightPrimary, _orbColorPaperLightSecondary];
-      case ThemeStyle.sage:
+            ? [_orbColorLavenderDarkPrimary, _orbColorLavenderDarkSecondary]
+            : [_orbColorLavenderLightPrimary, _orbColorLavenderLightSecondary];
+      case ThemeStyle.red:
         return isDark
-            ? [_orbColorSageDarkPrimary, _orbColorSageDarkSecondary]
-            : [_orbColorSageLightPrimary, _orbColorSageLightSecondary];
+            ? [_orbColorRedDarkPrimary, _orbColorRedDarkSecondary]
+            : [_orbColorRedLightPrimary, _orbColorRedLightSecondary];
     }
   }
 
